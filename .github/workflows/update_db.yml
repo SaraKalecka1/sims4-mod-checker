@@ -1,0 +1,32 @@
+name: Update Mod Database
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Automatycznie w każdą niedzielę o północy
+  workflow_dispatch: # Przycisk do ręcznego uruchomienia
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install puppeteer
+
+      - name: Run Scraper
+        run: node scrape.js
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+          git add scarlet_db_full.json
+          git commit -m "Automatyczna aktualizacja bazy: $(date +'%Y-%m-%d')" || exit 0
+          git push
