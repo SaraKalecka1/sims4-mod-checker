@@ -38,6 +38,7 @@
             filter: grayscale(0%);
         }
         
+        /* Loader Overlay */
         #loader { 
             display: none; 
             position: fixed; 
@@ -98,6 +99,11 @@
     </style>
 </head>
 <body class="p-4 md:p-10 min-h-screen flex flex-col">
+
+    <!-- UPDATE MARKER -->
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">
+        Build: 1.5.0 (2026-01-29)
+    </div>
 
     <!-- OVERLAYS -->
     <div id="loader">
