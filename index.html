@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +21,11 @@
     </style>
 </head>
 <body class="py-10">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.2 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.3 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest">Analizowanie...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Analyzing...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-xl mt-2 italic">0%</div>
     </div>
 
@@ -36,7 +36,7 @@
         </div>
         <div class="flex gap-2 glass-card p-1.5 px-3">
             <button class="flag-btn p-1 text-2xl" id="flag-pl" onclick="setLang('pl')">🇵🇱</button>
-            <button class="flag-btn p-1 text-2xl" id="flag-en" onclick="setLang('en')">🇬🇧</button>
+            <button class="flag-btn active p-1 text-2xl" id="flag-en" onclick="setLang('en')">🇬🇧</button>
         </div>
     </header>
 
@@ -44,55 +44,55 @@
         <section class="glass-card p-8 mb-10 shadow-2xl border-t border-white/10">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-end">
                 <div class="space-y-2">
-                    <label id="ui-upload-label" class="text-[10px] font-black uppercase text-slate-500 ml-2">1. Wczytaj Folder /Mods</label>
+                    <label id="ui-upload-label" class="text-[10px] font-black uppercase text-slate-500 ml-2">1. Load /Mods Folder</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
                     <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800 text-slate-300 py-3.5 px-6 rounded-2xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-sm">
-                        <span id="ui-folder-status">Wybierz folder...</span>
+                        <span id="ui-folder-status">Select folder...</span>
                         <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
                     </button>
                 </div>
                 <div class="space-y-2">
-                    <label id="ui-search-label" class="text-[10px] font-black uppercase text-slate-500 ml-2">2. Filtrowanie</label>
-                    <input type="text" id="searchInput" placeholder="Szukaj..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3.5 text-sm outline-none text-white focus:border-blue-500 font-medium">
+                    <label id="ui-search-label" class="text-[10px] font-black uppercase text-slate-500 ml-2">2. Filter Results</label>
+                    <input type="text" id="searchInput" placeholder="Search..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3.5 text-sm outline-none text-white focus:border-blue-500 font-medium">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest shadow-lg">Uruchom Skanowanie</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest shadow-lg">Run Analysis</button>
             </div>
         </section>
 
         <div id="summaryRow" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 hidden">
             <div class="glass-card p-5 text-center border-b-4 border-blue-500">
-                <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase">Zidentyfikowane</p>
+                <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase">Identified</p>
                 <p id="val-total" class="text-3xl font-black text-white italic">0</p>
             </div>
             <div class="glass-card p-5 text-center border-b-4 border-red-500">
-                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase">Problemy</p>
+                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase">Issues</p>
                 <p id="val-broken" class="text-3xl font-black text-red-400 italic">0</p>
             </div>
             <div class="glass-card p-5 text-center border-b-4 border-green-500 md:col-span-1 col-span-2">
-                <p id="label-ok" class="text-[9px] font-black text-slate-500 uppercase">Aktualne</p>
+                <p id="label-ok" class="text-[9px] font-black text-slate-500 uppercase">Up-to-date</p>
                 <p id="val-ok" class="text-3xl font-black text-green-400 italic">0</p>
             </div>
         </div>
 
         <div id="resultsContainer" class="space-y-4 mb-20">
             <div id="empty-state" class="text-center p-20 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic font-medium">Wybierz folder /Mods, aby rozpocząć.</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic font-medium">Select your /Mods folder to begin analysis.</p>
             </div>
         </div>
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-12 border-t border-slate-800/50 px-5">
-        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-14 py-4 rounded-3xl shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">Wesprzyj Projekt</a>
-        <p id="ui-donate-sub" class="mt-4 italic text-sm text-slate-500">To narzędzie jest darmowe dzięki Waszemu wsparciu.</p>
+        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-14 py-4 rounded-3xl shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">Support the Project</a>
+        <p id="ui-donate-sub" class="mt-4 italic text-sm text-slate-500">This tool is free thanks to your support.</p>
         <div class="mt-12 glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
-            <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Źródła i Informacje</h4>
-            <p id="ui-credits-desc">Baza danych pochodzi z <strong>Scarlet's Realm</strong>. Narzędzie skupia się wyłącznie na modyfikacjach gameplayowych.</p>
-            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Kontakt z autorem</a></div>
+            <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Sources & Legal</h4>
+            <p id="ui-credits-desc">Database provided by <strong>Scarlet's Realm</strong>. Focused on gameplay mods.</p>
+            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Contact Developer</a></div>
         </div>
     </footer>
 
     <script>
-        let processedDb = []; let simpleUserFiles = []; let currentLang = 'pl';
+        let processedDb = []; let simpleUserFiles = []; let currentLang = 'en';
         let lastResults = { critical: [], stable: [] };
         
         const langData = {
@@ -127,12 +127,12 @@
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
-                // Mapowanie kluczy prosto z Twojego JSONa
+                // Map keys from your JSON file
                 processedDb = data.map(m => ({
                     name: m.name || "", author: m.author || "", status: m.status || "Unknown",
                     sName: simplify(m.name), sAuthor: simplify(m.author)
                 })).filter(m => m.sName.length > 4);
-                setLang('pl');
+                setLang('en');
             } catch (e) { console.error("Database error."); }
         }
 
@@ -154,7 +154,6 @@
             for (let i = 0; i < total; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // STRYKTNIEJSZA LOGIKA: min 5 znaków nazwy modu
                     if (simpleUserFiles.some(sU => (sU.includes(m.sName) || m.sName.includes(sU)) && m.sName.length >= 5)) {
                         matched.push(m);
                     }
