@@ -9,13 +9,13 @@
     <style>
         body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
         .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1rem; }
-        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 10px; padding: 5px 14px; border-radius: 99px; border-width: 1px; }
+        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 10px; padding: 5px 14px; border-radius: 99px; }
         
-        /* CUSTOM COLORS ACCORDING TO USER */
-        .bg-minor { background: rgba(249, 115, 22, 0.2); color: #fb923c; border-color: rgba(249, 115, 22, 0.4); } 
-        .bg-obsolete { background: rgba(153, 27, 27, 0.5); color: #fca5a5; border-color: rgba(153, 27, 27, 0.8); } 
-        .bg-noissues { background: rgba(120, 53, 15, 0.3); color: #78350f; border-color: rgba(120, 53, 15, 0.5); } 
-        .bg-broken { background: rgba(220, 38, 38, 0.3); color: #ef4444; border-color: rgba(220, 38, 38, 0.5); }
+        /* CUSTOM COLORS ACCORDING TO USER REQUEST */
+        .bg-minor { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4); } /* Orange */
+        .bg-obsolete { background: rgba(127, 29, 29, 0.6); color: #fca5a5; border: 1px solid rgba(127, 29, 29, 0.8); } /* Dark Red */
+        .bg-broken { background: rgba(220, 38, 38, 0.3); color: #ef4444; border: 1px solid rgba(220, 38, 38, 0.5); }
+        .bg-noissues { background: rgba(120, 53, 15, 0.3); color: #78350f; border: 1px solid rgba(120, 53, 15, 0.5); } /* Brown */
 
         #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.98); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
         .spinner { width: 50px; height: 50px; border: 5px solid #1e293b; border-top: 5px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
@@ -28,11 +28,11 @@
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest italic">Build: 1.9.9 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest italic">Build: 2.0.0 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic text-center">Precise File Analysis<br>in progress...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic text-center">Precise User-First Analysis<br>in progress (16k+ files)...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-3xl mt-1 italic">0%</div>
     </div>
 
@@ -51,38 +51,38 @@
         <section class="glass-card p-8 mb-10 shadow-2xl border-t border-white/5">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
                 <div class="space-y-2">
-                    <label id="ui-upload-label" class="text-[9px] font-black uppercase text-slate-500 ml-1 italic">1. Select Folder</label>
+                    <label id="ui-upload-label" class="text-[9px] font-black uppercase text-slate-500 ml-1 italic">1. Select /Mods Folder</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
                     <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800/80 text-slate-300 py-4 px-6 rounded-2xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-xs italic">
-                        <span id="ui-folder-status">Upload /Mods...</span>
+                        <span id="ui-folder-status">Select folder...</span>
                     </button>
                 </div>
                 <div class="space-y-2">
-                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1 italic">2. Quick Search</label>
-                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search identified..." class="w-full bg-slate-900 border border-slate-700/50 rounded-2xl p-4 text-xs outline-none text-white focus:border-blue-500">
+                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1 italic">2. Quick Filter Results</label>
+                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search..." class="w-full bg-slate-900 border border-slate-700/50 rounded-2xl p-4 text-xs outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-xs shadow-lg shadow-blue-900/10 italic">Analyze My Folder</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-xs shadow-lg shadow-blue-900/10 italic">Analyze Issues Only</button>
             </div>
         </section>
 
         <div id="summaryRow" class="grid grid-cols-3 gap-6 mb-10 hidden">
-            <div class="glass-card p-5 text-center border-b-4 border-blue-500">
-                <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase italic">Identified</p>
+            <div class="glass-card p-5 text-center border-b-4 border-red-500">
+                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase italic">Identified</p>
                 <p id="val-total" class="text-2xl font-black text-white">0</p>
             </div>
-            <div class="glass-card p-5 text-center border-b-4 border-red-500">
-                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase italic">Issues</p>
-                <p id="val-broken" class="text-2xl font-black text-white">0</p>
+            <div id="statusBox" class="glass-card p-5 text-center border-b-4 border-orange-500">
+                <p id="label-status" class="text-[9px] font-black text-slate-500 uppercase italic">Issues Found</p>
+                <p id="val-issues" class="text-2xl font-black text-white">0</p>
             </div>
-            <div class="glass-card p-5 text-center border-b-4 border-slate-600">
-                <p id="label-ok" class="text-[9px] font-black text-slate-500 uppercase italic">Up-to-date</p>
-                <p id="val-ok" class="text-2xl font-black text-stone-500">0</p>
+            <div class="glass-card p-5 text-center border-b-4 border-amber-900">
+                <p id="label-safe" class="text-[9px] font-black text-slate-500 uppercase italic">Up-to-date</p>
+                <p id="val-safe" class="text-2xl font-black text-stone-500">0</p>
             </div>
         </div>
 
         <div id="resultsContent" class="mb-24 min-h-[300px]">
             <div id="empty-state" class="text-center p-24 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Upload folder with 16k+ files to begin analysis.</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Upload your folder (16k+ files) to begin analysis.</p>
             </div>
             <div id="list-container" class="space-y-3"></div>
             <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-12 hidden"></div>
@@ -90,23 +90,24 @@
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-12 border-t border-slate-800/50 px-5">
-        <div class="mb-12">
-            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-sm px-16 py-4 rounded-full shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter italic">Wesprzyj Projekt / Donate</a>
-            <p id="ui-donate-sub" class="mt-4 italic text-xs text-slate-500">Narzędzie jest darmowe dzięki Twojemu wsparciu.</p>
+        <div class="mb-10">
+            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-sm px-16 py-4 rounded-full shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter italic">WESPRZYJ PROJEKT / DONATE</a>
+            <p id="ui-donate-sub" class="mt-4 italic text-xs text-slate-500">This tool is free thanks to your support.</p>
         </div>
         
         <div class="glass-card p-10 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
-            <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-[9px] mb-4 tracking-widest not-italic">Sources & Compliance</h4>
+            <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-[9px] mb-4 tracking-widest not-italic">Compliance & Data</h4>
             <p id="ui-credits-desc">Data sourced from <strong>Scarlet's Realm</strong>. This tool complies with EA's Mod Policy; it analyzes filenames only. CC is excluded.</p>
-            <div class="mt-5"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic hover:underline tracking-widest">Contact Developer</a></div>
+            <div class="mt-5"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic hover:underline tracking-widest">Zgłoś błąd / Kontakt</a></div>
         </div>
     </footer>
 
     <script>
-        let fullDb = []; let userFilesFiltered = []; let currentLang = 'en';
+        let fullDb = []; let userFiles = []; let currentLang = 'en';
         let foundMatches = []; let filteredMatches = []; let currentPage = 1; const perPage = 15;
+        const noise = ["the", "sims", "mods", "pack", "mod", "game", "addon", "update", "v1", "v2", "version", "traits", "interactions"];
 
-        function clean(s) { return s ? s.toString().toLowerCase().replace(/'s\b/g, '').replace(/[^a-z0-9]/g, '') : ''; }
+        function clean(s) { return s ? s.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
 
         async function init() {
             try {
@@ -114,6 +115,7 @@
                 const data = await response.json();
                 fullDb = data.map(m => {
                     const name = m.name || m["Mod Name"] || "";
+                    // Pre-clean database entry name for matching
                     return {
                         name, author: m.author || m["Creator"] || "Unknown",
                         status: m.status || m["Patch Status"] || "Unknown",
@@ -121,13 +123,13 @@
                     };
                 }).filter(m => m.sName.length > 5);
                 setLang('en');
-            } catch (e) { console.error("Database connection failure."); }
+            } catch (e) { console.error("DB Load Fail"); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            // IGNORE CC BEFORE ANALYSIS
-            userFilesFiltered = files.filter(f => !["hair", "dress", "skirt", "shoes", "makeup", "accessory", "furniture", "deco", "jewelry", "wall", "floor", "lipstick", "skin", "eyes"].some(tag => f.name.toLowerCase().includes(tag))).map(f => ({ name: f.name, clean: clean(f.name) }));
+            // IGNORE CC
+            userFiles = files.filter(f => !["hair", "dress", "skirt", "shoes", "makeup", "furniture", "deco", "wall", "floor", "eyelashes", "eyes"].some(tag => f.name.toLowerCase().includes(tag))).map(f => ({ name: f.name, clean: clean(f.name) }));
             document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files`;
             document.getElementById('analyzeBtn').disabled = false;
         });
@@ -137,22 +139,21 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const resultsMap = new Map();
-            const chunkSize = 100; // Deep scan file-by-file
+            const chunkSize = 100; // Analyzes each user file against database
 
-            for (let i = 0; i < userFilesFiltered.length; i += chunkSize) {
-                await new Promise(r => setTimeout(r, 2));
-                const chunk = userFilesFiltered.slice(i, i + chunkSize);
+            for (let i = 0; i < userFiles.length; i += chunkSize) {
+                await new Promise(r => setTimeout(r, 1));
+                const chunk = userFiles.slice(i, i + chunkSize);
                 
                 chunk.forEach(userFile => {
-                    // For each file, check which DB entry matches it
                     fullDb.forEach(m => {
-                        // Strict check: database name must be contained in the user's filename
+                        // User-Files-First Logic: does the user filename contain the mod name?
                         if (userFile.clean.includes(m.sName)) {
                             resultsMap.set(m.name, m);
                         }
                     });
                 });
-                progress.innerText = `${Math.round((i / userFilesFiltered.length) * 100)}%`;
+                progress.innerText = `${Math.round((i / userFiles.length) * 100)}%`;
             }
 
             foundMatches = Array.from(resultsMap.values()).sort((a,b) => a.name.localeCompare(b.name));
@@ -172,12 +173,14 @@
         function renderDashboard() {
             const term = clean(document.getElementById('searchInput').value);
             filteredMatches = term ? foundMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : foundMatches;
+            
             document.getElementById('summaryRow').classList.remove('hidden');
             document.getElementById('empty-state').classList.add('hidden');
             
             document.getElementById('val-total').innerText = filteredMatches.length;
-            document.getElementById('val-broken').innerText = filteredMatches.filter(m => /(broken|obsolete|minor)/i.test(m.status)).length;
-            document.getElementById('val-ok').innerText = filteredMatches.filter(m => /(no known|safe|compatible)/i.test(m.status)).length;
+            document.getElementById('val-issues').innerText = filteredMatches.filter(m => /(broken|obsolete|minor)/i.test(m.status)).length;
+            document.getElementById('val-safe').innerText = filteredMatches.filter(m => /(no known|safe|updated|compatible)/i.test(m.status)).length;
+
             displayPage(1, filteredMatches);
         }
 
@@ -185,6 +188,7 @@
             currentPage = page;
             const container = document.getElementById('list-container');
             const slice = data.slice((page-1)*perPage, page*perPage);
+            
             container.innerHTML = slice.length > 0 ? slice.map(m => {
                 const sClass = getStatusClass(m.status);
                 return `
@@ -195,7 +199,7 @@
                     </div>
                     <span class="status-badge ${sClass} shrink-0">${m.status}</span>
                 </div>`;
-            }).join('') : `<div class="text-center p-12 glass-card text-slate-500 italic">No matches identified. CC is excluded.</div>`;
+            }).join('') : `<div class="text-center p-12 glass-card text-slate-500 italic">No issues identified in your /Mods folder.</div>`;
 
             const pages = Math.ceil(data.length / perPage);
             const nav = document.getElementById('pagination');
@@ -218,15 +222,15 @@
             document.getElementById('ui-credits-title').innerText = t.creditsTitle;
             document.getElementById('ui-credits-desc').innerText = t.creditsDesc;
             document.getElementById('ui-bug-report').innerText = t.bugReport;
-            document.getElementById('label-total').innerText = t.total;
-            document.getElementById('label-broken').innerText = t.broken;
-            document.getElementById('label-ok').innerText = t.ok;
+            document.getElementById('label-broken').innerText = t.total;
+            document.getElementById('label-status').innerText = t.issues;
+            document.getElementById('label-safe').innerText = t.safe;
             document.querySelectorAll('.flag-btn').forEach(b => b.classList.toggle('active', b.id === `flag-${lang}`));
         }
 
         const langData = {
-            en: { btnAnalyze: "Analyze My Folder", total: "Identified", broken: "Issues", ok: "Safe", emptyMsg: "Upload your folder (16k+ files) to begin analysis.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data: Scarlet's Realm. Compliant with EA Mod Policy. CC excluded.", bugReport: "Contact Developer" },
-            pl: { btnAnalyze: "Analizuj mój folder", total: "Wykryte", broken: "Błędy", ok: "Bezpieczne", emptyMsg: "Wgraj folder (16k+ plików), aby rozpocząć dokładny skan.", donateSub: "Narzędzie jest darmowe dzięki Twojemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane: Scarlet's Realm. Zgodne z polityką modów EA. CC pomijane.", bugReport: "Zgłoś błąd / Kontakt" }
+            en: { btnAnalyze: "Analyze My Folder", total: "Identified", issues: "Issues Found", safe: "Up-to-date", emptyMsg: "Upload folder (16k+ files) to begin analysis.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Compliance & Data", creditsDesc: "Data: Scarlet's Realm. Compliant with EA Mod Policy. CC excluded.", bugReport: "Contact Developer" },
+            pl: { btnAnalyze: "Analizuj mój folder", total: "Zidentyfikowane", issues: "Znalezione błędy", safe: "Aktualne", emptyMsg: "Wgraj folder (16k+ plików), aby rozpocząć dokładny skan.", donateSub: "Narzędzie jest darmowe dzięki Twojemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane: Scarlet's Realm. Zgodne z polityką modów EA. CC pomijane.", bugReport: "Kontakt z autorem" }
         };
         init();
     </script>
