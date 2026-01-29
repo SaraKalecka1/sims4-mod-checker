@@ -65,10 +65,17 @@
             background: #450a0a;
             border: 1px solid #991b1b;
             color: #fca5a5;
-            padding: 1rem;
-            border-radius: 1rem;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
             margin-bottom: 2rem;
             text-align: center;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
     </style>
 </head>
@@ -90,6 +97,7 @@
                 Professional Mods Folder Analysis
             </p>
         </div>
+        <!-- Language Switcher: English by default -->
         <div class="flex gap-4 glass-card p-2 px-4 shadow-xl">
             <span id="flag-en" class="flag-btn active" onclick="setLang('en')" title="English">🇬🇧</span>
             <span id="flag-pl" class="flag-btn" onclick="setLang('pl')" title="Polski">🇵🇱</span>
@@ -99,13 +107,14 @@
     <!-- ACTION CENTER -->
     <main class="max-w-6xl mx-auto w-full flex-grow">
         <!-- Error Message Container -->
-        <div id="db-error-msg" class="max-w-6xl mx-auto">
-            <strong id="error-title">Database Error!</strong><br>
-            <span id="error-body">Could not find 'scarlet_db_full.json'. Please make sure the file is in the same folder as this page.</span>
+        <div id="db-error-msg" class="max-w-6xl mx-auto glass-card">
+            <strong id="error-title" class="text-lg">Database Error!</strong><br>
+            <p id="error-body" class="text-sm mt-2 opacity-80">Could not find 'scarlet_db_full.json'. Please make sure the file is in the same folder as this page.</p>
         </div>
 
         <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-end">
+                <!-- Step 1: Upload -->
                 <div class="space-y-3">
                     <label id="ui-upload-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         1. Select /Mods Folder
@@ -114,6 +123,7 @@
                         class="w-full text-xs text-slate-400 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 cursor-pointer transition-all">
                 </div>
 
+                <!-- Step 2: Search -->
                 <div class="space-y-3">
                     <label id="ui-search-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         2. Quick Filter
@@ -122,6 +132,7 @@
                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none focus:border-blue-500 transition-all text-white">
                 </div>
 
+                <!-- Step 3: Genre -->
                 <div class="space-y-3">
                     <label id="ui-genre-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         3. Category
@@ -132,6 +143,7 @@
                     </select>
                 </div>
 
+                <!-- Step 4: Run -->
                 <button id="analyzeBtn" onclick="startAnalysis()" disabled 
                     class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-blue-900/30 transform hover:-translate-y-0.5 active:translate-y-0">
                     Run Analysis
@@ -163,7 +175,7 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER / DONATION -->
     <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
         <div class="mb-6">
             <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" 
@@ -171,13 +183,13 @@
                 DONATE
             </a>
         </div>
-        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-16 font-medium">Voluntary project support</p>
+        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-16 font-medium italic">Voluntary project support</p>
 
         <div class="glass-card p-10 text-left border border-white/5 relative overflow-hidden">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-6 tracking-widest">Sources & Legal</h4>
             <div class="grid md:grid-cols-2 gap-10 text-[11px] leading-relaxed text-slate-400 italic">
                 <p id="ui-desc-en">
-                    This tool fetches mod statuses from the <strong>Scarlet's Realm</strong> database. It is provided for free and is fully compliant with EA's UGC policy.
+                    This tool fetches mod statuses from the <strong>Scarlet's Realm</strong> database. It is provided for free and is fully compliant with EA's User Generated Content policy.
                 </p>
                 <p id="ui-desc-pl">
                     Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Narzędzie jest darmowe i stworzone zgodnie z wytycznymi EA dotyczącymi zawartości fanowskiej.
@@ -208,7 +220,7 @@
                 creditsTitle: "Sources & Legal",
                 emptyMsg: "Please upload your /Mods folder to see the results.",
                 errorTitle: "Database Error!",
-                errorBody: "Could not load 'scarlet_db_full.json'. Make sure the file exists in the same folder as this page and you are running it via a server (like GitHub Pages or VS Code Live Server)."
+                errorBody: "Could not load 'scarlet_db_full.json'. Make sure the file exists in the same folder as this page and you are using a server (GitHub Pages or VS Code Live Server)."
             },
             pl: {
                 title: "Sims 4 Mod Checker",
@@ -226,30 +238,35 @@
                 creditsTitle: "Źródła i Informacje",
                 emptyMsg: "Wybierz swój folder /Mods, aby zobaczyć wyniki skanowania.",
                 errorTitle: "Błąd Bazy Danych!",
-                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'. Upewnij się, że plik znajduje się w tym samym folderze i korzystasz z serwera (np. GitHub Pages lub Live Server)."
+                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'. Upewnij się, że plik jest w tym samym folderze i używasz serwera (GitHub Pages)."
             }
         };
 
         async function init() {
             try {
-                // Fetch with a timestamp to prevent caching issues during debugging
-                const response = await fetch('scarlet_db_full.json?t=' + Date.now());
+                // Simplified fetch path for maximum compatibility
+                const fileName = 'scarlet_db_full.json';
+                const response = await fetch(fileName);
+                
                 if (!response.ok) throw new Error("File not found");
                 db = await response.json();
+                
                 populateGenres();
                 document.getElementById('db-error-msg').style.display = 'none';
             } catch (e) { 
                 console.error("Critical: Database load failed", e);
                 const errorBox = document.getElementById('db-error-msg');
-                errorBox.style.display = 'block';
+                if(errorBox) errorBox.style.display = 'block';
                 updateErrorText();
             }
         }
 
         function updateErrorText() {
             const t = langData[currentLang];
-            document.getElementById('error-title').innerText = t.errorTitle;
-            document.getElementById('error-body').innerText = t.errorBody;
+            const titleEl = document.getElementById('error-title');
+            const bodyEl = document.getElementById('error-body');
+            if (titleEl) titleEl.innerText = t.errorTitle;
+            if (bodyEl) bodyEl.innerText = t.errorBody;
         }
 
         function setLang(lang) {
@@ -274,7 +291,8 @@
             updateErrorText();
 
             document.querySelectorAll('.flag-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`flag-${lang}`).classList.add('active');
+            const activeFlag = document.getElementById(`flag-${lang}`);
+            if (activeFlag) activeFlag.classList.add('active');
         }
 
         function populateGenres() {
@@ -300,10 +318,7 @@
         });
 
         function startAnalysis() {
-            if (db.length === 0) {
-                alert(currentLang === 'pl' ? "Baza danych nie jest wczytana!" : "Database is not loaded!");
-                return;
-            }
+            if (db.length === 0) return;
             const loader = document.getElementById('loader');
             loader.style.display = 'flex';
             setTimeout(() => {
@@ -317,19 +332,19 @@
             const genre = document.getElementById('genreFilter').value;
             
             let filtered = db.filter(m => {
-                const matchesSearch = m.name.toLowerCase().includes(term) || m.author.toLowerCase().includes(term);
+                const matchesSearch = (m.name || '').toLowerCase().includes(term) || (m.author || '').toLowerCase().includes(term);
                 const matchesGenre = genre === 'All' || m.category === genre;
                 return matchesSearch && matchesGenre;
             });
 
             if (userFiles.length > 0) {
                 filtered = filtered.filter(m => {
-                    const dbName = m.name.toLowerCase();
+                    const dbName = (m.name || '').toLowerCase();
                     return userFiles.some(userFile => dbName.includes(userFile) || userFile.includes(dbName));
                 });
             }
 
-            renderTable(filtered.sort((a, b) => a.author.localeCompare(b.author)));
+            renderTable(filtered.sort((a, b) => (a.author || '').localeCompare(b.author || '')));
         }
 
         function renderTable(data) {
@@ -339,14 +354,15 @@
                 return;
             }
             body.innerHTML = data.map(m => {
-                const status = m.status.toLowerCase();
+                const statusStr = m.status || 'UNKNOWN';
+                const status = statusStr.toLowerCase();
                 const isBroken = status.includes('broken') || status.includes('obsolete');
                 return `
                     <tr class="${isBroken ? 'status-broken' : 'hover:bg-slate-800/40'}">
-                        <td class="p-6 font-bold text-white">${m.name}</td>
-                        <td class="p-6 text-slate-400 font-medium">${m.author}</td>
+                        <td class="p-6 font-bold text-white">${m.name || 'Unknown Mod'}</td>
+                        <td class="p-6 text-slate-400 font-medium">${m.author || 'Unknown'}</td>
                         <td class="p-6 text-center"><span class="bg-slate-900 px-3 py-1 rounded-full text-[9px] text-slate-500 border border-slate-700 uppercase font-black">${m.category || 'N/A'}</span></td>
-                        <td class="p-6 text-right font-black tracking-tighter ${isBroken ? 'text-red-400 animate-pulse' : 'status-compatible'}">${m.status.toUpperCase()}</td>
+                        <td class="p-6 text-right font-black tracking-tighter ${isBroken ? 'text-red-400 animate-pulse' : 'status-compatible'}">${statusStr.toUpperCase()}</td>
                     </tr>
                 `;
             }).join('');
