@@ -12,7 +12,7 @@ const fs = require('fs');
     await page.setDefaultNavigationTimeout(60000);
 
     try {
-        // Czysty link bez dodatkowych nawiasów
+        // Prawidłowy link bez nawiasów Markdown
         await page.goto('[https://scarletsrealm.com/the-sims-4/mods/mod-list/](https://scarletsrealm.com/the-sims-4/mods/mod-list/)', { waitUntil: 'networkidle2' });
 
         let allData = [];
