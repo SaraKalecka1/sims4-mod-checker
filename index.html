@@ -395,7 +395,16 @@
                 });
             }
 
-            const sorted = filtered.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
+            // De-duplicate by name to prevent multiple entries for the same mod
+            const uniqueMap = new Map();
+            filtered.forEach(item => {
+                if (!uniqueMap.has(item.name)) {
+                    uniqueMap.set(item.name, item);
+                }
+            });
+            const uniqueList = Array.from(uniqueMap.values());
+
+            const sorted = uniqueList.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
             
             // Split into critical and stable
             const critical = sorted.filter(m => {
