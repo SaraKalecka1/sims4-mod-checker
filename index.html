@@ -59,16 +59,16 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Error Notification UI */
-        #db-error-msg {
+        /* Success Modal */
+        #successModal {
             display: none;
-            background: #450a0a;
-            border: 1px solid #991b1b;
-            color: #fca5a5;
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 150;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .alert-glow {
@@ -96,6 +96,20 @@
         <p id="ui-loader-text" class="text-white font-black uppercase tracking-[0.3em] text-sm">Scanning Mods Folder...</p>
     </div>
 
+    <!-- SUCCESS MODAL -->
+    <div id="successModal" onclick="closeSuccessModal()">
+        <div class="glass-card p-10 max-w-lg w-full text-center border-t border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]" onclick="event.stopPropagation()">
+            <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/30">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h2 id="ui-success-title" class="text-3xl font-black text-white uppercase tracking-tighter mb-2 italic">Congratulations!</h2>
+            <p id="ui-success-body" class="text-slate-400 text-sm mb-8 leading-relaxed">All your scanned mods are up-to-date and compatible with the current game version.</p>
+            <button onclick="closeSuccessModal()" id="ui-success-btn" class="w-full bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-green-900/20">
+                Great!
+            </button>
+        </div>
+    </div>
+
     <!-- NAVBAR -->
     <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center mb-16 gap-8 text-center md:text-left">
         <div>
@@ -114,8 +128,8 @@
 
     <!-- ACTION CENTER -->
     <main class="max-w-6xl mx-auto w-full flex-grow">
-        <div id="db-error-msg" class="max-w-6xl mx-auto glass-card">
-            <strong id="error-title" class="text-lg">Database Error!</strong><br>
+        <div id="db-error-msg" class="max-w-6xl mx-auto glass-card mb-8">
+            <strong id="error-title" class="text-lg text-red-400 tracking-widest uppercase">Database Error!</strong><br>
             <p id="error-body" class="text-sm mt-2 opacity-80">Could not find 'scarlet_db_full.json'.</p>
         </div>
 
@@ -178,7 +192,10 @@
         <!-- RESULTS TABLE -->
         <section class="glass-card overflow-hidden shadow-2xl mb-20 border border-white/5">
             <div class="flex justify-between items-center p-6 border-b border-white/5">
-                <h3 id="ui-table-title" class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Analysis Results</h3>
+                <div class="flex items-center gap-4">
+                    <h3 id="ui-table-title" class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Analysis Results</h3>
+                    <span id="ui-counter" class="text-[9px] font-black bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 hidden"></span>
+                </div>
                 <button onclick="toggleTable()" id="ui-toggle-table" class="text-[10px] font-bold text-slate-500 uppercase hover:text-white transition-colors">
                     [ Collapse ]
                 </button>
@@ -231,7 +248,7 @@
                     This tool fetches mod statuses from the <strong>Scarlet's Realm</strong> database. Data is automatically refreshed once a week every Sunday. This project is free and is fully compliant with EA's UGC policy.
                 </p>
                 <p id="ui-desc-pl">
-                    Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Lista jest automatycznie odświeżana raz w tygodniu w każdą niedzielę. Projekt jest darmowy i stworzony zgodnie z wytycznymi EA dotyczącymi zawartości fanowskiej.
+                    Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Lista jest automatycznie odświeżana raz w tygodniu w każdą niedzielę. Projekt jest darmowe i stworzony zgodnie z wytycznymi EA dotyczącymi zawartości fanowskiej.
                 </p>
             </div>
         </div>
@@ -241,6 +258,7 @@
         let db = [];
         let userFiles = [];
         let currentLang = 'en';
+        let scanPerformed = false;
 
         const langData = {
             en: {
@@ -259,6 +277,7 @@
                 donateSub: "Voluntary project support",
                 creditsTitle: "Sources & Legal",
                 emptyMsg: "Please upload your /Mods folder to see the results.",
+                noResultsMsg: "No matching mods found in the database for your folder.",
                 errorTitle: "Database Error!",
                 errorBody: "Could not load 'scarlet_db_full.json'.",
                 alertsTitle: "Critical Issues Found",
@@ -268,7 +287,11 @@
                 collapse: "[ Collapse ]",
                 expand: "[ Expand ]",
                 tableTitle: "Analysis Results",
-                bugReport: "Found an error? Contact me"
+                bugReport: "Found an error? Contact me",
+                countLabel: "MODS FOUND",
+                successTitle: "Congratulations!",
+                successBody: "All your scanned mods are up-to-date and compatible with the current game version.",
+                successBtn: "Great!"
             },
             pl: {
                 title: "Sims 4 Mod Checker",
@@ -286,6 +309,7 @@
                 donateSub: "Dobrowolne wsparcie projektu",
                 creditsTitle: "Źródła i Informacje",
                 emptyMsg: "Wybierz swój folder /Mods, aby zobaczyć wyniki skanowania.",
+                noResultsMsg: "Nie znaleziono Twoich modów w bazie danych.",
                 errorTitle: "Błąd Bazy Danych!",
                 errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'.",
                 alertsTitle: "Znaleziono Krytyczne Problemy",
@@ -295,7 +319,11 @@
                 collapse: "[ Zwiń ]",
                 expand: "[ Rozwiń ]",
                 tableTitle: "Wyniki Analizy",
-                bugReport: "Znalazłeś błąd? Napisz do mnie"
+                bugReport: "Znalazłeś błąd? Napisz do mnie",
+                countLabel: "ZNALEZIONO",
+                successTitle: "Gratulacje!",
+                successBody: "Wszystkie Twoje przeskanowane mody są aktualne i zgodne z najnowszą wersją gry.",
+                successBtn: "Super!"
             }
         };
 
@@ -340,10 +368,15 @@
             document.getElementById('ui-loader-text').innerText = t.loaderText;
             document.getElementById('ui-donate-sub').innerText = t.donateSub;
             document.getElementById('ui-credits-title').innerText = t.creditsTitle;
-            document.getElementById('empty-state-msg').innerText = t.emptyMsg;
+            document.getElementById('empty-state-msg').innerText = scanPerformed ? t.noResultsMsg : t.emptyMsg;
             document.getElementById('ui-alerts-title').childNodes[2].textContent = t.alertsTitle;
             document.getElementById('ui-table-title').innerText = t.tableTitle;
             document.getElementById('ui-bug-report').innerText = t.bugReport;
+            
+            // Success Modal Translation
+            document.getElementById('ui-success-title').innerText = t.successTitle;
+            document.getElementById('ui-success-body').innerText = t.successBody;
+            document.getElementById('ui-success-btn').innerText = t.successBtn;
             
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             document.getElementById('ui-all-categories').innerText = (lang === 'pl' ? 'Wszystkie kategorie' : 'All Categories');
@@ -387,6 +420,10 @@
             updateToggleButtonsText();
         }
 
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
         function populateGenres() {
             const genres = [...new Set(db.map(m => m.category))].filter(Boolean).sort();
             const select = document.getElementById('genreFilter');
@@ -403,6 +440,7 @@
                 .replace(/\.(package|ts4script)/g, '')
                 .replace(/v\d+(\.\d+)*/g, '')
                 .replace(/_/g, ' ')
+                .replace(/-/g, ' ')
                 .trim();
         }
 
@@ -417,6 +455,8 @@
                 const statusLabel = document.getElementById('ui-folder-status');
                 statusLabel.innerText = langData[currentLang].folderSelected;
                 statusLabel.classList.replace('text-slate-400', 'text-blue-400');
+                scanPerformed = false;
+                renderTable([]); 
             }
         });
 
@@ -424,6 +464,7 @@
             if (db.length === 0) return;
             const loader = document.getElementById('loader');
             loader.style.display = 'flex';
+            scanPerformed = true;
             setTimeout(() => {
                 filterAndRender(true);
                 loader.style.display = 'none';
@@ -435,30 +476,28 @@
             const genre = document.getElementById('genreFilter').value;
             
             let filtered = db.filter(m => {
-                const matchesSearch = (m.name || '').toLowerCase().includes(term) || (m.author || '').toLowerCase().includes(term);
+                const nameMatch = (m.name || '').toLowerCase().includes(term);
+                const authorMatch = (m.author || '').toLowerCase().includes(term);
+                const matchesSearch = nameMatch || authorMatch;
                 const matchesGenre = genre === 'All' || m.category === genre;
                 return matchesSearch && matchesGenre;
             });
 
             if (userFiles.length > 0) {
                 filtered = filtered.filter(m => {
-                    const dbName = (m.name || '').toLowerCase();
+                    const dbName = cleanModName(m.name || '');
+                    if (dbName.length < 3) return false;
                     return userFiles.some(userFile => {
-                        if (userFile.length < 3) return false;
                         return userFile.includes(dbName) || dbName.includes(userFile);
                     });
                 });
-            } else {
-                if (term === '' && genre === 'All') {
-                    filtered = [];
-                }
+            } else if (term === '' && genre === 'All') {
+                filtered = [];
             }
 
             const uniqueMap = new Map();
             filtered.forEach(item => {
-                if (!uniqueMap.has(item.name)) {
-                    uniqueMap.set(item.name, item);
-                }
+                if (!uniqueMap.has(item.name)) uniqueMap.set(item.name, item);
             });
             const uniqueList = Array.from(uniqueMap.values());
             const sorted = uniqueList.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
@@ -468,6 +507,20 @@
                 return s.includes('broken') || s.includes('obsolete') || s.includes('minor issues');
             });
             const stable = sorted.filter(m => !critical.includes(m));
+
+            // Logic to trigger Success Modal
+            if (withScroll && scanPerformed && critical.length === 0 && stable.length > 0) {
+                document.getElementById('successModal').style.display = 'flex';
+            }
+
+            // Counter Logic
+            const counterEl = document.getElementById('ui-counter');
+            if (scanPerformed && sorted.length >= 0) {
+                counterEl.innerText = `${sorted.length} ${langData[currentLang].countLabel}`;
+                counterEl.classList.remove('hidden');
+            } else {
+                counterEl.classList.add('hidden');
+            }
 
             renderAlerts(critical);
             renderTable(stable);
@@ -493,12 +546,12 @@
             list.innerHTML = data.map(m => `
                 <div class="glass-card p-6 border-l-4 border-red-500 flex justify-between items-center alert-glow">
                     <div>
-                        <h4 class="text-white font-bold text-base">${m.name}</h4>
-                        <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">${m.author} • ${m.category || 'N/A'}</p>
-                        <span class="inline-block mt-2 text-red-400 font-black text-xs tracking-tighter uppercase">${m.status}</span>
+                        <h4 class="text-white font-bold text-base tracking-tight">${m.name}</h4>
+                        <p class="text-slate-500 text-[10px] font-medium uppercase tracking-wider mt-1">${m.author} • ${m.category || 'N/A'}</p>
+                        <span class="inline-block mt-3 text-red-400 font-black text-[10px] tracking-tighter uppercase px-2 py-0.5 bg-red-500/10 rounded border border-red-500/20">${m.status}</span>
                     </div>
                     <div class="text-right">
-                        <span class="text-[10px] font-black bg-red-500/20 text-red-500 px-3 py-1 rounded-full border border-red-500/30">${t.removeBtn}</span>
+                        <span class="text-[9px] font-black bg-red-600/20 text-red-400 px-3 py-1 rounded-full border border-red-500/30 uppercase tracking-widest cursor-default">${t.removeBtn}</span>
                     </div>
                 </div>
             `).join('');
@@ -506,17 +559,18 @@
 
         function renderTable(data) {
             const body = document.getElementById('resultsBody');
-            const isEmpty = data.length === 0 && document.getElementById('alertsContainer').classList.contains('hidden');
+            const hasAlerts = !document.getElementById('alertsContainer').classList.contains('hidden');
             
-            if (isEmpty) {
-                body.innerHTML = `<tr><td colspan="4" class="p-10 text-center text-slate-600">${langData[currentLang].emptyMsg}</td></tr>`;
+            if (data.length === 0 && !hasAlerts) {
+                const msg = scanPerformed ? langData[currentLang].noResultsMsg : langData[currentLang].emptyMsg;
+                body.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-slate-500 italic">${msg}</td></tr>`;
                 return;
             }
             body.innerHTML = data.map(m => {
                 const statusStr = m.status || 'UNKNOWN';
                 return `
                     <tr class="hover:bg-slate-800/40 transition-colors">
-                        <td class="p-6 font-bold text-white">${m.name || 'Unknown Mod'}</td>
+                        <td class="p-6 font-bold text-white tracking-tight">${m.name || 'Unknown Mod'}</td>
                         <td class="p-6 text-slate-400 font-medium">${m.author || 'Unknown'}</td>
                         <td class="p-6 text-center"><span class="bg-slate-900 px-3 py-1 rounded-full text-[9px] text-slate-500 border border-slate-700 uppercase font-black">${m.category || 'N/A'}</span></td>
                         <td class="p-6 text-right font-black tracking-tighter status-compatible">${statusStr.toUpperCase()}</td>
