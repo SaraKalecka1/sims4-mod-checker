@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sims 4 Mod Checker - Dark Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        .card { background-color: #1e293b; border: 1px solid #334155; }
+        .status-broken { background-color: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; color: #fca5a5; }
+        .status-compatible { color: #4ade80; }
+        .flag-btn { cursor: pointer; transition: transform 0.2s; font-size: 1.8rem; filter: grayscale(20%); }
+        .flag-btn:hover { transform: scale(1.15); filter: grayscale(0%); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <div>
+            <h1 id="ui-title" class="text-4xl font-black text-white tracking-tight">Sims 4 Mod Checker</h1>
+            <p id="ui-subtitle" class="text-blue-400 font-medium">Automatyczna analiza folderu Mods</p>
+        </div>
+        <div class="flex gap-6 bg-slate-800 p-3 rounded-2xl shadow-inner">
+            <span class="flag-btn" onclick="setLang('pl')" title="Polski">🇵🇱</span>
+            <span class="flag-btn" onclick="setLang('en')" title="English">🇬🇧</span>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto mb-12 hidden" id="video-section">
+        <div class="video-container shadow-2xl">
+            <iframe src="https://www.youtube.com/embed/TWOJ_ID_WIDEO" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="card p-6 rounded-2xl shadow-xl transition hover:border-blue-500">
+            <label id="ui-upload-label" class="block mb-3 font-bold text-slate-200">1. Wczytaj folder /Mods</label>
+            <input type="file" id="folderInput" webkitdirectory directory multiple class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+        </div>
+        
+        <div class="card p-6 rounded-2xl shadow-xl transition hover:border-blue-500">
+            <label id="ui-search-label" class="block mb-3 font-bold text-slate-200">2. Szukaj / Filtruj</label>
+            <input type="text" id="searchInput" placeholder="Autor lub nazwa..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition">
+        </div>
+
+        <div class="card p-6 rounded-2xl shadow-xl transition hover:border-blue-500">
+            <label id="ui-genre-label" class="block mb-3 font-bold text-slate-200">3. Gatunek</label>
+            <select id="genreFilter" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 outline-none cursor-pointer">
+                <option value="All">Wszystkie / All Categories</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto card rounded-2xl overflow-hidden shadow-2xl">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-800 text-slate-400 uppercase text-xs tracking-wider">
+                    <tr>
+                        <th id="th-name" class="p-5 border-b border-slate-700">Mod Name</th>
+                        <th id="th-author" class="p-5 border-b border-slate-700">Author</th>
+                        <th id="th-category" class="p-5 border-b border-slate-700">Category</th>
+                        <th id="th-status" class="p-5 border-b border-slate-700">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody" class="divide-y divide-slate-700">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto mt-16 text-center">
+        <div class="mb-10">
+            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-flex items-center gap-3 bg-[#FFDD00] hover:bg-[#ffeb66] text-black font-black py-4 px-8 rounded-2xl transition transform hover:scale-105 shadow-xl" id="ui-donate">
+                <span class="text-
