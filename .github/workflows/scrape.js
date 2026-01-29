@@ -12,7 +12,7 @@ const fs = require('fs');
     await page.setDefaultNavigationTimeout(60000);
 
     try {
-        // Prawidłowy link bez nawiasów Markdown
+        // Czysty adres URL (bez nawiasów kwadratowych i okrągłych)
         await page.goto('[https://scarletsrealm.com/the-sims-4/mods/mod-list/](https://scarletsrealm.com/the-sims-4/mods/mod-list/)', { waitUntil: 'networkidle2' });
 
         let allData = [];
@@ -45,7 +45,7 @@ const fs = require('fs');
         }
 
         fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
-        console.log(`✅ Gotowe! Zebrano łącznie ${allData.length} rekordów.`);
+        console.log(`✅ Sukces! Zebrano ${allData.length} rekordów.`);
 
     } catch (error) {
         console.error("❌ Błąd:", error);
