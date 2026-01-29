@@ -1,6 +1,7 @@
 {
   "name": "sims4-mod-checker-bot",
   "version": "1.0.0",
+  "description": "Scraper dla pelna-kulturka.pl",
   "main": "scrape.js",
   "dependencies": {
     "puppeteer": "^22.0.0"
