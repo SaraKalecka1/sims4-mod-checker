@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sims 4 Mod Checker</title>
+    <title>Sims 4 Mod Checker - pelna-kulturka.pl</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; }
-        .status-broken { background-color: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; color: #fca5a5; }
         .status-compatible { color: #4ade80; }
         .flag-btn { cursor: pointer; transition: all 0.2s ease; font-size: 1.8rem; opacity: 0.4; filter: grayscale(40%); }
         .flag-btn.active { opacity: 1; transform: scale(1.1); filter: grayscale(0%); }
@@ -17,264 +16,149 @@
         .spinner { width: 60px; height: 60px; border: 6px solid #1e293b; border-top: 6px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #successModal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); z-index: 150; align-items: center; justify-content: center; padding: 20px; }
-        .collapsible-content { max-height: 2000px; transition: max-height 0.3s ease-out, opacity 0.3s ease; overflow: hidden; }
-        .collapsible-content.collapsed { max-height: 0; opacity: 0; margin-bottom: 0; }
-        #db-error-msg { display: none; background: #450a0a; border: 1px solid #991b1b; color: #fca5a5; padding: 1rem; border-radius: 1rem; margin-bottom: 2rem; text-align: center; }
+        .collapsible-content { max-height: 5000px; transition: max-height 0.3s ease-out, opacity 0.3s ease; overflow: hidden; }
+        .collapsible-content.collapsed { max-height: 0; opacity: 0; }
     </style>
 </head>
 <body class="p-4 md:p-10 min-h-screen flex flex-col">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.5.4 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.5.6 (2026-01-29)</div>
     
-    <div id="loader">
-        <div class="spinner mb-6"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase tracking-[0.3em] text-sm">Scanning Mods Folder...</p>
-    </div>
+    <div id="loader"><div class="spinner mb-6"></div><p class="text-white font-black uppercase tracking-[0.3em] text-sm">Analizowanie plików...</p></div>
 
-    <div id="successModal" onclick="closeSuccessModal()">
-        <div class="glass-card p-10 max-w-lg w-full text-center border-t border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]" onclick="event.stopPropagation()">
-            <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/30">
-                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h2 id="ui-success-title" class="text-3xl font-black text-white uppercase tracking-tighter mb-2 italic">Congratulations!</h2>
-            <p id="ui-success-body" class="text-slate-400 text-sm mb-8 leading-relaxed">All your scanned mods are up-to-date.</p>
-            <button onclick="closeSuccessModal()" id="ui-success-btn" class="w-full bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-green-900/20">Great!</button>
-        </div>
-    </div>
-
-    <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center mb-16 gap-8 text-center md:text-left">
+    <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
         <div>
-            <h1 id="ui-title" class="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">Sims 4 Mod Checker</h1>
-            <p id="ui-subtitle" class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-2">Professional Mods Folder Analysis</p>
+            <h1 class="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">Sims 4 Mod Checker</h1>
+            <p class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-2">pelna-kulturka.pl</p>
         </div>
         <div class="flex gap-4 glass-card p-2 px-4 shadow-xl">
-            <span id="flag-en" class="flag-btn active" onclick="setLang('en')" title="English">🇬🇧</span>
-            <span id="flag-pl" class="flag-btn" onclick="setLang('pl')" title="Polski">🇵🇱</span>
+            <span class="flag-btn" onclick="setLang('en')">🇬🇧</span>
+            <span class="flag-btn active" onclick="setLang('pl')">🇵🇱</span>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto w-full flex-grow">
-        <div id="db-error-msg" class="max-w-6xl mx-auto glass-card mb-8">
-            <strong id="error-title" class="text-lg text-red-400 tracking-widest uppercase">Database Error!</strong><br>
-            <p id="error-body" class="text-sm mt-2 opacity-80">Check if scarlet_db_full.json is in the same folder.</p>
-        </div>
-
         <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-end">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-end">
                 <div class="space-y-3">
-                    <label id="ui-upload-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">1. Select /Mods Folder</label>
-                    <div class="relative">
-                        <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
-                        <button onclick="document.getElementById('folderInput').click()" id="ui-custom-upload" class="w-full text-left text-xs bg-slate-800 text-slate-400 py-2.5 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center">
-                            <span id="ui-folder-status">No folder selected</span>
-                            <svg class="w-4 h-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
-                        </button>
-                    </div>
+                    <label class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">1. Wybierz folder /Mods</label>
+                    <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
+                    <button onclick="document.getElementById('folderInput').click()" class="w-full text-left text-xs bg-slate-800 text-slate-400 py-2.5 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center">
+                        <span id="ui-folder-status">Nie wybrano folderu</span>
+                        <svg class="w-4 h-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                    </button>
                 </div>
                 <div class="space-y-3">
-                    <label id="ui-search-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">2. Quick Filter</label>
-                    <input type="text" id="searchInput" placeholder="Search..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none focus:border-blue-500 transition-all text-white">
+                    <label class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">2. Szybki Filtr</label>
+                    <input type="text" id="searchInput" placeholder="Szukaj moda..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none text-white">
                 </div>
-                <div class="space-y-3">
-                    <label id="ui-genre-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">3. Category</label>
-                    <select id="genreFilter" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none cursor-pointer text-white appearance-none">
-                        <option value="All" id="ui-all-categories">All Categories</option>
-                    </select>
-                </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-blue-900/30">Run Analysis</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg">Skanuj Mody</button>
             </div>
         </section>
 
         <div id="alertsContainer" class="mb-12 hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h2 id="ui-alerts-title" class="text-red-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
-                    <span class="inline-block w-2 h-2 bg-red-500 rounded-full animate-ping"></span>Critical Issues Found
-                </h2>
-                <button onclick="toggleAlerts()" id="ui-toggle-alerts" class="text-[10px] font-bold text-slate-500 uppercase hover:text-white transition-colors flex items-center gap-1">[ Collapse ]</button>
-            </div>
-            <div id="alertsList" class="grid grid-cols-1 md:grid-cols-2 gap-4 collapsible-content"></div>
+            <h2 class="text-red-500 font-black uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
+                <span class="inline-block w-2 h-2 bg-red-500 rounded-full animate-ping"></span>Wykryte Problemy
+            </h2>
+            <div id="alertsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
-        <section class="glass-card overflow-hidden shadow-2xl mb-20 border border-white/5">
+        <section class="glass-card overflow-hidden shadow-2xl mb-20">
             <div class="flex justify-between items-center p-6 border-b border-white/5">
                 <div class="flex items-center gap-4">
-                    <h3 id="ui-table-title" class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Analysis Results</h3>
+                    <h3 class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Wyniki Analizy</h3>
                     <span id="ui-counter" class="text-[9px] font-black bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 hidden uppercase"></span>
                 </div>
-                <button onclick="toggleTable()" id="ui-toggle-table" class="text-[10px] font-bold text-slate-500 uppercase hover:text-white transition-colors">[ Collapse ]</button>
             </div>
-            <div id="tableContent" class="collapsible-content">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="bg-slate-800/40 text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5">
-                            <tr>
-                                <th id="th-name" class="p-6">Mod Name</th>
-                                <th id="th-author" class="p-6">Author</th>
-                                <th id="th-category" class="p-6 text-center">Category</th>
-                                <th id="th-status" class="p-6 text-right">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="resultsBody" class="divide-y divide-slate-800/50 text-sm">
-                            <tr><td colspan="4" class="p-20 text-center text-slate-500 italic" id="empty-state-msg">Please upload your /Mods folder to see the results.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div id="tableContent" class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-800/40 text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5">
+                        <tr><th class="p-6">Modyfikacja</th><th class="p-6">Autor</th><th class="p-6 text-right">Status</th></tr>
+                    </thead>
+                    <tbody id="resultsBody" class="divide-y divide-slate-800/50 text-sm">
+                        <tr><td colspan="3" class="p-20 text-center text-slate-500 italic">Wgraj folder /Mods, aby rozpocząć.</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
 
-    <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <div class="mb-4 text-center">
-            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-2xl px-16 py-6 rounded-3xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">DONATE</a>
-        </div>
-        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-6 font-medium italic">Voluntary project support</p>
-        <div class="mb-12 text-center">
-            <a href="mailto:lupus1908@gmail.com" id="ui-bug-report" class="text-xs font-bold text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-widest border-b border-blue-500/20 pb-1">Found an error? Contact me</a>
-        </div>
-        <div class="glass-card p-10 text-left border border-white/5 relative overflow-hidden">
-            <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-6 tracking-widest">Sources & Legal</h4>
-            <div class="grid md:grid-cols-2 gap-10 text-[11px] leading-relaxed text-slate-400 italic">
-                <p id="ui-desc-en">This tool fetches mod statuses from the <strong>Scarlet's Realm</strong> database. Data is automatically refreshed once a week every Sunday. Note: Custom Content (hair, clothes, furniture) is not tracked. Only gameplay mods are monitored.</p>
-                <p id="ui-desc-pl">Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Lista jest automatycznie odświeżana raz w tygodniu w każdą niedzielę. Uwaga: Custom Content (włosy, ubrania, meble) nie jest monitorowany. Baza obejmuje tylko modyfikacje gameplayowe.</p>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        let rawDb = []; let processedDb = []; let userFiles = []; let simpleUserFiles = []; let currentLang = 'en'; let scanPerformed = false;
+        let processedDb = []; let userFiles = []; let simpleUserFiles = [];
         
-        const langData = {
-            en: { title: "Sims 4 Mod Checker", subtitle: "Professional Mods Folder Analysis", upload: "1. Select /Mods Folder", search: "2. Quick Filter", searchPlaceholder: "Search mod or creator...", genre: "3. Category", thName: "Mod Name", thAuthor: "Author", thCat: "Category", thStatus: "Status", btnAnalyze: "Run Analysis", loaderText: "Scanning Mods Folder...", donateSub: "Voluntary project support", creditsTitle: "Sources & Legal", emptyMsg: "Please upload your /Mods folder to see the results.", noResultsMsg: "No matching mods found in the database. (Note: CC is not tracked)", errorTitle: "Database Error!", errorBody: "Check if scarlet_db_full.json is in the same folder.", alertsTitle: "Critical Issues Found", removeBtn: "REMOVE NOW", noFolderSelected: "No folder selected", folderSelected: "Files detected: ", collapse: "[ Collapse ]", expand: "[ Expand ]", tableTitle: "Analysis Results", bugReport: "Found an error? Contact me", countLabel: "MODS IDENTIFIED", successTitle: "Congratulations!", successBody: "All your scanned mods are up-to-date and compatible.", successBtn: "Great!", dbLoading: "Connecting...", dbError: "DB ERROR" },
-            pl: { title: "Sims 4 Mod Checker", subtitle: "Profesjonalna analiza folderu Mods", upload: "1. Wybierz folder /Mods", search: "2. Szybki filtr", searchPlaceholder: "Szukaj moda lub autora...", genre: "3. Gatunek", thName: "Nazwa Modyfikacji", thAuthor: "Autor", thCat: "Kategoria", thStatus: "Status", btnAnalyze: "Skanuj Mody", loaderText: "Analizowanie plików...", donateSub: "Dobrowolne wsparcie projektu", creditsTitle: "Źródła i Informacje", emptyMsg: "Wybierz swój folder /Mods, aby zobaczyć wyniki skanowania.", noResultsMsg: "Nie znaleziono Twoich modów w bazie danych. (CC nie jest śledzone)", errorTitle: "Błąd Bazy Danych!", errorBody: "Upewnij się, że plik scarlet_db_full.json jest w tym samym folderze.", alertsTitle: "Znaleziono Krytyczne Problemy", removeBtn: "USUŃ TERAZ", noFolderSelected: "Nie wybrano folderu", folderSelected: "Wykryte pliki: ", collapse: "[ Zwiń ]", expand: "[ Rozwiń ]", tableTitle: "Wyniki Analizy", bugReport: "Znalazłeś błąd? Napisz do mnie", countLabel: "MODÓW IDENTYFIKACJA", successTitle: "Gratulacje!", successBody: "Wszystkie Twoje przeskanowane mody są aktualne i zgodne z wersją gry.", successBtn: "Super!", dbLoading: "Łączenie...", dbError: "BŁĄD BAZY" }
-        };
+        function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
 
-        function simplify(str) { 
-            if (!str) return ''; 
-            return str.toString().toLowerCase().replace(/[^a-z0-9]/g, ''); 
-        }
-
-        async function init() { 
-            const btn = document.getElementById('analyzeBtn'); 
-            try { 
-                const response = await fetch('scarlet_db_full.json'); 
-                if (!response.ok) throw new Error(); 
-                rawDb = await response.json(); 
+        async function init() {
+            try {
+                const response = await fetch('scarlet_db_full.json');
+                const data = await response.json();
                 
-                // MAPOWANIE KLUCZY ZE STRONY SCARLET (KLASY NINJA)
-                processedDb = rawDb.map(m => {
-                    const name = m.name || m["Mod Name"] || m["Name"] || "";
-                    const author = m.author || m["Creator"] || m["Author"] || "";
-                    const status = m.status || m["Patch Status"] || m["Status"] || "Unknown";
-                    const category = m.category || m["Category"] || "Gameplay";
-                    
-                    return { 
-                        ...m, 
-                        name: name,
-                        author: author,
-                        status: status,
-                        category: category,
-                        sName: simplify(name), 
-                        sAuthor: simplify(author) 
-                    };
-                });
+                // Mapowanie kluczy dokładnie tak, jak w Twoim pliku JSON
+                processedDb = data.map(m => ({
+                    name: m.name || "",
+                    author: m.author || "",
+                    status: m.status || "Unknown",
+                    sName: simplify(m.name)
+                })).filter(m => m.sName.length > 2);
 
-                populateGenres(); 
-                document.getElementById('db-error-msg').style.display = 'none'; 
-                btn.innerText = langData[currentLang].btnAnalyze; 
-            } catch (e) { 
-                document.getElementById('db-error-msg').style.display = 'block'; 
-                btn.innerText = langData[currentLang].dbError; 
-            } 
+                console.log("Baza załadowana. Rekordów:", processedDb.length);
+            } catch (e) { console.error("Błąd ładowania bazy danych."); }
         }
 
-        function setLang(lang) {
-            currentLang = lang; const t = langData[lang];
-            document.getElementById('ui-title').innerText = t.title; document.getElementById('ui-subtitle').innerText = t.subtitle; document.getElementById('ui-upload-label').innerText = t.upload; document.getElementById('ui-search-label').innerText = t.search; document.getElementById('ui-genre-label').innerText = t.genre; document.getElementById('th-name').innerText = t.thName; document.getElementById('th-author').innerText = t.thAuthor; document.getElementById('th-category').innerText = t.thCat; document.getElementById('th-status').innerText = t.thStatus; document.getElementById('ui-loader-text').innerText = t.loaderText; document.getElementById('ui-donate-sub').innerText = t.donateSub; document.getElementById('ui-credits-title').innerText = t.creditsTitle; document.getElementById('ui-alerts-title').childNodes[2].textContent = t.alertsTitle; document.getElementById('ui-table-title').innerText = t.tableTitle; document.getElementById('ui-bug-report').innerText = t.bugReport; document.getElementById('ui-success-title').innerText = t.successTitle; document.getElementById('ui-success-body').innerText = t.successBody; document.getElementById('ui-success-btn').innerText = t.successBtn; document.getElementById('searchInput').placeholder = t.searchPlaceholder; document.getElementById('ui-all-categories').innerText = (lang === 'pl' ? 'Wszystkie kategorie' : 'All Categories');
-            if (userFiles.length > 0) { document.getElementById('ui-folder-status').innerText = t.folderSelected + userFiles.length; } else { document.getElementById('ui-folder-status').innerText = t.noFolderSelected; }
-            document.querySelectorAll('.flag-btn').forEach(b => b.classList.remove('active')); document.getElementById(`flag-${lang}`).classList.add('active');
-            if(scanPerformed) filterAndRender(false);
-        }
-
-        function toggleAlerts() { document.getElementById('alertsList').classList.toggle('collapsed'); }
-        function toggleTable() { document.getElementById('tableContent').classList.toggle('collapsed'); }
-        function closeSuccessModal() { document.getElementById('successModal').style.display = 'none'; }
-        
-        function populateGenres() { 
-            const genres = [...new Set(processedDb.map(m => m.category))].filter(Boolean).sort(); 
-            const select = document.getElementById('genreFilter'); 
-            genres.forEach(g => { 
-                const opt = document.createElement('option'); 
-                opt.value = g; opt.innerText = g; select.appendChild(opt); 
-            }); 
-        }
-
-        document.getElementById('folderInput').addEventListener('change', (e) => { 
-            const files = Array.from(e.target.files); 
-            userFiles = files.filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script')); 
-            
-            // USUWANIE ROZSZERZEŃ DLA LEPSZEGO DOPASOWANIA
-            simpleUserFiles = userFiles.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, ''))); 
-            
-            document.getElementById('analyzeBtn').disabled = (userFiles.length === 0); 
-            document.getElementById('ui-folder-status').innerText = langData[currentLang].folderSelected + userFiles.length; 
-            scanPerformed = false; 
+        document.getElementById('folderInput').addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            userFiles = files.filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
+            simpleUserFiles = userFiles.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, '')));
+            document.getElementById('ui-folder-status').innerText = "Wykryto plików: " + userFiles.length;
+            document.getElementById('analyzeBtn').disabled = userFiles.length === 0;
         });
 
-        function startAnalysis() { if (processedDb.length === 0) return; document.getElementById('loader').style.display = 'flex'; scanPerformed = true; setTimeout(() => { filterAndRender(true); document.getElementById('loader').style.display = 'none'; }, 800); }
-        
-        function filterAndRender(withScroll) {
-            const term = document.getElementById('searchInput').value.toLowerCase(); const genre = document.getElementById('genreFilter').value;
-            
-            let matched = processedDb.filter(m => { 
-                const sDb = m.sName; 
-                if (sDb.length < 3) return false; 
-                return simpleUserFiles.some(sU => sU.includes(sDb) || sDb.includes(sU)); 
-            });
+        function startAnalysis() {
+            document.getElementById('loader').style.display = 'flex';
+            setTimeout(() => {
+                const term = simplify(document.getElementById('searchInput').value);
+                
+                // Kluczowa logika dopasowania
+                let matched = processedDb.filter(m => {
+                    return simpleUserFiles.some(sU => sU.includes(m.sName) || m.sName.includes(sU));
+                });
 
-            let filtered = matched.filter(m => { 
-                const matchesGenre = genre === 'All' || m.category === genre; 
-                const matchesSearch = simplify(m.name).includes(simplify(term)) || simplify(m.author).includes(simplify(term)); 
-                return matchesGenre && matchesSearch; 
-            });
+                if (term) matched = matched.filter(m => simplify(m.name).includes(term) || simplify(m.author).includes(term));
 
-            const uniqueMap = new Map(); 
-            filtered.forEach(item => uniqueMap.set(item.name, item)); 
-            const sorted = Array.from(uniqueMap.values()).sort((a, b) => (a.author || '').localeCompare(b.author || ''));
-            
-            const critical = sorted.filter(m => { 
-                const s = (m.status || '').toLowerCase(); 
-                return s.includes('broken') || s.includes('obsolete') || s.includes('minor issues'); 
-            });
-            const stable = sorted.filter(m => !critical.includes(m));
+                const critical = matched.filter(m => /(broken|obsolete|minor|issue)/i.test(m.status));
+                const stable = matched.filter(m => !critical.includes(m));
 
-            if (withScroll && scanPerformed && critical.length === 0 && stable.length > 0) { document.getElementById('successModal').style.display = 'flex'; }
-            
-            const counterEl = document.getElementById('ui-counter'); 
-            counterEl.innerText = `${sorted.length} ${langData[currentLang].countLabel}`; 
-            counterEl.classList.remove('hidden');
-            
-            renderAlerts(critical); 
-            renderTable(stable); 
-            if(withScroll && critical.length > 0) document.getElementById('alertsContainer').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('ui-counter').innerText = matched.length + " MODÓW ZNALEZIONYCH";
+                document.getElementById('ui-counter').classList.remove('hidden');
+
+                renderResults(critical, stable);
+                document.getElementById('loader').style.display = 'none';
+            }, 500);
         }
 
-        function renderAlerts(data) {
-            const list = document.getElementById('alertsList'); document.getElementById('alertsContainer').classList.toggle('hidden', data.length === 0);
-            list.innerHTML = data.map(m => `
-                <div class="glass-card p-6 border-l-4 border-red-500 flex justify-between items-center shadow-xl">
-                    <div><h4 class="text-white font-bold text-base">${m.name}</h4><p class="text-slate-500 text-[10px] uppercase mt-1">${m.author} • ${m.category || 'N/A'}</p><span class="inline-block mt-3 text-red-400 font-black text-[10px] uppercase px-2 py-0.5 bg-red-500/10 rounded border border-red-500/20">${m.status}</span></div>
-                    <div class="text-right"><span class="text-[9px] font-black bg-red-600/20 text-red-400 px-3 py-1 rounded-full border border-red-500/30 uppercase tracking-widest cursor-default">${langData[currentLang].removeBtn}</span></div>
+        function renderResults(critical, stable) {
+            const alerts = document.getElementById('alertsList');
+            const body = document.getElementById('resultsBody');
+            
+            document.getElementById('alertsContainer').classList.toggle('hidden', critical.length === 0);
+            alerts.innerHTML = critical.map(m => `
+                <div class="glass-card p-6 border-l-4 border-red-500 flex justify-between items-center">
+                    <div><h4 class="text-white font-bold">${m.name}</h4><p class="text-[10px] text-slate-500 uppercase">${m.author}</p></div>
+                    <span class="text-red-400 font-black text-[10px] uppercase px-3 py-1 bg-red-500/10 rounded border border-red-500/20">${m.status}</span>
                 </div>`).join('');
-        }
 
-        function renderTable(data) {
-            const body = document.getElementById('resultsBody'); 
-            if (data.length === 0 && document.getElementById('alertsContainer').classList.contains('hidden')) { 
-                body.innerHTML = `<tr><td colspan="4" class="p-20 text-center text-slate-500 italic">${scanPerformed ? langData[currentLang].noResultsMsg : langData[currentLang].emptyMsg}</td></tr>`; return; 
+            if (stable.length === 0 && critical.length === 0) {
+                body.innerHTML = `<tr><td colspan="3" class="p-20 text-center text-slate-500 italic">Brak dopasowań. Upewnij się, że nazwy plików w folderze /Mods odpowiadają nazwom w bazie.</td></tr>`;
+            } else {
+                body.innerHTML = stable.map(m => `
+                    <tr class="hover:bg-slate-800/40 transition-colors">
+                        <td class="p-6 font-bold text-white">${m.name}</td>
+                        <td class="p-6 text-slate-400">${m.author}</td>
+                        <td class="p-6 text-right font-black status-compatible uppercase">${m.status}</td>
+                    </tr>`).join('');
             }
-            body.innerHTML = data.map(m => `<tr class="hover:bg-slate-800/40 transition-colors"><td class="p-6 font-bold text-white">${m.name}</td><td class="p-6 text-slate-400 font-medium">${m.author}</td><td class="p-6 text-center"><span class="bg-slate-900 px-3 py-1 rounded-full text-[9px] text-slate-500 border border-slate-700 uppercase font-black">${m.category || 'N/A'}</span></td><td class="p-6 text-right font-black tracking-tighter status-compatible">${m.status.toUpperCase()}</td></tr>`).join('');
         }
 
-        init(); setLang('en');
+        init();
     </script>
 </body>
 </html>
