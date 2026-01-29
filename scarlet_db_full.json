@@ -1,1 +1,3602 @@
-[]
+[
+  {
+    "name": "100 Base Game Traits Pack v1",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": "Sep 20, 2023"
+  },
+  {
+    "name": "100 Base Game Traits Pack V2",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Minor Issue(s)",
+    "update": "Sep 20, 2023"
+  },
+  {
+    "name": "100 Million Simoleons",
+    "author": "Nemesims",
+    "status": "Unknown",
+    "update": "Mar 5, 2025"
+  },
+  {
+    "name": "100 Social Interactions Mod",
+    "author": "maplebell",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "15 Clubs Per Sim",
+    "author": "King Zace",
+    "status": "Updated",
+    "update": "Jan 16, 2026"
+  },
+  {
+    "name": "15 Hour Active Career Day with better Wages",
+    "author": "mummy_001",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "2014 CAS Sim Presets",
+    "author": "Raseca",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "21 Days Seasons instead of 28 Days",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "25 Vacation Days (School Mod)",
+    "author": "FrequentlyBasic / MSQSIMS",
+    "status": "No Known Issues",
+    "update": "Jul 6, 2025"
+  },
+  {
+    "name": "2D Plumbob Override",
+    "author": "vyxated",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "30 Minutes Power Workout & 30 Minutes Swimming",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "3D Eyelashes",
+    "author": "Kijiko",
+    "status": "Unknown",
+    "update": "Aug 19, 2024"
+  },
+  {
+    "name": "5 Day Work Week: Choose Your Own Work Hours",
+    "author": "JaneSimsten",
+    "status": "Unknown",
+    "update": "Mar 3, 2024"
+  },
+  {
+    "name": "5 New Romantic Interaction Mod",
+    "author": "Cepzid (Zulf)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "50% Faster Hunger Motive Decay",
+    "author": "Meraki",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "6 Credits per University Term",
+    "author": "alisrabbo",
+    "status": "Unknown",
+    "update": "Oct 27, 2024"
+  },
+  {
+    "name": "7 Wild Dates",
+    "author": "JungleSim",
+    "status": "Unknown",
+    "update": "Sep 20, 2024"
+  },
+  {
+    "name": "8 Micro-stations from The Urbz (console)",
+    "author": "Deastrumquodvicis",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "8 Pack of Child Exclusive Traits",
+    "author": "Triplis",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "8 Pack of Teen Exclusive Traits",
+    "author": "Triplis",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "A Reason to Slay: Vampires",
+    "author": "OneMoreKayaker",
+    "status": "No Known Issues",
+    "update": "Sep 5, 2025"
+  },
+  {
+    "name": "A Thousand Papercuts",
+    "author": "HelenTheHunter",
+    "status": "No Known Issues",
+    "update": "Mar 1, 2024"
+  },
+  {
+    "name": "A-Bouquet Flower Arrangement Fixer",
+    "author": "Ravasheen",
+    "status": "Unknown",
+    "update": "Mar 18, 2024"
+  },
+  {
+    "name": "A-Dough-Able Cupcake Maker",
+    "author": "Ravasheen",
+    "status": "Broken",
+    "update": "Mar 18, 2024"
+  },
+  {
+    "name": "Absent Emotion Traits Pack",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": "Sep 20, 2023"
+  },
+  {
+    "name": "Absent-Minded Trait",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Nov 3, 2024"
+  },
+  {
+    "name": "Absolutely Radishing Garden Planters",
+    "author": "Ravasheen",
+    "status": "Unknown",
+    "update": "Mar 18, 2024"
+  },
+  {
+    "name": "Accessories Mod",
+    "author": "Andrew",
+    "status": "Unknown",
+    "update": "Oct 25, 2024"
+  },
+  {
+    "name": "Accomplished Lady Aspiration",
+    "author": "Peebs",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Accountant Career: Office & At-Home Mod",
+    "author": "maplebell",
+    "status": "Unknown",
+    "update": "Nov 12, 2024"
+  },
+  {
+    "name": "Acne for Adults + HSY Tweaks",
+    "author": "alisrabbo",
+    "status": "Unknown",
+    "update": "Oct 27, 2024"
+  },
+  {
+    "name": "acnefix",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Acting Career - Harder Auditions",
+    "author": "EynSims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Acting Career Gig Booster",
+    "author": "gettp",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Acting Skill for Children",
+    "author": "mysimsdiary",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Active Honey Trap Career",
+    "author": "simawhimhot",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Active Lifeguard Career and Venue Type Slow Runners",
+    "author": "simawhimhot",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Active Photographer Career",
+    "author": "simawhimhot",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Activist Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Activity Chair (for any table)",
+    "author": "LittleMsSam / plasticbox",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Activity Lot Challenges V2 (with packs)",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Activity Preferences Tweak",
+    "author": "sims4me (Bienchen)",
+    "status": "Updated",
+    "update": "Jan 10, 2026"
+  },
+  {
+    "name": "Actor Overhaul Mod",
+    "author": "maplebell",
+    "status": "Broken",
+    "update": "Aug 30, 2024"
+  },
+  {
+    "name": "AD(H)D Trait",
+    "author": "FiendMods",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Add / Remove Traits (Cheat Code)",
+    "author": "JuLovesGames",
+    "status": "Unknown",
+    "update": "Feb 9, 2025"
+  },
+  {
+    "name": "Add Ghosts to Household Overhaul",
+    "author": "Waffle's Mix-Ins",
+    "status": "No Known Issues",
+    "update": "Sep 19, 2025"
+  },
+  {
+    "name": "Add Night Wraith Vfx",
+    "author": "FrequentlyBasic",
+    "status": "No Known Issues",
+    "update": "May 17, 2025"
+  },
+  {
+    "name": "Add or Remove Sims From Situations",
+    "author": "KaylaDot",
+    "status": "No Known Issues",
+    "update": "Sep 4, 2025"
+  },
+  {
+    "name": "Add Social Bunny Followers",
+    "author": "simsmodelsimmer",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Add vanity function to all desks!",
+    "author": "Ravasheen",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Add/Remove a University Degree (Cheat code)",
+    "author": "JuLovesGames",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Additional Bucket List Goals: Skills",
+    "author": "Rex (konansock)",
+    "status": "Unknown",
+    "update": "Jul 4, 2025"
+  },
+  {
+    "name": "Additional In-Date Choices: Declare Only Wanting to Wookup, Declare Only Wanting to Be Friendly",
+    "author": "Lumpinou",
+    "status": "No Known Issues",
+    "update": "Aug 10, 2024"
+  },
+  {
+    "name": "Additional SimTuber Avatars",
+    "author": "DerShayan",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Addon For Preventable Diseases, Set Immunity As A Preference in CAS",
+    "author": "NateTheL0ser",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "addsimstoensembleduringevents",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Adjusted Thumbnails for the Household Panel",
+    "author": "SimplyAnjuta",
+    "status": "No Known Issues",
+    "update": "Jan 18, 2025"
+  },
+  {
+    "name": "Adopt a Pet Holiday Tradition",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Adopt a teen",
+    "author": "randyxx",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Adopt Teens (In Person) Too!",
+    "author": "NateTheL0ser",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Adoptable Teens",
+    "author": "Eca",
+    "status": "New",
+    "update": ""
+  },
+  {
+    "name": "Adult Jobs For Teens",
+    "author": "sparklymari",
+    "status": "Unknown",
+    "update": "Aug 20, 2025"
+  },
+  {
+    "name": "Adult traits For Children and Teens",
+    "author": "DigitalGoth",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Adult Work Enterprises - Escort Career",
+    "author": "JughandleJones",
+    "status": "No Known Issues",
+    "update": "Oct 3, 2025"
+  },
+  {
+    "name": "Adult Work Enterprises - Pornography Career",
+    "author": "JughandleJones",
+    "status": "Updated",
+    "update": "Dec 2, 2025"
+  },
+  {
+    "name": "Adult Work Enterprises - Video Store Clerk Career",
+    "author": "JughandleJones",
+    "status": "No Known Issues",
+    "update": "Oct 3, 2025"
+  },
+  {
+    "name": "Adults Can Designate Keepsake Box",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Jan 19, 2025"
+  },
+  {
+    "name": "Adults Can Play With Playground Autonomously",
+    "author": "CiwayW",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Adults Get Crushes FIX",
+    "author": "batsandbabydolls",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Advanced Birth Certificate",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Aug 27, 2025"
+  },
+  {
+    "name": "Advanced Heel Command",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Advanced Sim Statistics",
+    "author": "PurpleThistles",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Advanced Wellness Treat Fix [RBF]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Advent Calendar",
+    "author": "SonozakiSisters",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "Adventurer Career",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": "Apr 22, 2025"
+  },
+  {
+    "name": "Adventurer Part-Time Career",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Jan 17, 2025"
+  },
+  {
+    "name": "adventuroussimslessbored",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "adventwreath",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Advertising Career",
+    "author": "MissyHissy",
+    "status": "Unknown",
+    "update": "Jan 29, 2024"
+  },
+  {
+    "name": "Advertising Sales Agent (No Promotion) Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "AEP Career",
+    "author": "Ksuihuh",
+    "status": "Updated",
+    "update": "Dec 4, 2025"
+  },
+  {
+    "name": "Aesthetic Font Default Replacement",
+    "author": "LargeTayterTots",
+    "status": "Unknown",
+    "update": "Oct 16, 2024"
+  },
+  {
+    "name": "Aesthetic Traits",
+    "author": "SimwithShan",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "African Male YA Template Fixes",
+    "author": "TheFreshSims (BrainBlasted)",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "After Death Helper",
+    "author": "Sacrificial",
+    "status": "No Known Issues",
+    "update": "May 1, 2024"
+  },
+  {
+    "name": "After School Activities Only Once Per Week [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "After School NPC Invites",
+    "author": "KaylaDot",
+    "status": "No Known Issues",
+    "update": "Sep 19, 2025"
+  },
+  {
+    "name": "After School Tutoring Club",
+    "author": "maplebell",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "After-School Activities: Artisitc Gymnastics",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Astronomy Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Astronomy Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Athletics Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Athletics Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Ballroom Dance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Ballroom Dance (Teen)",
+    "author": "Lily-Valley",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "After-School Activities: Baseball Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Baseball Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Basketball Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Basketball Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Bat Transformation Training",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Boxing Club",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Boxing Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Cello",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Cheerleading Squad (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Cheerleading Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Chess Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Chess Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Classical Ballet",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Classical Ballet (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Coding and Programming Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Coding and Programming Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Contemporary Dance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Contemporary Dance (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Debate Team (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Debate Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Drums",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Environmental Science Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Environmental Science Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Football",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Football Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Guitar",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Gymnastics (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Hockey Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Hypnosis and Mind Control Training",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Ice Hockey",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Irish Stepdance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Irish Stepdance (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Jazz Dance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Jazz Dance (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Karate",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Karate (Teen)",
+    "author": "Lily-Valley",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "After-School Activities: Lacrosse Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Lacrosse Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Model United Nations (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Model United Nations (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Modern Dance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Modern Dance (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Music Production",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Music Theory",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Musical Theatre",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Musical Theatre (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Piano (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Puzzle and Strategy Gaming Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Puzzle and Strategy Gaming Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Robotics Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Robotics Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Rugby Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Rugby Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Saxaphone",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Singing",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Street Dance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Street Dance (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Swimming Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Swimming Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Tap Dance",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Tap Dance (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "After-School Activities: Tennis Club",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Tennis Club (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Vampire Blood Bank Volunteer (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 30, 2025"
+  },
+  {
+    "name": "After-School Activities: Vampire History Club (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Violin",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Volleyball",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Volleyball Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Wrestling Team",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Wrestling Team (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 2, 2025"
+  },
+  {
+    "name": "After-School Activities: Young Engineers Programme (Child)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "After-School Activities: Young Engineers Programme (Teen)",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Sep 1, 2025"
+  },
+  {
+    "name": "Afterschool Activities Bundle",
+    "author": "ilkavelle",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "Afterschool Activities Bundle 2",
+    "author": "ilkavelle",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "Age Group Custom Preferences",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": "Jul 30, 2024"
+  },
+  {
+    "name": "Age Up add Preferences",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": "Oct 27, 2024"
+  },
+  {
+    "name": "Age Up Chick Treat",
+    "author": "YourFalseHope",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Age-A-Day: Rotational Single Household Play",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Ageless and Immortal Rewards Store Traits",
+    "author": "Rex / Iced Cream",
+    "status": "Unknown",
+    "update": "Dec 17, 2023"
+  },
+  {
+    "name": "Aging Fix",
+    "author": "Mythical_Ascelin / Scarlet",
+    "status": "Unknown",
+    "update": "Nov 8, 2025"
+  },
+  {
+    "name": "Agoraphobia Trait",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": "Aug 24, 2024"
+  },
+  {
+    "name": "Ailment Gnomes Spawn in Innisgreen Only",
+    "author": "Wyndkin",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Ailment Immunity",
+    "author": "baniduhaine",
+    "status": "No Known Issues",
+    "update": "Nov 26, 2025"
+  },
+  {
+    "name": "Ailment Nerf [Random Small Mods]",
+    "author": "OneMoreKayaker",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Ailments Overhaul",
+    "author": "slowsimmer",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ailments Override Mod - No Visual Body Effects",
+    "author": "Simsefin",
+    "status": "No Known Issues",
+    "update": "Nov 6, 2025"
+  },
+  {
+    "name": "Air Conditioner Thermostat",
+    "author": "SrslySims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Air Fryer",
+    "author": "icemunmun",
+    "status": "Unknown",
+    "update": "Sep 26, 2025"
+  },
+  {
+    "name": "Airline Employee Career",
+    "author": "Simmillercc",
+    "status": "Updated",
+    "update": "Dec 30, 2025"
+  },
+  {
+    "name": "Airport (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Alarm Clock from EP12 - Functional",
+    "author": "NerdyDoll",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Alchemist Career",
+    "author": "BosseladyTV",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Alchemist(Potion Brewer Career)",
+    "author": "RayBreeder7",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Alien Abduction Yields Collectibles",
+    "author": "Naunakht",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Alien Bloodlines",
+    "author": "baniduhaine",
+    "status": "No Known Issues",
+    "update": "Nov 26, 2025"
+  },
+  {
+    "name": "Alien Enthusiast Trait",
+    "author": "katie eevee",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Alien Landing Zone Lot Trait",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": "Feb 19, 2024"
+  },
+  {
+    "name": "Alien Motive Tweaks",
+    "author": "IlexSims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Alien Occult Form Toggle Cheat",
+    "author": "LittleSimBe",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Alien Test Subject Part-Time Career",
+    "author": "BosseladyTV",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Alien Toggle",
+    "author": "TwistedMexi",
+    "status": "No Known Issues",
+    "update": "Jul 30, 2023"
+  },
+  {
+    "name": "Aliens Can Consume Transmutable Objects",
+    "author": "baniduhaine",
+    "status": "No Known Issues",
+    "update": "Nov 26, 2025"
+  },
+  {
+    "name": "Aliens \"Erase Memory\" Interaction Erases Sentiments Too",
+    "author": "BrickLion",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Aliens Reloaded",
+    "author": "OneMoreKayaker",
+    "status": "Updated",
+    "update": "Dec 7, 2025"
+  },
+  {
+    "name": "Aliens Stole My Parents - Child Aspiration Fix",
+    "author": "BearlyBearable",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Aliens Stole My Parents Scenario Plus",
+    "author": "Lorea",
+    "status": "No Known Issues",
+    "update": "Nov 7, 2025"
+  },
+  {
+    "name": "All Baking from the Cupcake Machine in the Oven",
+    "author": "Somik and Severinka",
+    "status": "Unknown",
+    "update": "Aug 3, 2024"
+  },
+  {
+    "name": "All Beds Same Energy, Comfort & Stress Relief",
+    "author": "luthienrising / cyclelegs",
+    "status": "No Known Issues",
+    "update": "Nov 6, 2025"
+  },
+  {
+    "name": "All Cheats",
+    "author": "TwistedMexi",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "All Drink Moods",
+    "author": "Lorea",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "All Espresso Drinks Give Moodlets as Intended",
+    "author": "Theresa2008",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "All Freelancer Careers For Teens",
+    "author": "FrequentlyBasic / MSQSIMS",
+    "status": "No Known Issues",
+    "update": "Aug 20, 2025"
+  },
+  {
+    "name": "All Ghosts Reward",
+    "author": "Gauntlet101010",
+    "status": "Unknown",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "All Hours Career Pack (Full-Time)",
+    "author": "midnitetech",
+    "status": "No Known Issues",
+    "update": "Sep 16, 2025"
+  },
+  {
+    "name": "ALL In-Game Objects Are Upgraded",
+    "author": "Lorea",
+    "status": "Updated",
+    "update": "Dec 12, 2025"
+  },
+  {
+    "name": "All In-Game Traditions Are Updated By Preferences And Traits",
+    "author": "Lorea",
+    "status": "Updated",
+    "update": "Jan 15, 2026"
+  },
+  {
+    "name": "All Jobs for Teens",
+    "author": "FeenSims",
+    "status": "Updated",
+    "update": "Jan 14, 2026"
+  },
+  {
+    "name": "All Kinds of Ice Cream from the Fridge",
+    "author": "TheTreacherousFox",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "All Kinds of Milk from the Fridge",
+    "author": "TheTreacherousFox",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "All Rounder Aspiration",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "All Rounder Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "All Scenarios",
+    "author": "TwistedMexi",
+    "status": "Broken",
+    "update": "Sep 30, 2025"
+  },
+  {
+    "name": "All Sims Learn All Traits of Other Sims at Introduction",
+    "author": "Lorea",
+    "status": "Updated",
+    "update": "Dec 20, 2025"
+  },
+  {
+    "name": "All Skills For Children",
+    "author": "Lorea",
+    "status": "Updated",
+    "update": "Dec 4, 2025"
+  },
+  {
+    "name": "All Tea Moods",
+    "author": "Lorea",
+    "status": "No Known Issues",
+    "update": "Mar 7, 2025"
+  },
+  {
+    "name": "All Traits In Reward Store",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": "Mar 29, 2025"
+  },
+  {
+    "name": "All Trashcans Give Money",
+    "author": "HelenTheHunter / MonoChaos",
+    "status": "No Known Issues",
+    "update": "Mar 14, 2025"
+  },
+  {
+    "name": "All Worlds are Residential",
+    "author": "Zerbu",
+    "status": "Broken",
+    "update": "Dec 3, 2025"
+  },
+  {
+    "name": "All Year Plants",
+    "author": "Robin / Scarlet",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "All-In-One Espresso Engine",
+    "author": "mangoninja",
+    "status": "Unknown",
+    "update": "Nov 13, 2025"
+  },
+  {
+    "name": "Allergic to Fur and More Traits",
+    "author": "ilkavelle",
+    "status": "No Known Issues",
+    "update": "Jul 4, 2025"
+  },
+  {
+    "name": "Allow Children to Volunteer Alone",
+    "author": "Amethyst-Lilac",
+    "status": "No Known Issues",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "Allow Stoves on University Housing Lots [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Allowance Mod",
+    "author": "LittleMsSam / Scarlet",
+    "status": "No Known Issues",
+    "update": "Aug 19, 2025"
+  },
+  {
+    "name": "allowtoddlersgotoservices",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Alluring Visage - Fog Begone!",
+    "author": "DrHouse93",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Alluring Visage No VFX",
+    "author": "Shino Nox",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Alter Eco Utility Set",
+    "author": "Ravasheen",
+    "status": "Unknown",
+    "update": "Sep 3, 2024"
+  },
+  {
+    "name": "Alter Initial Funds",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Alternate Phone Icons",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Alternative Ailments",
+    "author": "slowsimmer",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Always Auto Lights",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": "Dec 14, 2023"
+  },
+  {
+    "name": "Always Autumn Colors In Ravenwood",
+    "author": "B4S4LT",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Always CAS Full Edit Mode",
+    "author": "SonozakiSisters",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Always Freebuild",
+    "author": "TwistedMexi",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Always Fulleditmode",
+    "author": "TwistedMexi",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Always Headline Effects Off",
+    "author": "SonozakiSisters",
+    "status": "No Known Issues",
+    "update": "Oct 27, 2024"
+  },
+  {
+    "name": "Always Keep a Doctor at the Hospital",
+    "author": "scumbumbo / LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Oct 23, 2024"
+  },
+  {
+    "name": "Always Moveobjects On",
+    "author": "TwistedMexi",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Always Testing",
+    "author": "TwistedMexi",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Always Use Ghostly Traverse Toggle",
+    "author": "Shino Nox",
+    "status": "Unknown",
+    "update": "Jun 23, 2025"
+  },
+  {
+    "name": "alwaysdeterminebabygender",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "alwaysenactvenuepolicies",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "amazingbirth",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "amazingpromotion",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Ambition Custom Preferences",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Amellce's Custom Food Enabler",
+    "author": "Amellce",
+    "status": "No Known Issues",
+    "update": "Oct 1, 2023"
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Base Game",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Cats And Dogs",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - City Living",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Eco Lifestyle",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Get Together",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Holiday Celebration",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Nifty Knitting",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami’s Catalog Overhaul - Pack Icon Hider",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": "Jul 28, 2024"
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Paranormal",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Seasons",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Spa Day",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami’s Catalog Overhaul - Spooky Stuff",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ami’s Catalog Overhaul - Subtle CC Icon",
+    "author": "AmiCurl",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Ami's Catalog Overhaul - Vampires",
+    "author": "AmiCurl",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "An Email for Father Winter",
+    "author": "AliceBOUG",
+    "status": "New",
+    "update": ""
+  },
+  {
+    "name": "Analyze Book Mod",
+    "author": "Sasha's Space",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "ancientjoyblessing_clapdisabled",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Anemia Trait",
+    "author": "RookeryDesigns / YourFalseHope",
+    "status": "No Known Issues",
+    "update": "Sep 23, 2025"
+  },
+  {
+    "name": "Angler (Active) Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Angler Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "angrywalkstylelater",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Animal Charmer Trait and 2 Pets Traits",
+    "author": "digitprojectart",
+    "status": "N/A",
+    "update": "Aug 25, 2025"
+  },
+  {
+    "name": "Animal Legs Slider and Foot Angle Slider",
+    "author": "VecD0e",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Animal Lifespan Tuning",
+    "author": "Szemoka",
+    "status": "Unknown",
+    "update": "Jul 11, 2025"
+  },
+  {
+    "name": "Animal Lover Trait",
+    "author": "Snowiii95",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Animal Lover Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Animal Obsession Child Aspiration",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Mar 28, 2025"
+  },
+  {
+    "name": "Animal Playdate Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Animal Rescue Mod, Stats and Career",
+    "author": "PurpleThistles",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Animal Shed Routing Restrictions Removed",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Animal Shelter Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Animal Shelter Lot Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Animal Shop!",
+    "author": "Zafireria",
+    "status": "Unknown",
+    "update": "Mar 14, 2024"
+  },
+  {
+    "name": "Animal Tweaks When Sheds Are Hidden [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Feb 26, 2025"
+  },
+  {
+    "name": "Animated Fans Standalone",
+    "author": "JaneSimsten",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Animated Tail Mod",
+    "author": "SDMsims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Animated Tails Mod",
+    "author": "SpinningPlumbobs",
+    "status": "No Known Issues",
+    "update": "Aug 12, 2025"
+  },
+  {
+    "name": "Animated Wings Mod",
+    "author": "SpinningPlumbobs",
+    "status": "No Known Issues",
+    "update": "Nov 17, 2025"
+  },
+  {
+    "name": "Animated Wings: Angel & Demon Set",
+    "author": "SpinningPlumbobs",
+    "status": "No Known Issues",
+    "update": "Nov 17, 2025"
+  },
+  {
+    "name": "Anniversary Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Announce Visitor",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Sep 29, 2024"
+  },
+  {
+    "name": "Anti Fear Training (Pets)",
+    "author": "LittleMsSam",
+    "status": "Updated",
+    "update": "Dec 16, 2025"
+  },
+  {
+    "name": "Anti Heat Pill (Pets)",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Jan 11, 2026"
+  },
+  {
+    "name": "Anti-Emeto (Accessibility Mod)",
+    "author": "Zeyphr",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Antidote Costs 15k",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Antisocial Loners",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": "Mar 19, 2025"
+  },
+  {
+    "name": "Antivaxxer Addon for Preventable Diseases!",
+    "author": "NateTheL0ser",
+    "status": "Unknown",
+    "update": "Aug 25, 2025"
+  },
+  {
+    "name": "ANTM Collab",
+    "author": "MuvaSimmer",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Any Caregiver Can Give the WooHoo talk",
+    "author": "lazarusinashes",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Any Day Ultimate Horse Championship",
+    "author": "Gauntlet101010",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Any Ghost Can Set a Fire",
+    "author": "Manderz0630",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Anyone Can Designate Keepsakes",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Anyone Can Start Lifestyle Brand",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": "Mar 28, 2024"
+  },
+  {
+    "name": "Anyone Can Threaten",
+    "author": "lazarusinashes",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Apartment Event Odds",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": "Jul 22, 2025"
+  },
+  {
+    "name": "Apartment Inspection Fix",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Apartment Rent Modifiers",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Apartment Utilities Functional",
+    "author": "FernBlades",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "apologyfix",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Apothecary Is Fun If You Like Apothecary",
+    "author": "JimanthaPickens",
+    "status": "No Known Issues",
+    "update": "Sep 18, 2025"
+  },
+  {
+    "name": "Apothecary Kit",
+    "author": "Simsonian Library",
+    "status": "Unknown",
+    "update": "Jul 1, 2025"
+  },
+  {
+    "name": "Applied Animal Behaviorist Aspiration",
+    "author": "ilkavelle",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "Aqua Catastrophe Spell",
+    "author": "minervascauldron",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Aquarium Retail Fridge",
+    "author": "BrazenLotus",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "aquariumtweaks",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Arcade Lot Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Arcade Lot Trait for Bar Lots",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Dec 31, 2024"
+  },
+  {
+    "name": "Arcade Room Pack",
+    "author": "Cepzid (Zulf)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Arcane Constriction(Binding) Spell",
+    "author": "minervascauldron",
+    "status": "Unknown",
+    "update": "Jul 27, 2025"
+  },
+  {
+    "name": "Arcane Essence - New Sim Spellcaster Energy Source",
+    "author": "Nemesims",
+    "status": "Unknown",
+    "update": "Apr 22, 2025"
+  },
+  {
+    "name": "Archaeologist/Palaeontologist Freelancer Career",
+    "author": "ilkavelle",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "Archaeology Camp Site Lot Trait",
+    "author": "MissyHissy",
+    "status": "Unknown",
+    "update": "Jan 30, 2024"
+  },
+  {
+    "name": "Archaeology Career",
+    "author": "MissyHissy",
+    "status": "Unknown",
+    "update": "Jan 29, 2024"
+  },
+  {
+    "name": "Archaeology Custom Preference",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": "Nov 4, 2024"
+  },
+  {
+    "name": "Archaeology Kit",
+    "author": "Simsonian Library",
+    "status": "Updated",
+    "update": "Jan 24, 2026"
+  },
+  {
+    "name": "Archery Contest 1st Place Grants §2500",
+    "author": "FrequentlyBasic",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Archery Contest Gives Fame",
+    "author": "FrequentlyBasic",
+    "status": "New",
+    "update": ""
+  },
+  {
+    "name": "Archery Skill",
+    "author": "JaneSimsten",
+    "status": "Unknown",
+    "update": "Aug 20, 2025"
+  },
+  {
+    "name": "Architect (Part-time) Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Architectural Designer Aspiration",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Architectural Designer Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Ardenti Anima! Reincarnation Spell",
+    "author": "Keiyu",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Aristocracy, Royalty & Mistress Careers",
+    "author": "AvathePit",
+    "status": "Updated",
+    "update": "Jan 26, 2026"
+  },
+  {
+    "name": "Armageddon Mod",
+    "author": "Sacrificial",
+    "status": "No Known Issues",
+    "update": "Sep 7, 2025"
+  },
+  {
+    "name": "Arrange Flowers Holiday Tradition",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Arranged Marriages",
+    "author": "MizoreYukii",
+    "status": "Unknown",
+    "update": "Jul 6, 2025"
+  },
+  {
+    "name": "Art Appraiser Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Art Exhibition Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Art Gallery (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Art Gallery Owner (No Promotion) Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Art Lessons",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Mar 8, 2025"
+  },
+  {
+    "name": "Art Studio Assistant Career",
+    "author": "choossims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Artifact Unlocks",
+    "author": "BrazenLotus",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Artist (Active) Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Artist Garage Sale Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Artist Photographer Aspiration",
+    "author": "ilkavelle",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "Artist Trait",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": "Aug 5, 2025"
+  },
+  {
+    "name": "Artist Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Artistic Prodigy Trait",
+    "author": "MissLogicielle",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Arts Center Doesn’t Need a Dang Bar",
+    "author": "Simblr Nova",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Asexual Bucket List Fix",
+    "author": "batsandbabydolls",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ask About Age",
+    "author": "MizoreYukii / SHEnanigans",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ask About Attraction Level is Friendly and Always Successful",
+    "author": "Lorea",
+    "status": "Updated",
+    "update": "Dec 20, 2025"
+  },
+  {
+    "name": "Ask About Mood",
+    "author": "JaneSimsten",
+    "status": "Broken",
+    "update": "Mar 1, 2024"
+  },
+  {
+    "name": "Ask About Romantic and WooHoo Orientation Friendly and Successful",
+    "author": "Lorea",
+    "status": "No Known Issues",
+    "update": "Jul 5, 2025"
+  },
+  {
+    "name": "Ask Baby's Due Date Response Mod",
+    "author": "MizoreYukii / SHEnanigans",
+    "status": "Minor Issue(s)",
+    "update": ""
+  },
+  {
+    "name": "Ask Category & Menu Cleanup",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": "Jul 22, 2025"
+  },
+  {
+    "name": "Ask for Birthday Money Interaction",
+    "author": "thatssojordy",
+    "status": "No Known Issues",
+    "update": "Dec 21, 2024"
+  },
+  {
+    "name": "Ask For Help Cleaning Fix",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Ask for Loan Tweak",
+    "author": "baniduhaine",
+    "status": "No Known Issues",
+    "update": "Nov 26, 2025"
+  },
+  {
+    "name": "Ask For Money Mod",
+    "author": "Sparkii",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ask for Treats and Satisfy Trick or Treat Holiday Tradition",
+    "author": "Peterskywalker!",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ask for Wedding Roles via Text",
+    "author": "FrequentlyBasic",
+    "status": "No Known Issues",
+    "update": "Feb 28, 2025"
+  },
+  {
+    "name": "Ask Gender Preference",
+    "author": "RookeryDesigns / YourFalseHope",
+    "status": "No Known Issues",
+    "update": "Sep 23, 2025"
+  },
+  {
+    "name": "Ask Ghosts their Cause of Death",
+    "author": "simnovate",
+    "status": "Unknown",
+    "update": "Nov 15, 2025"
+  },
+  {
+    "name": "Ask if Single, But Have it Clear! (Know Others' Relationships) [Tweak]",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": "Nov 13, 2024"
+  },
+  {
+    "name": "Ask Parent About Dating",
+    "author": "ilkavelle",
+    "status": "No Known Issues",
+    "update": "Nov 4, 2024"
+  },
+  {
+    "name": "Ask to Be Boy/Girlfriend",
+    "author": "NerdyDoll",
+    "status": "No Known Issues",
+    "update": "Aug 22, 2025"
+  },
+  {
+    "name": "Ask to Be Friends [Tweak]",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": "Nov 13, 2024"
+  },
+  {
+    "name": "Ask to be WooHoo Partners Situations",
+    "author": "Szemoka",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ask to Brush Teeth",
+    "author": "Amellce",
+    "status": "No Known Issues",
+    "update": "Jul 12, 2025"
+  },
+  {
+    "name": "Ask to Clean and more",
+    "author": "Amellce",
+    "status": "No Known Issues",
+    "update": "Oct 9, 2025"
+  },
+  {
+    "name": "Ask to Cook/Bake/Grill/Mix Drink! (including Cupcakes and Experimental Food)",
+    "author": "LittleMsSam",
+    "status": "Updated",
+    "update": "Jan 11, 2026"
+  },
+  {
+    "name": "Ask to Eat and more",
+    "author": "Amellce",
+    "status": "Updated",
+    "update": "Dec 7, 2025"
+  },
+  {
+    "name": "Ask to Go for a Walk & Bath (Dogs)",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Dec 28, 2024"
+  },
+  {
+    "name": "Ask to Invite Family Member Interaction",
+    "author": "flauschtrud",
+    "status": "Unknown",
+    "update": "Aug 20, 2025"
+  },
+  {
+    "name": "Ask to Just Be Friends Romantic Relationship Fix",
+    "author": "TheFreshSims (BrainBlasted)",
+    "status": "Unknown",
+    "update": "Oct 5, 2025"
+  },
+  {
+    "name": "Ask to Learn How to Kiss [Interaction]",
+    "author": "simkatu",
+    "status": "No Known Issues",
+    "update": "Jul 4, 2025"
+  },
+  {
+    "name": "Ask to Move (Priority) [Tweak]",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": "Nov 13, 2024"
+  },
+  {
+    "name": "Ask to Move In Requirements",
+    "author": "Shino Nox / Scarlet",
+    "status": "Unknown",
+    "update": "Sep 4, 2025"
+  },
+  {
+    "name": "Ask to Read Book",
+    "author": "Amellce",
+    "status": "Updated",
+    "update": "Dec 7, 2025"
+  },
+  {
+    "name": "Ask to Relocate {Mini Mod}",
+    "author": "thatssojordy",
+    "status": "No Known Issues",
+    "update": "Nov 4, 2025"
+  },
+  {
+    "name": "Ask to Repair",
+    "author": "MizoreYukii / SHEnanigans",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Ask to Take Shower/Bath",
+    "author": "Amellce",
+    "status": "No Known Issues",
+    "update": "Oct 9, 2025"
+  },
+  {
+    "name": "Ask to Upgrade",
+    "author": "LittleMsSam",
+    "status": "Updated",
+    "update": "Dec 16, 2025"
+  },
+  {
+    "name": "Ask to Use Toilet",
+    "author": "Amellce",
+    "status": "No Known Issues",
+    "update": "Oct 9, 2025"
+  },
+  {
+    "name": "Ask to Wait Here",
+    "author": "bloombatter",
+    "status": "No Known Issues",
+    "update": "Sep 26, 2025"
+  },
+  {
+    "name": "Ask To Work On Romance Dynamic Fix",
+    "author": "TheFreshSims (BrainBlasted)",
+    "status": "Unknown",
+    "update": "Oct 5, 2025"
+  },
+  {
+    "name": "Ask/Tell Pronouns",
+    "author": "Lumpinou",
+    "status": "No Known Issues",
+    "update": "Aug 31, 2025"
+  },
+  {
+    "name": "askforloan",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "asktoleaveoverhaul",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "ASoIaF Career: City Watch",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "ASoIaF Career: Kingsguard",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": "Dec 17, 2024"
+  },
+  {
+    "name": "ASoIaF Career: Maester",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": "Dec 17, 2024"
+  },
+  {
+    "name": "ASoIaF Careers: Faith of the Seven & the Faith Militant",
+    "author": "AvathePit",
+    "status": "Unknown",
+    "update": "Dec 17, 2024"
+  },
+  {
+    "name": "Asperger's Syndrome Trait",
+    "author": "jimboblia",
+    "status": "Broken",
+    "update": "Oct 2, 2023"
+  },
+  {
+    "name": "Aspergers Trait",
+    "author": "YourFalseHope",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Aspiration Fix [RBF]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Oct 31, 2023"
+  },
+  {
+    "name": "Aspiration Overhaul",
+    "author": "Serra (xosdr)",
+    "status": "No Known Issues",
+    "update": "Nov 3, 2024"
+  },
+  {
+    "name": "Aspiration Refresh",
+    "author": "batsandbabydolls",
+    "status": "Unknown",
+    "update": "Jun 30, 2025"
+  },
+  {
+    "name": "Aspiration Rewards Store Cost Variations",
+    "author": "Simmillercc",
+    "status": "Unknown",
+    "update": "Nov 5, 2025"
+  },
+  {
+    "name": "Assertive & Passive Romance Styles",
+    "author": "tyjokr",
+    "status": "Updated",
+    "update": "Jan 16, 2026"
+  },
+  {
+    "name": "Assign Sleeping Bags",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Assignable Tents",
+    "author": "Maars",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Assorted Mods and New Objects for For Rent Heating and Cooling Stuff",
+    "author": "coolspear",
+    "status": "Unknown",
+    "update": "May 10, 2025"
+  },
+  {
+    "name": "Assorted On/Off Autonomy Switching",
+    "author": "coolspear",
+    "status": "Unknown",
+    "update": "Dec 1, 2024"
+  },
+  {
+    "name": "Astroluxe Instant Repair Cheat",
+    "author": "FernBlades",
+    "status": "No Known Issues",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "Astronaut Work from Home",
+    "author": "NoelleBellefleur",
+    "status": "Unknown",
+    "update": "Mar 16, 2025"
+  },
+  {
+    "name": "Astronaut, Part-Time Career",
+    "author": "Lily-Valley / Arialyx",
+    "status": "No Known Issues",
+    "update": "Aug 25, 2025"
+  },
+  {
+    "name": "Astronomer Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Astronomy Club After-School Activity",
+    "author": "tactical_tuna",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "At Home Manicure Mod",
+    "author": "Meraki",
+    "status": "New",
+    "update": ""
+  },
+  {
+    "name": "Atelier Alchemist Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Athlete Work from Home",
+    "author": "NoelleBellefleur",
+    "status": "Unknown",
+    "update": "Mar 20, 2025"
+  },
+  {
+    "name": "Athletic Career Overhaul",
+    "author": "adeepindigo",
+    "status": "No Known Issues",
+    "update": "Nov 30, 2025"
+  },
+  {
+    "name": "Athletic Outfit Without Overheating or Freezing",
+    "author": "Lorea",
+    "status": "Updated",
+    "update": "Jan 15, 2026"
+  },
+  {
+    "name": "ATICAS - All Traits in CAS",
+    "author": "Mythical_Ascelin",
+    "status": "Unknown",
+    "update": "Oct 22, 2024"
+  },
+  {
+    "name": "ATM Cards and now with real Credit Function! (Update of Zooroo's Mod)",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Mar 12, 2025"
+  },
+  {
+    "name": "Attachment Styles (A Mini Romance Mod)",
+    "author": "ellesimsworld",
+    "status": "No Known Issues",
+    "update": "Oct 2, 2025"
+  },
+  {
+    "name": "Attend Business Trip",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Attended Prom New Milestone",
+    "author": "Lorea",
+    "status": "No Known Issues",
+    "update": "Jan 30, 2025"
+  },
+  {
+    "name": "Attraction Based Crushes",
+    "author": "alisrabbo",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Attraction Renamed",
+    "author": "lazarusinashes",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Aura of Defense Spell",
+    "author": "minervascauldron",
+    "status": "Unknown",
+    "update": "Jul 27, 2025"
+  },
+  {
+    "name": "Auryn",
+    "author": "CodeBleu",
+    "status": "Unknown",
+    "update": "Oct 7, 2025"
+  },
+  {
+    "name": "Author Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Autism Spectrum Disorder (ASD) Trait",
+    "author": "FrequentlyBasic / MSQSIMS",
+    "status": "No Known Issues",
+    "update": "Oct 24, 2025"
+  },
+  {
+    "name": "Autism Spectrum Disorder (Trait)",
+    "author": "RookeryDesigns / YourFalseHope",
+    "status": "No Known Issues",
+    "update": "Sep 23, 2025"
+  },
+  {
+    "name": "Auto Beach Activity Tweak",
+    "author": "sims4me (Bienchen)",
+    "status": "Updated",
+    "update": "Jan 25, 2026"
+  },
+  {
+    "name": "Auto Brush Teeth [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Aug 13, 2025"
+  },
+  {
+    "name": "Auto Check Toddler & Infants Tweaks [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "Auto Disciplined Not Played Adult/Elder Cats [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Auto Disciplined Not Played Adult/Elder Dogs [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Auto Employees | Custom Lot Trait",
+    "author": "LittleMsSam",
+    "status": "Updated",
+    "update": "Jan 11, 2026"
+  },
+  {
+    "name": "Auto fill pet bowls",
+    "author": "Krzydek",
+    "status": "Unknown",
+    "update": "Oct 9, 2025"
+  },
+  {
+    "name": "Auto Grab Drink when Eating [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Oct 23, 2024"
+  },
+  {
+    "name": "Auto Open Umbrella on Rainy Days Only [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Nov 24, 2023"
+  },
+  {
+    "name": "Auto Pause On Pie Menu",
+    "author": "thepancake1 and MizoreYukii",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Auto Put Crafts in Inventory for the Kids Activity Table [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Sep 18, 2025"
+  },
+  {
+    "name": "Auto Put Painting in Inventory [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Oct 19, 2025"
+  },
+  {
+    "name": "Auto Service Career",
+    "author": "Andirz",
+    "status": "No Known Issues",
+    "update": "Jul 5, 2025"
+  },
+  {
+    "name": "Auto Shorter Teens",
+    "author": "Menaceman44",
+    "status": "Unknown",
+    "update": "Aug 10, 2025"
+  },
+  {
+    "name": "Auto Social Tweaks",
+    "author": "FrequentlyBasic",
+    "status": "Updated",
+    "update": "Dec 27, 2025"
+  },
+  {
+    "name": "Auto Use Picnic Table when eating [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Sep 15, 2024"
+  },
+  {
+    "name": "Autofill Personality Traits",
+    "author": "Andirz",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Autolight Fireplace when it is cold freezing outside [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Nov 4, 2025"
+  },
+  {
+    "name": "Automatic Beard Shadows",
+    "author": "tyjokr",
+    "status": "No Known Issues",
+    "update": "Jun 27, 2025"
+  },
+  {
+    "name": "Automatic Body Hair",
+    "author": "tyjokr",
+    "status": "No Known Issues",
+    "update": "Jul 9, 2025"
+  },
+  {
+    "name": "Automatic Characteristic Preferences",
+    "author": "adeepindigo",
+    "status": "No Known Issues",
+    "update": "Nov 27, 2024"
+  },
+  {
+    "name": "Automatic Decorations",
+    "author": "FernBlades",
+    "status": "No Known Issues",
+    "update": "Nov 25, 2025"
+  },
+  {
+    "name": "Automatic Preferences",
+    "author": "lotharihoe",
+    "status": "N/A",
+    "update": "Oct 7, 2025"
+  },
+  {
+    "name": "Automatic Sleep Masks",
+    "author": "Natabear",
+    "status": "No Known Issues",
+    "update": "Aug 23, 2025"
+  },
+  {
+    "name": "Automatic Stereo System",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Dec 6, 2024"
+  },
+  {
+    "name": "Automatic Thermostat (Seasons)",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Sep 10, 2025"
+  },
+  {
+    "name": "Automatically change into everyday clothes (after waking up / after hot tub)",
+    "author": "halapeco",
+    "status": "No Known Issues",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "Autonomous ‘Call Off Wedding’ Enabled For Wedding Events",
+    "author": "MissyHissy",
+    "status": "Unknown",
+    "update": "Jul 24, 2024"
+  },
+  {
+    "name": "Autonomous Animal Breeding",
+    "author": "Szemoka",
+    "status": "Unknown",
+    "update": "Mar 12, 2025"
+  },
+  {
+    "name": "Autonomous \"Ask to Move In\"",
+    "author": "PolarBearSims",
+    "status": "Unknown",
+    "update": "May 26, 2025"
+  },
+  {
+    "name": "Autonomous Beekeeping & Custom Club Interaction",
+    "author": "siriussimmer",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Autonomous Call Off Wedding",
+    "author": "simsmodelsimmer",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Autonomous First Kiss",
+    "author": "sims4me (Bienchen)",
+    "status": "Unknown",
+    "update": "Sep 20, 2025"
+  },
+  {
+    "name": "Autonomous First Kiss!",
+    "author": "PolarBearSims",
+    "status": "Unknown",
+    "update": "May 26, 2025"
+  },
+  {
+    "name": "Autonomous Gardening",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Nov 4, 2025"
+  },
+  {
+    "name": "Autonomous go Jogging when Sims are Stressed & Children can Jog too",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "Autonomous Parenthood Traits Interactions",
+    "author": "FrequentlyBasic",
+    "status": "No Known Issues",
+    "update": "Oct 11, 2025"
+  },
+  {
+    "name": "Autonomous Pay Bills at Computers",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Feb 25, 2025"
+  },
+  {
+    "name": "Autonomous Proposals!",
+    "author": "PolarBearSims",
+    "status": "Unknown",
+    "update": "May 24, 2025"
+  },
+  {
+    "name": "Autonomous Repairs",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Jun 24, 2025"
+  },
+  {
+    "name": "Autonomous Social Bunny Deactivation with Extreme Prejudice",
+    "author": "coolspear",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Autonomous Upgrade of Objects when Focused",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Autonomous Vampires",
+    "author": "PolarBearSims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Autonomous Weddings!",
+    "author": "PolarBearSims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "autonomousboygirlfriend",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "autonomousespressobar",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "autonomouspickpocket",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "autonomoussharebignews",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "autonomousslippyslidetweak",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Autonomy & Interaction On/Off Switching - Assorted Objects",
+    "author": "coolspear",
+    "status": "Unknown",
+    "update": "Jul 15, 2025"
+  },
+  {
+    "name": "Autonomy & Interaction On/Off Switching - Better Musical Instruments",
+    "author": "coolspear",
+    "status": "Unknown",
+    "update": "Dec 5, 2024"
+  },
+  {
+    "name": "Autonomy turned off for Ask Parents about Dating (Ilkavelle)",
+    "author": "SonozakiSisters",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Autonomy turned off for Growing Pains by thatssojordy",
+    "author": "SonozakiSisters",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Autonomy Tweaks [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": "Jan 14, 2025"
+  },
+  {
+    "name": "autoweddingring",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Autumn Hollow",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Autumnal Tea Time",
+    "author": "Around the Sims 4",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Available Lock the Camera Directly from Sim",
+    "author": "bloombatter",
+    "status": "No Known Issues",
+    "update": "Dec 26, 2024"
+  },
+  {
+    "name": "Aviodora",
+    "author": "NerdyDoll",
+    "status": "No Known Issues",
+    "update": "Oct 14, 2025"
+  },
+  {
+    "name": "Awards Tweaks",
+    "author": "ilkavelle",
+    "status": "No Known Issues",
+    "update": "Sep 20, 2025"
+  },
+  {
+    "name": "awayactions",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Axolotl Breeding Skill",
+    "author": "baniduhaine",
+    "status": "No Known Issues",
+    "update": "Nov 26, 2025"
+  },
+  {
+    "name": "B-Gone Potions FIXES",
+    "author": "BrickLion",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "B.A.M.N - Ode to Malcolm X (Trait)",
+    "author": "MuvaSimmer",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "B.S.P.S - Black Simerican Princesses (Trait)",
+    "author": "MuvaSimmer",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Baby Cheats",
+    "author": "Amethyst-Lilac",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Baby Daddy Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Baby Drama",
+    "author": "plumlace",
+    "status": "Unknown",
+    "update": "Apr 17, 2025"
+  },
+  {
+    "name": "Baby Food Steamer",
+    "author": "Balkanika",
+    "status": "Unknown",
+    "update": "Mar 20, 2025"
+  },
+  {
+    "name": "Baby Momma & Baby Daddy Trait",
+    "author": "MuvaSimmer",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Baby Shower Bar Menu",
+    "author": "bloombatter",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Baby Shower Event",
+    "author": "Rex (konansock) / Brittpinkiesims",
+    "status": "Unknown",
+    "update": "Dec 17, 2023"
+  },
+  {
+    "name": "Baby Shower Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Baby Steamer & Toddler food",
+    "author": "Around the Sims 4",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Baby/Toddler Trait Bundle",
+    "author": "Snowiii95",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Babymoon Mod - Adventure Moments",
+    "author": "SimwithShan",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Babysitting Gigs",
+    "author": "adeepindigo",
+    "status": "No Known Issues",
+    "update": "Jul 11, 2025"
+  },
+  {
+    "name": "Babysitting Job Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bachelor of Sports",
+    "author": "Ravasheen",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bachelor(ette) Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bachelor(ette) Party Event",
+    "author": "Rex (konansock) / Brittpinkiesims",
+    "status": "Unknown",
+    "update": "Aug 28, 2025"
+  },
+  {
+    "name": "Background Stories",
+    "author": "adeepindigo",
+    "status": "No Known Issues",
+    "update": "Sep 24, 2025"
+  },
+  {
+    "name": "Backyard Barbeque Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Backyard Carnival Modpack",
+    "author": "Cepzid (Zulf)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bad Environment Buff Tweak [RSM]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Bad Grades are OK",
+    "author": "MizoreYukii / Scarlet",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bad Habits Trait Pack #1",
+    "author": "thatssojordy",
+    "status": "No Known Issues",
+    "update": "May 13, 2025"
+  },
+  {
+    "name": "Bad Luck Kitchen Fires Restored",
+    "author": "Waffle's Mix-Ins",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Bad Luck Makes Sims Slip",
+    "author": "Waffle's Mix-Ins",
+    "status": "No Known Issues",
+    "update": "Sep 8, 2025"
+  },
+  {
+    "name": "Bad Townies Fix",
+    "author": "Just Eva",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bad Translations",
+    "author": "Frankk",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Bake Everything in Any Oven Mod",
+    "author": "Simularity",
+    "status": "No Known Issues",
+    "update": "Jul 10, 2025"
+  },
+  {
+    "name": "Bake Sale Event",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Baked Goods",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": "Jul 22, 2025"
+  },
+  {
+    "name": "Baker Aspiration",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Dec 19, 2024"
+  },
+  {
+    "name": "Baker Career",
+    "author": "HexeSims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Baker Career",
+    "author": "Snowiii95",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Baker Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Baker Career",
+    "author": "Lily-Valley",
+    "status": "No Known Issues",
+    "update": "Aug 25, 2025"
+  },
+  {
+    "name": "Baker Career",
+    "author": "choossims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Baker Trait",
+    "author": "xbrettface",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bakery (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bakery Lot Trait for Retail Lots",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Dec 31, 2024"
+  },
+  {
+    "name": "Baking Posture Error Crackegg - Measurecup Fix [RBF]",
+    "author": "LittleMsSam",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Balanced And Fair Reward Store Traits",
+    "author": "diemilchschnitte / Radiophobe",
+    "status": "No Known Issues",
+    "update": "Sep 19, 2025"
+  },
+  {
+    "name": "Balanced Aspiration Reward Store",
+    "author": "BrickLion",
+    "status": "Unknown",
+    "update": "Aug 3, 2024"
+  },
+  {
+    "name": "Balanced Calories",
+    "author": "Natabear",
+    "status": "Updated",
+    "update": "Dec 3, 2025"
+  },
+  {
+    "name": "Balanced Life",
+    "author": "Vicky Sims (chingyu1023)",
+    "status": "Unknown",
+    "update": "Jul 3, 2025"
+  },
+  {
+    "name": "Balanced Self Care Interactions",
+    "author": "BrickLion",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Balkan Music Station",
+    "author": "Aleki37",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Baller Career",
+    "author": "JDaQueen",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Ballet Barre Mod",
+    "author": "Mod Revivor / Mercuryfoam",
+    "status": "No Known Issues",
+    "update": "Oct 27, 2025"
+  },
+  {
+    "name": "Ballet Club School Activity",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Ballet Dancer Career",
+    "author": "BosseladyTV",
+    "status": "Updated",
+    "update": "Jan 14, 2026"
+  },
+  {
+    "name": "Ballet Skill",
+    "author": "JaneSimsten",
+    "status": "Unknown",
+    "update": "Mar 12, 2025"
+  },
+  {
+    "name": "Ballet Studio (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Ballroom Dance Mod",
+    "author": "Mod Revivor / Mercuryfoam",
+    "status": "No Known Issues",
+    "update": "Oct 20, 2025"
+  },
+  {
+    "name": "Banana Leaf Crafts",
+    "author": "icemunmun",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bandaid Fix for Missing Pet Stuff in CAS",
+    "author": "SDMsims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bangin' Trait",
+    "author": "MuvaSimmer",
+    "status": "Obsolete",
+    "update": ""
+  },
+  {
+    "name": "Bank (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bank Lot Trait (for Investing)",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Jun 2, 2024"
+  },
+  {
+    "name": "Banker Career",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Banker Career",
+    "author": "Losti236",
+    "status": "Broken",
+    "update": "Aug 19, 2024"
+  },
+  {
+    "name": "banquettabletuning",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bar Drinker Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bar Mod",
+    "author": "Fissure",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Barbie Girl Trait",
+    "author": "m0therx0fxcha0s",
+    "status": "No Known Issues",
+    "update": "Jun 23, 2024"
+  },
+  {
+    "name": "Bareback Horse Riding",
+    "author": "Waffle's Mix-Ins",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "barflykaraoke",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "barnightrevamp",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bartender Career",
+    "author": "choossims",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "bartenderfix",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "bartendingbufffix",
+    "author": "sims4me (Bienchen)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Baseball Field (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Basegame Screens as Dressers",
+    "author": "ElianasDiaries",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Basemental Addons",
+    "author": "Kuttoe",
+    "status": "Updated",
+    "update": "Jan 12, 2026"
+  },
+  {
+    "name": "Basemental Alcohol",
+    "author": "Basemental",
+    "status": "No Known Issues",
+    "update": "Mar 1, 2024"
+  },
+  {
+    "name": "Basemental Drugs",
+    "author": "Basemental",
+    "status": "Updated",
+    "update": "Jan 22, 2026"
+  },
+  {
+    "name": "Basemental Eco Hacks",
+    "author": "Basemental",
+    "status": "Updated",
+    "update": "Jan 21, 2026"
+  },
+  {
+    "name": "Basemental Gambling",
+    "author": "Basemental",
+    "status": "No Known Issues",
+    "update": "Oct 24, 2025"
+  },
+  {
+    "name": "Basemental Gangs",
+    "author": "Basemental",
+    "status": "No Known Issues",
+    "update": "Jul 2, 2025"
+  },
+  {
+    "name": "Basic Burns",
+    "author": "Kuttoe",
+    "status": "Unknown",
+    "update": "Jul 22, 2025"
+  },
+  {
+    "name": "Basic Information",
+    "author": "RookeryDesigns / YourFalseHope",
+    "status": "No Known Issues",
+    "update": "Sep 23, 2025"
+  },
+  {
+    "name": "Basketball Club (After School Activity)",
+    "author": "Rex (konansock)",
+    "status": "Updated",
+    "update": "Jan 21, 2026"
+  },
+  {
+    "name": "Basketball Court (Lot Trait)",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Basketball Practice",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": "Mar 8, 2025"
+  },
+  {
+    "name": "Basketball School Activity",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Batch Cook Toggle",
+    "author": "bloombatter",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Bath Holiday Tradition",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bath Soak Details",
+    "author": "LittleMsSam / Scarlet",
+    "status": "No Known Issues",
+    "update": ""
+  },
+  {
+    "name": "Bath Soaks Effects Tweak",
+    "author": "Aravyn",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bathing pet in the sink",
+    "author": "Szemoka",
+    "status": "Unknown",
+    "update": "Mar 12, 2025"
+  },
+  {
+    "name": "Bathroom Clutter Kit Fixes",
+    "author": "littledica",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Bathroom Clutter Kits Become Functional",
+    "author": "Cepzid (Zulf)",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Bathtime Fix For Toddlers",
+    "author": "juniormints74",
+    "status": "Unknown",
+    "update": "Jul 20, 2023"
+  },
+  {
+    "name": "Batman Career",
+    "author": "atillathesim",
+    "status": "Broken",
+    "update": ""
+  },
+  {
+    "name": "Battery Powered Boombox",
+    "author": "HelenTheHunter",
+    "status": "No Known Issues",
+    "update": "Oct 8, 2025"
+  },
+  {
+    "name": "Batuu aliens no terrible face",
+    "author": "Szemoka",
+    "status": "Unknown",
+    "update": "Mar 12, 2025"
+  },
+  {
+    "name": "Batuu Droid Stereo Tweak",
+    "author": "HelenTheHunter",
+    "status": "No Known Issues",
+    "update": "Jun 20, 2025"
+  },
+  {
+    "name": "BBQ Holiday Tradition Fixes",
+    "author": "sims4me (Bienchen)",
+    "status": "Updated",
+    "update": "Dec 6, 2025"
+  },
+  {
+    "name": "BBQ Lover Trait",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "BDSM Mods",
+    "author": "QuinSims",
+    "status": "Updated",
+    "update": "Dec 11, 2025"
+  },
+  {
+    "name": "Be A Burglar Mod",
+    "author": "NeedCoffee4That",
+    "status": "Unknown",
+    "update": "Jul 1, 2025"
+  },
+  {
+    "name": "Be a little serious",
+    "author": "Onebeld",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Be Quiet Please",
+    "author": "BosseladyTV",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Be Romantic and Woohoo Despite Mood of Sims",
+    "author": "Manderz0630",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Beach Bum Aspiration Fix",
+    "author": "sims4me (Bienchen)",
+    "status": "Unknown",
+    "update": ""
+  },
+  {
+    "name": "Beach Cleanup Holiday Tradition",
+    "author": "KiaraSims4Mods",
+    "status": "N/A",
+    "update": ""
+  },
+  {
+    "name": "Beach Day Event",
+    "author": "CrispyTrees",
+    "status": "Unknown",
+    "update": ""
+  }
+]
