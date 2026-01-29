@@ -38,7 +38,6 @@
             filter: grayscale(0%);
         }
         
-        /* Loader Overlay */
         #loader { 
             display: none; 
             position: fixed; 
@@ -59,7 +58,6 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Success Modal */
         #successModal {
             display: none;
             position: fixed;
@@ -85,6 +83,17 @@
             max-height: 0;
             opacity: 0;
             margin-bottom: 0;
+        }
+
+        #db-error-msg {
+            display: none;
+            background: #450a0a;
+            border: 1px solid #991b1b;
+            color: #fca5a5;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
         }
     </style>
 </head>
@@ -130,7 +139,7 @@
     <main class="max-w-6xl mx-auto w-full flex-grow">
         <div id="db-error-msg" class="max-w-6xl mx-auto glass-card mb-8">
             <strong id="error-title" class="text-lg text-red-400 tracking-widest uppercase">Database Error!</strong><br>
-            <p id="error-body" class="text-sm mt-2 opacity-80">Could not find 'scarlet_db_full.json'.</p>
+            <p id="error-body" class="text-sm mt-2 opacity-80">Could not find 'scarlet_db_full.json'. Please make sure the file is in the same folder as index.html.</p>
         </div>
 
         <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
@@ -234,7 +243,6 @@
         </div>
         <p id="ui-donate-sub" class="text-slate-500 text-sm mb-6 font-medium italic">Voluntary project support</p>
         
-        <!-- Bug Report Button -->
         <div class="mb-12 text-center">
             <a href="mailto:lupus1908@gmail.com" id="ui-bug-report" class="text-xs font-bold text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-widest border-b border-blue-500/20 pb-1">
                 Found an error? Contact me
@@ -255,8 +263,10 @@
     </footer>
 
     <script>
-        let db = [];
+        let rawDb = [];
+        let processedDb = [];
         let userFiles = [];
+        let simpleUserFiles = [];
         let currentLang = 'en';
         let scanPerformed = false;
 
@@ -279,7 +289,7 @@
                 emptyMsg: "Please upload your /Mods folder to see the results.",
                 noResultsMsg: "No matching mods found in the database for your folder.",
                 errorTitle: "Database Error!",
-                errorBody: "Could not load 'scarlet_db_full.json'.",
+                errorBody: "Could not load 'scarlet_db_full.json'. Make sure the file exists and you are using a server.",
                 alertsTitle: "Critical Issues Found",
                 removeBtn: "REMOVE NOW",
                 noFolderSelected: "No folder selected",
@@ -291,7 +301,9 @@
                 countLabel: "MODS FOUND",
                 successTitle: "Congratulations!",
                 successBody: "All your scanned mods are up-to-date and compatible with the current game version.",
-                successBtn: "Great!"
+                successBtn: "Great!",
+                dbLoading: "Loading Database...",
+                dbError: "Database Not Loaded"
             },
             pl: {
                 title: "Sims 4 Mod Checker",
@@ -311,7 +323,7 @@
                 emptyMsg: "Wybierz swój folder /Mods, aby zobaczyć wyniki skanowania.",
                 noResultsMsg: "Nie znaleziono Twoich modów w bazie danych.",
                 errorTitle: "Błąd Bazy Danych!",
-                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'.",
+                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'. Upewnij się, że plik jest w tym samym folderze.",
                 alertsTitle: "Znaleziono Krytyczne Problemy",
                 removeBtn: "USUŃ TERAZ",
                 noFolderSelected: "Nie wybrano folderu",
@@ -323,32 +335,47 @@
                 countLabel: "ZNALEZIONO",
                 successTitle: "Gratulacje!",
                 successBody: "Wszystkie Twoje przeskanowane mody są aktualne i zgodne z najnowszą wersją gry.",
-                successBtn: "Super!"
+                successBtn: "Super!",
+                dbLoading: "Wczytywanie bazy...",
+                dbError: "Baza nie została wczytana"
             }
         };
 
+        function simplify(str) {
+            if (!str) return '';
+            return str.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+        }
+
         async function init() {
+            const btn = document.getElementById('analyzeBtn');
+            btn.innerText = langData[currentLang].dbLoading;
+            
             try {
-                const fileName = 'scarlet_db_full.json';
-                const response = await fetch(fileName);
+                const response = await fetch('scarlet_db_full.json');
                 if (!response.ok) throw new Error("File not found");
-                db = await response.json();
+                rawDb = await response.json();
+                
+                // PERFORMANCE OPTIMIZATION: Process simplified names once
+                processedDb = rawDb.map(m => ({
+                    ...m,
+                    sName: simplify(m.name)
+                }));
+
                 populateGenres();
                 document.getElementById('db-error-msg').style.display = 'none';
+                btn.innerText = langData[currentLang].btnAnalyze;
             } catch (e) { 
                 console.error("Critical: Database load failed", e);
-                const errorBox = document.getElementById('db-error-msg');
-                if(errorBox) errorBox.style.display = 'block';
+                document.getElementById('db-error-msg').style.display = 'block';
+                btn.innerText = langData[currentLang].dbError;
                 updateErrorText();
             }
         }
 
         function updateErrorText() {
             const t = langData[currentLang];
-            const titleEl = document.getElementById('error-title');
-            const bodyEl = document.getElementById('error-body');
-            if (titleEl) titleEl.innerText = t.errorTitle;
-            if (bodyEl) bodyEl.innerText = t.errorBody;
+            document.getElementById('error-title').innerText = t.errorTitle;
+            document.getElementById('error-body').innerText = t.errorBody;
         }
 
         function setLang(lang) {
@@ -364,7 +391,13 @@
             document.getElementById('th-author').innerText = t.thAuthor;
             document.getElementById('th-category').innerText = t.thCat;
             document.getElementById('th-status').innerText = t.thStatus;
-            document.getElementById('analyzeBtn').innerText = t.btnAnalyze;
+            
+            if (rawDb.length > 0) {
+                document.getElementById('analyzeBtn').innerText = t.btnAnalyze;
+            } else {
+                document.getElementById('analyzeBtn').innerText = t.dbError;
+            }
+
             document.getElementById('ui-loader-text').innerText = t.loaderText;
             document.getElementById('ui-donate-sub').innerText = t.donateSub;
             document.getElementById('ui-credits-title').innerText = t.creditsTitle;
@@ -372,7 +405,6 @@
             document.getElementById('ui-alerts-title').childNodes[2].textContent = t.alertsTitle;
             document.getElementById('ui-table-title').innerText = t.tableTitle;
             document.getElementById('ui-bug-report').innerText = t.bugReport;
-            
             document.getElementById('ui-success-title').innerText = t.successTitle;
             document.getElementById('ui-success-body').innerText = t.successBody;
             document.getElementById('ui-success-btn').innerText = t.successBtn;
@@ -424,7 +456,7 @@
         }
 
         function populateGenres() {
-            const genres = [...new Set(db.map(m => m.category))].filter(Boolean).sort();
+            const genres = [...new Set(processedDb.map(m => m.category))].filter(Boolean).sort();
             const select = document.getElementById('genreFilter');
             genres.forEach(g => {
                 const opt = document.createElement('option');
@@ -433,19 +465,16 @@
             });
         }
 
-        // HEAVILY IMPROVED SIMPLIFICATION FOR MATCHING
-        function simplify(str) {
-            return (str || '').toLowerCase()
-                .replace(/[^a-z0-9]/g, ''); // Remove everything except letters and numbers
-        }
-
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             if(files.length > 0) {
                 userFiles = files
                     .filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'))
-                    .map(f => f.name.replace(/\.(package|ts4script)$/, '')); // Remove extension only here
+                    .map(f => f.name.replace(/\.(package|ts4script)$/, ''));
                 
+                // PERFORMANCE OPTIMIZATION: Simplify filenames once here
+                simpleUserFiles = userFiles.map(f => simplify(f));
+
                 document.getElementById('analyzeBtn').disabled = false;
                 const statusLabel = document.getElementById('ui-folder-status');
                 statusLabel.innerText = langData[currentLang].folderSelected;
@@ -456,50 +485,46 @@
         });
 
         function startAnalysis() {
-            if (db.length === 0) return;
+            if (processedDb.length === 0) return;
             const loader = document.getElementById('loader');
             loader.style.display = 'flex';
             scanPerformed = true;
             setTimeout(() => {
                 filterAndRender(true);
                 loader.style.display = 'none';
-            }, 1200);
+            }, 600);
         }
 
         function filterAndRender(withScroll) {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const genre = document.getElementById('genreFilter').value;
             
-            let filtered = db.filter(m => {
+            // Step 1: Base database filtering
+            let filtered = processedDb.filter(m => {
+                const matchesGenre = genre === 'All' || m.category === genre;
                 const nameMatch = (m.name || '').toLowerCase().includes(term);
                 const authorMatch = (m.author || '').toLowerCase().includes(term);
-                const matchesSearch = nameMatch || authorMatch;
-                const matchesGenre = genre === 'All' || m.category === genre;
-                return matchesSearch && matchesGenre;
+                return matchesGenre && (nameMatch || authorMatch);
             });
 
-            // FUZZY MATCHING LOGIC
+            // Step 2: Folder matching logic (Optimized)
             if (userFiles.length > 0) {
                 filtered = filtered.filter(m => {
-                    const simpleDbName = simplify(m.name);
-                    if (simpleDbName.length < 3) return false;
-                    
-                    return userFiles.some(userFile => {
-                        const simpleUserFile = simplify(userFile);
-                        // Check if one contains the other after simplification
-                        return simpleUserFile.includes(simpleDbName) || simpleDbName.includes(simpleUserFile);
-                    });
+                    const sDb = m.sName;
+                    if (sDb.length < 3) return false;
+                    // Fast check against pre-simplified folder list
+                    return simpleUserFiles.some(sU => sU.includes(sDb) || sDb.includes(sU));
                 });
             } else if (term === '' && genre === 'All') {
                 filtered = [];
             }
 
+            // Step 3: De-duplicate and Sort
             const uniqueMap = new Map();
             filtered.forEach(item => {
                 if (!uniqueMap.has(item.name)) uniqueMap.set(item.name, item);
             });
-            const uniqueList = Array.from(uniqueMap.values());
-            const sorted = uniqueList.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
+            const sorted = Array.from(uniqueMap.values()).sort((a, b) => (a.author || '').localeCompare(b.author || ''));
             
             const critical = sorted.filter(m => {
                 const s = (m.status || '').toLowerCase();
@@ -507,13 +532,12 @@
             });
             const stable = sorted.filter(m => !critical.includes(m));
 
-            // Logic to trigger Success Modal
             if (withScroll && scanPerformed && critical.length === 0 && stable.length > 0) {
                 document.getElementById('successModal').style.display = 'flex';
             }
 
             const counterEl = document.getElementById('ui-counter');
-            if (scanPerformed && sorted.length >= 0) {
+            if (scanPerformed) {
                 counterEl.innerText = `${sorted.length} ${langData[currentLang].countLabel}`;
                 counterEl.classList.remove('hidden');
             } else {
