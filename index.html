@@ -16,19 +16,19 @@
         .spinner { width: 45px; height: 45px; border: 4px solid #1e293b; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-        .page-btn { background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 8px; font-size: 11px; transition: 0.2s; font-weight: 700; }
-        .page-btn:hover { background: #3b82f6; color: white; }
-        .page-btn.active { background: #3b82f6; color: white; }
+        .page-btn { background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 8px; font-size: 11px; transition: 0.2s; font-weight: 700; border: 1px solid rgba(255,255,255,0.1); }
+        .page-btn:hover:not(:disabled) { background: #3b82f6; color: white; border-color: transparent; }
+        .page-btn.active { background: #3b82f6; color: white; border-color: transparent; }
         .flag-btn { opacity: 0.4; transition: 0.2s; filter: grayscale(1); cursor: pointer; }
         .flag-btn.active { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.7 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.8 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Smart Analysis In Progress...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">High Precision Analysis In Progress...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-2xl mt-1">0%</div>
     </div>
 
@@ -54,10 +54,10 @@
                     </button>
                 </div>
                 <div class="space-y-1.5">
-                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Search Results</label>
-                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Filter results..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500 font-medium">
+                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Filter Identified</label>
+                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search results..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg shadow-blue-900/10 italic">Run Analysis</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg italic">Analyze Mods Only</button>
             </div>
         </section>
 
@@ -67,18 +67,18 @@
                 <p id="val-total" class="text-xl font-black text-white italic">0</p>
             </div>
             <div class="glass-card p-4 text-center border-b-2 border-red-500">
-                <p id="label-broken" class="text-[8px] font-black text-slate-500 uppercase">Broken</p>
+                <p id="label-broken" class="text-[8px] font-black text-slate-500 uppercase">Issues</p>
                 <p id="val-broken" class="text-xl font-black text-red-400 italic">0</p>
             </div>
             <div class="glass-card p-4 text-center border-b-2 border-green-500">
-                <p id="label-ok" class="text-[8px] font-black text-slate-500 uppercase">Safe</p>
+                <p id="label-ok" class="text-[8px] font-black text-slate-500 uppercase">Up-to-date</p>
                 <p id="val-ok" class="text-xl font-black text-green-400 italic">0</p>
             </div>
         </div>
 
         <div id="resultsContent" class="mb-20 min-h-[300px]">
             <div id="empty-state" class="text-center p-20 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Select /Mods folder to begin. CC is automatically ignored.</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Waiting for folder upload (16k+ files).</p>
             </div>
             <div id="list-container" class="space-y-2"></div>
             <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-10 hidden"></div>
@@ -91,18 +91,21 @@
             <p id="ui-donate-sub" class="mt-4 italic text-xs text-slate-500">This tool is free thanks to your support.</p>
         </div>
         
-        <div class="glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
+        <div class="glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-[9px] mb-3 tracking-widest not-italic">Sources & Compliance</h4>
-            <p id="ui-credits-desc">Data provided by <strong>Scarlet's Realm</strong>. This tool complies with EA's Mod Policy by not distributing mod files, only verifying their status. Custom Content (CC) like hair, clothing, and furniture is not tracked.</p>
-            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic hover:underline">Contact / Bug Report</a></div>
+            <p id="ui-credits-desc">Data from <strong>Scarlet's Realm</strong>. This tool complies with EA's Mod Policy. Custom Content (hair, furniture) is automatically ignored.</p>
+            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Contact Author</a></div>
         </div>
     </footer>
 
     <script>
         let processedDb = []; let userFiles = []; let currentLang = 'en';
-        let allMatches = []; let currentPage = 1; const perPage = 15;
-        // CC Keywords to ignore
-        const ccIgnore = ["hair", "dress", "skirt", "shoes", "makeup", "accessory", "furniture", "deco", "bed", "chair", "wall", "floor", "eyelashes", "skin", "eyes"];
+        let allMatches = []; let filteredResults = []; let currentPage = 1; const perPage = 15;
+        
+        // WORDS TO IGNORE IN MATCHING TO PREVENT FALSE POSITIVES
+        const noise = ["the", "sims", "mods", "pack", "mod", "game", "addon", "update", "v1", "v2", "version", "traits", "interactions"];
+        // CC TO IGNORE
+        const ccTags = ["hair", "dress", "skirt", "shoes", "makeup", "accessory", "furniture", "deco", "bed", "chair", "wall", "floor", "eyelashes", "skin", "eyes"];
 
         function clean(s) { return s ? s.toString().toLowerCase().replace(/'s\b/g, '').replace(/[^a-z0-9]/g, '') : ''; }
 
@@ -112,22 +115,22 @@
                 const data = await response.json();
                 processedDb = data.map(m => {
                     const name = m.name || m["Mod Name"] || "";
-                    // Split mod name into unique tokens for better matching
-                    const tokens = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 3);
+                    // Create un-noised precision anchor
+                    const tokens = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 3 && !noise.includes(w));
                     return {
                         name, author: m.author || m["Creator"] || "Unknown",
                         status: m.status || m["Patch Status"] || "Unknown",
                         sName: clean(name), tokens: tokens
                     };
-                }).filter(m => m.sName.length > 3);
+                }).filter(m => m.sName.length > 5); // Minimum name length to identify a mod
                 setLang('en');
-            } catch (e) { console.error("Database failed to load."); }
+            } catch (e) { console.error("Database Load Error"); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            // CC Filtering Logic: ignore files containing CC tags
-            userFiles = files.filter(f => !ccIgnore.some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
+            // IGNORE CC
+            userFiles = files.filter(f => !ccTags.some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
             document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files (CC Ignored)`;
             document.getElementById('analyzeBtn').disabled = false;
         });
@@ -137,25 +140,23 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const foundMap = new Map();
-            const total = processedDb.length;
             const chunkSize = 400;
 
-            for (let i = 0; i < total; i += chunkSize) {
+            for (let i = 0; i < processedDb.length; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // SMART MATCH ENGINE
-                    // 1. Check if full cleaned name matches
-                    // 2. OR check if at least 2 tokens from mod name appear in the same filename
-                    const match = userFiles.some(f => {
+                    // ULTRA-PRECISION MATCH
+                    // Mod is found ONLY if its full cleaned name or at least 2 long unique tokens are in a file
+                    const isPresent = userFiles.some(f => {
                         if (f.includes(m.sName)) return true;
                         if (m.tokens.length >= 2) {
                             return m.tokens.filter(t => f.includes(t)).length >= 2;
                         }
                         return false;
                     });
-                    if (match) foundMap.set(m.name, m);
+                    if (isPresent) foundMap.set(m.name, m);
                 });
-                progress.innerText = `${Math.round((i / total) * 100)}%`;
+                progress.innerText = `${Math.round((i / processedDb.length) * 100)}%`;
             }
 
             allMatches = Array.from(foundMap.values()).sort((a,b) => a.name.localeCompare(b.name));
@@ -165,36 +166,36 @@
 
         function renderDashboard() {
             const term = clean(document.getElementById('searchInput').value);
-            const filtered = term ? allMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : allMatches;
+            filteredResults = term ? allMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : allMatches;
             
-            const brokenCount = filtered.filter(m => /(broken|obsolete|issue)/i.test(m.status)).length;
+            const brokenCount = filteredResults.filter(m => /(broken|obsolete|issue)/i.test(m.status)).length;
             document.getElementById('summaryRow').classList.remove('hidden');
             document.getElementById('empty-state').classList.add('hidden');
-            document.getElementById('val-total').innerText = filtered.length;
+            document.getElementById('val-total').innerText = filteredResults.length;
             document.getElementById('val-broken').innerText = brokenCount;
-            document.getElementById('val-ok').innerText = filtered.length - brokenCount;
+            document.getElementById('val-ok').innerText = filteredResults.length - brokenCount;
 
-            displayPage(1, filtered);
+            displayPage(1);
         }
 
-        function displayPage(page, data) {
+        function displayPage(page) {
             currentPage = page;
             const container = document.getElementById('list-container');
-            const slice = data.slice((page-1)*perPage, page*perPage);
+            const slice = filteredResults.slice((page-1)*perPage, page*perPage);
             
             container.innerHTML = slice.map(m => {
                 const isErr = /(broken|obsolete|issue)/i.test(m.status);
                 return `
-                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500 shadow-lg shadow-red-900/10' : 'border-blue-500/30'}">
+                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500 shadow-lg' : 'border-blue-500/30'}">
                     <div class="overflow-hidden">
                         <h4 class="text-white font-bold text-xs truncate leading-tight">${m.name}</h4>
-                        <p class="text-[8px] text-slate-500 uppercase mt-1 tracking-widest italic">${m.author}</p>
+                        <p class="text-[8px] text-slate-500 uppercase mt-0.5 tracking-widest italic">${m.author}</p>
                     </div>
                     <span class="status-badge ${isErr ? 'bg-err' : 'bg-ok'} shrink-0">${m.status}</span>
                 </div>`;
             }).join('');
 
-            const pages = Math.ceil(data.length / perPage);
+            const pages = Math.ceil(filteredResults.length / perPage);
             const nav = document.getElementById('pagination');
             nav.classList.toggle('hidden', pages <= 1);
             nav.innerHTML = '';
@@ -202,7 +203,7 @@
                 const b = document.createElement('button');
                 b.className = `page-btn ${i===currentPage?'active':''}`;
                 b.innerText = i;
-                b.onclick = () => { displayPage(i, data); window.scrollTo(0,0); };
+                b.onclick = () => { displayPage(i); window.scrollTo(0,0); };
                 nav.appendChild(b);
             }
         }
@@ -222,8 +223,8 @@
         }
 
         const langData = {
-            en: { btnAnalyze: "Run Analysis", total: "Identified", broken: "Broken", ok: "Safe", emptyMsg: "Select /Mods folder to begin. CC is automatically ignored.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data: Scarlet's Realm. This tool complies with EA's Mod Policy. CC is not tracked.", bugReport: "Contact / Bug Report" },
-            pl: { btnAnalyze: "Uruchom analizę", total: "Zidentyfikowane", broken: "Zepsute", ok: "Bezpieczne", emptyMsg: "Wybierz folder /Mods, aby zacząć. CC jest automatycznie ignorowane.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane: Scarlet's Realm. Narzędzie jest zgodne z polityką modów EA. CC nie jest śledzone.", bugReport: "Kontakt / Zgłoś błąd" }
+            en: { btnAnalyze: "Analyze Mods Only", total: "Identified", broken: "Issues", ok: "Up-to-date", emptyMsg: "Select /Mods folder to begin analysis.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data from Scarlet's Realm. This tool complies with EA's Mod Policy. CC is ignored.", bugReport: "Contact Author" },
+            pl: { btnAnalyze: "Analizuj tylko mody", total: "Zidentyfikowane", broken: "Problemy", ok: "Aktualne", emptyMsg: "Wybierz folder /Mods, aby zacząć analizę.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane: Scarlet's Realm. Narzędzie jest zgodne z polityką modów EA. CC jest ignorowane.", bugReport: "Kontakt z autorem" }
         };
         init();
     </script>
