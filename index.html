@@ -9,18 +9,18 @@
     <style>
         body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
         .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1rem; }
-        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 10px; padding: 5px 14px; border-radius: 99px; }
+        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 9px; padding: 4px 12px; border-radius: 99px; }
         
         /* COLORS ACCORDING TO USER REQUEST */
-        .bg-minor { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4); } /* Orange */
-        .bg-obsolete { background: rgba(153, 27, 27, 0.5); color: #fca5a5; border: 1px solid rgba(153, 27, 27, 0.8); } /* Dark Red */
-        .bg-safe { background: rgba(120, 113, 108, 0.25); color: #a8a29e; border: 1px solid rgba(120, 113, 108, 0.4); } /* Brown-ish Grey */
-        .bg-broken { background: rgba(220, 38, 38, 0.3); color: #f87171; border: 1px solid rgba(220, 38, 38, 0.5); }
+        .bg-minor { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.4); } 
+        .bg-obsolete { background: rgba(127, 29, 29, 0.5); color: #fca5a5; border: 1px solid rgba(127, 29, 29, 0.8); } 
+        .bg-safe { background: rgba(120, 113, 108, 0.3); color: #a8a29e; border: 1px solid rgba(120, 113, 108, 0.5); } 
+        .bg-broken { background: rgba(220, 38, 38, 0.3); color: #ef4444; border: 1px solid rgba(220, 38, 38, 0.5); }
 
         #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.98); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
-        .spinner { width: 50px; height: 50px; border: 5px solid #1e293b; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #1e293b; border-top: 5px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .page-btn { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; transition: 0.2s; border: 1px solid rgba(255,255,255,0.1); }
         .page-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
         .flag-btn { opacity: 0.4; transition: 0.2s; filter: grayscale(1); cursor: pointer; }
@@ -28,11 +28,11 @@
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest italic">Build: 1.9.0 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest italic">Build: 1.9.1 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Scanning 16k+ Files...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic text-center">Performing Signature Scan<br>on 16k+ Files...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-3xl mt-1">0%</div>
     </div>
 
@@ -59,30 +59,30 @@
                 </div>
                 <div class="space-y-2">
                     <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1 italic">2. Quick Search</label>
-                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search mod or creator..." class="w-full bg-slate-900 border border-slate-700/50 rounded-2xl p-4 text-xs outline-none text-white focus:border-blue-500">
+                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search identified..." class="w-full bg-slate-900 border border-slate-700/50 rounded-2xl p-4 text-xs outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-xs shadow-lg italic">Run Analysis</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-xs shadow-lg shadow-blue-900/10 italic">Analyze Mods Only</button>
             </div>
         </section>
 
         <div id="summaryRow" class="grid grid-cols-3 gap-6 mb-10 hidden">
             <div class="glass-card p-5 text-center border-b-4 border-blue-500">
-                <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase italic">Identified</p>
+                <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase">Identified</p>
                 <p id="val-total" class="text-2xl font-black text-white">0</p>
             </div>
             <div class="glass-card p-5 text-center border-b-4 border-red-500">
-                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase italic">Issues</p>
+                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase">Issues</p>
                 <p id="val-broken" class="text-2xl font-black text-white">0</p>
             </div>
             <div class="glass-card p-5 text-center border-b-4 border-slate-600">
-                <p id="label-ok" class="text-[9px] font-black text-slate-500 uppercase italic">Up-to-date</p>
+                <p id="label-ok" class="text-[9px] font-black text-slate-500 uppercase">Safe</p>
                 <p id="val-ok" class="text-2xl font-black text-stone-500">0</p>
             </div>
         </div>
 
         <div id="resultsContent" class="mb-24 min-h-[300px]">
             <div id="empty-state" class="text-center p-24 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Select folder with 16k+ files to begin deep analysis.</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Upload folder with 16k+ files to begin analysis.</p>
             </div>
             <div id="list-container" class="space-y-3"></div>
             <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-12 hidden"></div>
@@ -90,14 +90,14 @@
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-12 border-t border-slate-800/50 px-5">
-        <div class="mb-12">
+        <div class="mb-10">
             <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-sm px-16 py-4 rounded-full shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter italic">Wesprzyj Projekt / Donate</a>
             <p id="ui-donate-sub" class="mt-4 italic text-xs text-slate-500">This tool is free thanks to your support.</p>
         </div>
         
         <div class="glass-card p-10 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-[9px] mb-4 tracking-widest not-italic">Sources & Compliance</h4>
-            <p id="ui-credits-desc">Data sourced from <strong>Scarlet's Realm</strong>. This tool complies with EA's Mod Policy; it does not distribute mod files. CC (Custom Content) is automatically excluded from analysis.</p>
+            <p id="ui-credits-desc">Data sourced from <strong>Scarlet's Realm</strong>. This tool complies with EA's Mod Policy; it does not distribute mod files. CC (Custom Content) like hair or furniture is automatically excluded.</p>
             <div class="mt-5"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic hover:underline tracking-widest">Contact Developer</a></div>
         </div>
     </footer>
@@ -115,22 +115,22 @@
                 const data = await response.json();
                 fullDb = data.map(m => {
                     const name = m.name || m["Mod Name"] || "";
-                    // Identification: Break name into long keywords for scoring
-                    const keywords = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 3 && !noise.includes(w));
+                    // Create signature: keywords > 3 chars, sorted by length
+                    const signature = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 3 && !noise.includes(w)).sort((a,b) => b.length - a.length);
                     return {
                         name, author: m.author || m["Creator"] || "Unknown",
                         status: m.status || m["Patch Status"] || "Unknown",
-                        sName: clean(name), keywords
+                        sName: clean(name), signature: signature.slice(0, 3) // Use top 3 longest unique words
                     };
-                }).filter(m => m.sName.length > 5);
+                }).filter(m => m.signature.length > 0);
                 setLang('en');
             } catch (e) { console.error("Database connection failure."); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            // IGNORE CC
-            userFiles = files.filter(f => !["hair", "dress", "skirt", "shoes", "makeup", "accessory", "furniture", "deco"].some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
+            // Filter obvious CC
+            userFiles = files.filter(f => !["hair", "shoes", "dress", "skirt", "makeup", "furniture", "deco"].some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
             document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files`;
             document.getElementById('analyzeBtn').disabled = false;
         });
@@ -140,19 +140,16 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const matchedMap = new Map();
-            const chunkSize = 200; // Slower, more reliable chunking
+            const chunkSize = 200; 
 
             for (let i = 0; i < fullDb.length; i += chunkSize) {
-                await new Promise(r => setTimeout(r, 1));
+                await new Promise(r => setTimeout(r, 2));
                 fullDb.slice(i, i + chunkSize).forEach(m => {
-                    // DEEP MATCH ENGINE:
-                    // Requires the cleaned name match OR at least 2 unique mod keywords found in a user file
+                    // SIGNATURE MATCH ENGINE
+                    // A mod is found if its longest unique word is in a filename
                     const hit = userFiles.some(f => {
                         if (f.includes(m.sName)) return true;
-                        if (m.keywords.length >= 2) {
-                            return m.keywords.filter(k => f.includes(k)).length >= 2;
-                        }
-                        return false;
+                        return m.signature.length > 0 && m.signature.every(word => f.includes(word));
                     });
                     if (hit) matchedMap.set(m.name, m);
                 });
@@ -166,9 +163,9 @@
 
         function getStatusClass(status) {
             const s = status.toLowerCase();
-            if (s.includes("minor")) return "bg-minor"; // Orange
-            if (s.includes("obsolete")) return "bg-obsolete"; // Dark Red
-            if (s.includes("no known issues") || s.includes("safe") || s.includes("compatible")) return "bg-safe"; // Brown
+            if (s.includes("minor")) return "bg-minor"; 
+            if (s.includes("obsolete")) return "bg-obsolete"; 
+            if (s.includes("no known issues") || s.includes("safe") || s.includes("compatible")) return "bg-safe"; 
             if (s.includes("broken")) return "bg-broken";
             return "bg-safe";
         }
@@ -176,14 +173,11 @@
         function renderDashboard() {
             const term = clean(document.getElementById('searchInput').value);
             filteredMatches = term ? foundMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : foundMatches;
-            
             document.getElementById('summaryRow').classList.remove('hidden');
             document.getElementById('empty-state').classList.add('hidden');
-            
             document.getElementById('val-total').innerText = filteredMatches.length;
             document.getElementById('val-broken').innerText = filteredMatches.filter(m => /(broken|obsolete|minor)/i.test(m.status)).length;
-            document.getElementById('val-ok').innerText = filteredMatches.filter(m => /(safe|no known|updated|compatible)/i.test(m.status)).length;
-
+            document.getElementById('val-ok').innerText = filteredMatches.filter(m => /(safe|no known|compatible)/i.test(m.status)).length;
             displayPage(1, filteredMatches);
         }
 
@@ -191,7 +185,6 @@
             currentPage = page;
             const container = document.getElementById('list-container');
             const slice = data.slice((page-1)*perPage, page*perPage);
-            
             container.innerHTML = slice.length > 0 ? slice.map(m => {
                 const sClass = getStatusClass(m.status);
                 return `
@@ -202,7 +195,7 @@
                     </div>
                     <span class="status-badge ${sClass} shrink-0">${m.status}</span>
                 </div>`;
-            }).join('') : `<div class="text-center p-12 glass-card text-slate-500 italic">No matches identified. CC is excluded.</div>`;
+            }).join('') : `<div class="text-center p-12 glass-card text-slate-500 italic">No gameplay matches identified. CC is excluded.</div>`;
 
             const pages = Math.ceil(data.length / perPage);
             const nav = document.getElementById('pagination');
@@ -232,7 +225,7 @@
         }
 
         const langData = {
-            en: { btnAnalyze: "Run Analysis", total: "Identified", broken: "Issues", ok: "Up-to-date", emptyMsg: "Upload your folder (16k+ files) to begin deep analysis.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data: Scarlet's Realm. Compliant with EA Mod Policy. CC is excluded.", bugReport: "Contact Developer" },
+            en: { btnAnalyze: "Run Analysis", total: "Identified", broken: "Issues", ok: "Up-to-date", emptyMsg: "Upload your folder (16k+ files) to begin analysis.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data: Scarlet's Realm. Compliant with EA Mod Policy. CC is excluded.", bugReport: "Contact Developer" },
             pl: { btnAnalyze: "Analizuj Folder", total: "Wykryte", broken: "Problemy", ok: "Aktualne", emptyMsg: "Wgraj folder (16k+ plików), aby rozpocząć dokładny skan.", donateSub: "Narzędzie jest darmowe dzięki Twojemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane: Scarlet's Realm. Zgodne z polityką modów EA. CC jest pomijane.", bugReport: "Kontakt z autorem" }
         };
         init();
