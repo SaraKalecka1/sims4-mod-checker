@@ -17,8 +17,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install puppeteer
+     - name: Install dependencies
+        run: |
+          npm install
+          npx puppeteer browsers install chrome
 
       - name: Run Scraper
         run: node scrape.js
