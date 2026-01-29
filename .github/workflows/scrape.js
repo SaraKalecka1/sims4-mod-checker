@@ -13,7 +13,9 @@ const fs = require('fs');
 
     try {
         // Czysty adres URL (bez nawiasów kwadratowych i okrągłych)
-        await page.goto('[https://scarletsrealm.com/the-sims-4/mods/mod-list/](https://scarletsrealm.com/the-sims-4/mods/mod-list/)', { waitUntil: 'networkidle2' });
+       await page.goto('https://scarletsrealm.com/the-sims-4/mods/mod-list/', { 
+    waitUntil: 'networkidle2' 
+});
 
         let allData = [];
         let hasNextPage = true;
