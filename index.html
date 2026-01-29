@@ -17,16 +17,18 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .page-btn { background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 8px; font-size: 11px; transition: 0.2s; font-weight: 700; }
-        .page-btn:hover { background: #3b82f6; color: white; }
+        .page-btn:hover:not(:disabled) { background: #3b82f6; color: white; }
         .page-btn.active { background: #3b82f6; color: white; }
+        .flag-btn { opacity: 0.4; transition: 0.2s; filter: grayscale(1); cursor: pointer; }
+        .flag-btn.active { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.4 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.5 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Filtering 16k+ Files...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Filtering CC & Analyzing Mods...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-2xl mt-1">0%</div>
     </div>
 
@@ -36,8 +38,8 @@
             <p id="ui-subtitle" class="text-blue-400 font-bold uppercase text-[9px] tracking-[0.4em] mt-1">pelna-kulturka.pl</p>
         </div>
         <div class="flex gap-2 glass-card p-1 px-3">
-            <button class="flag-btn p-1 text-xl" onclick="setLang('pl')">🇵🇱</button>
-            <button class="flag-btn active p-1 text-xl" onclick="setLang('en')">🇬🇧</button>
+            <button class="flag-btn p-1 text-xl" id="flag-pl" onclick="setLang('pl')">🇵🇱</button>
+            <button class="flag-btn active p-1 text-xl" id="flag-en" onclick="setLang('en')">🇬🇧</button>
         </div>
     </header>
 
@@ -47,15 +49,15 @@
                 <div class="space-y-1.5">
                     <label id="ui-upload-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">1. Folder Selection</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
-                    <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800/50 text-slate-300 py-3 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-xs">
+                    <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800/50 text-slate-300 py-3 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-xs italic">
                         <span id="ui-folder-status">Select /Mods folder...</span>
                     </button>
                 </div>
                 <div class="space-y-1.5">
                     <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Search Results</label>
-                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Filter Identified..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Filter results..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg">Scan Mods Only</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg">Run Scanning</button>
             </div>
         </section>
 
@@ -74,49 +76,56 @@
             </div>
         </div>
 
-        <div id="resultsContent" class="mb-20">
+        <div id="resultsContent" class="mb-20 min-h-[300px]">
             <div id="empty-state" class="text-center p-20 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Upload folder with 16k+ files to begin.</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Select /Mods folder (16k+ files) to start.</p>
             </div>
             <div id="list-container" class="space-y-2"></div>
-            <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-8 hidden"></div>
+            <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-10 hidden"></div>
         </div>
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xs px-10 py-3 rounded-full shadow-xl uppercase italic">Support Project</a>
-        <p class="mt-8 text-[9px] text-slate-500 leading-relaxed italic">Database: Scarlet's Realm. CC (hair, clothes, furniture) is automatically ignored by the matching engine.</p>
+        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xs px-10 py-3 rounded-full shadow-xl uppercase italic">Support</a>
+        <p class="mt-8 text-[9px] text-slate-500 italic">Database: Scarlet's Realm. Adaptive Precision Engine (Build 1.7.5).</p>
     </footer>
 
     <script>
         let processedDb = []; let userFiles = []; let currentLang = 'en';
-        let allMatches = []; let currentPage = 1; const perPage = 15;
-        // Keywords that identify files as CC to be ignored
-        const ccTags = ["hair", "dress", "skirt", "top", "pants", "shoes", "makeup", "accessory", "furniture", "deco", "object", "bed", "chair", "wall", "floor"];
+        let allMatches = []; let filteredMatches = []; let currentPage = 1; const perPage = 15;
+        const ccTags = ["hair", "dress", "skirt", "shoes", "makeup", "accessory", "furniture", "deco", "bed", "chair", "wall", "floor"];
 
-        function clean(s) { return s ? s.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
+        // Adaptive Clean: Strips 's and non-alphanumeric chars
+        function clean(s) { 
+            if (!s) return ''; 
+            return s.toString().toLowerCase()
+                .replace(/'s\b/g, '') 
+                .replace(/[^a-z0-9]/g, ''); 
+        }
 
         async function init() {
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
-                processedDb = data.map(m => {
-                    const name = m.name || m["Mod Name"] || "";
-                    return {
-                        name, author: m.author || m["Creator"] || "Unknown",
-                        status: m.status || m["Patch Status"] || "Unknown",
-                        sName: clean(name)
-                    };
-                }).filter(m => m.sName.length > 4); // Filter out very short names to avoid false positives
+                processedDb = data.map(m => ({
+                    name: m.name || m["Mod Name"] || "",
+                    author: m.author || m["Creator"] || "Unknown",
+                    status: m.status || m["Patch Status"] || "Unknown",
+                    sName: clean(m.name || m["Mod Name"])
+                })).filter(m => m.sName.length > 3);
                 setLang('en');
             } catch (e) { console.error("Database Load Error"); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            // IGNORE CC: Filter out files containing CC tags
-            userFiles = files.filter(f => !ccTags.some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
-            document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files (CC filtered)`;
+            // Smart CC Filter: Only filter out if filename is overwhelmingly CC-related
+            userFiles = files.filter(f => {
+                const n = f.name.toLowerCase();
+                return !ccTags.some(tag => n.includes(tag) && n.length < 30);
+            }).map(f => clean(f.name));
+            
+            document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files`;
             document.getElementById('analyzeBtn').disabled = false;
         });
 
@@ -124,49 +133,48 @@
             const loader = document.getElementById('loader');
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
-            const found = new Map();
-            const chunkSize = 350;
+            const foundMap = new Map();
+            const chunkSize = 400;
 
             for (let i = 0; i < processedDb.length; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // PRECISION MATCHING: The cleaned mod name must be exactly contained in the filename
-                    const isPresent = userFiles.some(f => f.includes(m.sName));
-                    if (isPresent) found.set(m.name, m);
+                    // ADAPTIVE MATCH: Check if cleaned mod name is part of any user filename
+                    if (userFiles.some(f => f.includes(m.sName) || m.sName.includes(f))) {
+                        foundMap.set(m.name, m);
+                    }
                 });
                 progress.innerText = `${Math.round((i / processedDb.length) * 100)}%`;
             }
 
-            allMatches = Array.from(found.values()).sort((a,b) => a.name.localeCompare(b.name));
-            renderDashboard();
+            allMatches = Array.from(foundMap.values()).sort((a,b) => a.name.localeCompare(b.name));
+            handleSearch();
             loader.style.display = 'none';
         }
 
-        function renderDashboard() {
+        function handleSearch() {
             const term = clean(document.getElementById('searchInput').value);
-            const filtered = term ? allMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : allMatches;
+            filteredMatches = term ? allMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : allMatches;
             
-            const broken = filtered.filter(m => /(broken|obsolete|issue)/i.test(m.status));
-            const safe = filtered.filter(m => !broken.includes(m));
-
+            const brokenCount = filteredMatches.filter(m => /(broken|obsolete|issue)/i.test(m.status)).length;
             document.getElementById('summaryRow').classList.remove('hidden');
             document.getElementById('empty-state').classList.add('hidden');
-            document.getElementById('val-total').innerText = filtered.length;
-            document.getElementById('val-broken').innerText = broken.length;
-            document.getElementById('val-ok').innerText = safe.length;
+            document.getElementById('val-total').innerText = filteredMatches.length;
+            document.getElementById('val-broken').innerText = brokenCount;
+            document.getElementById('val-ok').innerText = filteredMatches.length - brokenCount;
 
-            displayPage(1, filtered);
+            renderPage(1);
         }
 
-        function displayPage(page, data) {
+        function renderPage(page) {
             currentPage = page;
             const container = document.getElementById('list-container');
-            const slice = data.slice((page-1)*perPage, page*perPage);
+            const slice = filteredMatches.slice((page-1)*perPage, page*perPage);
             
             container.innerHTML = slice.map(m => {
                 const isErr = /(broken|obsolete|issue)/i.test(m.status);
                 return `
-                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500 shadow-red-900/10 shadow-lg' : 'border-blue-500/30'}">
+                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500 shadow-lg' : 'border-blue-500/30'}">
                     <div class="overflow-hidden">
                         <h4 class="text-white font-bold text-xs truncate leading-tight">${m.name}</h4>
                         <p class="text-[8px] text-slate-500 uppercase tracking-widest italic mt-0.5">${m.author}</p>
@@ -175,7 +183,7 @@
                 </div>`;
             }).join('');
 
-            const pages = Math.ceil(data.length / perPage);
+            const pages = Math.ceil(filteredMatches.length / perPage);
             const nav = document.getElementById('pagination');
             nav.classList.toggle('hidden', pages <= 1);
             nav.innerHTML = '';
@@ -183,7 +191,7 @@
                 const b = document.createElement('button');
                 b.className = `page-btn ${i===currentPage?'active':''}`;
                 b.innerText = i;
-                b.onclick = () => { displayPage(i, data); window.scrollTo(0,0); };
+                b.onclick = () => { renderPage(i); window.scrollTo(0,0); };
                 nav.appendChild(b);
             }
         }
@@ -195,12 +203,12 @@
             document.getElementById('label-broken').innerText = t.broken;
             document.getElementById('label-ok').innerText = t.ok;
             document.getElementById('analyzeBtn').innerText = t.btnAnalyze;
-            document.querySelectorAll('.flag-btn').forEach(b => b.classList.toggle('active', b.innerText.includes(lang.toUpperCase())));
+            document.querySelectorAll('.flag-btn').forEach(b => b.classList.toggle('active', b.id === `flag-${lang}`));
         }
 
         const langData = {
-            en: { btnAnalyze: "Scan Mods Only", total: "Identified", broken: "Issues", ok: "Safe", emptyMsg: "Upload your /Mods folder to begin analysis." },
-            pl: { btnAnalyze: "Skanuj tylko mody", total: "Zidentyfikowane", broken: "Problemy", ok: "Bezpieczne", emptyMsg: "Wgraj folder /Mods, aby zacząć." }
+            en: { btnAnalyze: "Run Scanning", total: "Identified", broken: "Issues", ok: "Safe", emptyMsg: "Upload /Mods folder to begin analysis." },
+            pl: { btnAnalyze: "Skanuj Mody", total: "Zidentyfikowane", broken: "Problemy", ok: "Bezpieczne", emptyMsg: "Wgraj folder /Mods, aby zacząć." }
         };
         init();
     </script>
