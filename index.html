@@ -119,14 +119,21 @@
 
         <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-end">
+                <!-- Step 1: Upload (Customized for translations) -->
                 <div class="space-y-3">
                     <label id="ui-upload-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         1. Select /Mods Folder
                     </label>
-                    <input type="file" id="folderInput" webkitdirectory directory multiple 
-                        class="w-full text-xs text-slate-400 file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 cursor-pointer transition-all">
+                    <div class="relative">
+                        <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
+                        <button onclick="document.getElementById('folderInput').click()" id="ui-custom-upload" class="w-full text-left text-xs bg-slate-800 text-slate-400 py-2.5 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center">
+                            <span id="ui-folder-status">No folder selected</span>
+                            <svg class="w-4 h-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                        </button>
+                    </div>
                 </div>
 
+                <!-- Step 2: Search -->
                 <div class="space-y-3">
                     <label id="ui-search-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         2. Quick Filter
@@ -135,16 +142,18 @@
                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none focus:border-blue-500 transition-all text-white">
                 </div>
 
+                <!-- Step 3: Genre -->
                 <div class="space-y-3">
                     <label id="ui-genre-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         3. Category
                     </label>
                     <select id="genreFilter" 
                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none cursor-pointer text-white appearance-none">
-                        <option value="All">All Categories</option>
+                        <option value="All" id="ui-all-categories">All Categories</option>
                     </select>
                 </div>
 
+                <!-- Step 4: Run -->
                 <button id="analyzeBtn" onclick="startAnalysis()" disabled 
                     class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-blue-900/30 transform hover:-translate-y-0.5 active:translate-y-0">
                     Run Analysis
@@ -221,6 +230,7 @@
                 subtitle: "Professional Mods Folder Analysis",
                 upload: "1. Select /Mods Folder",
                 search: "2. Quick Filter",
+                searchPlaceholder: "Search mod or creator...",
                 genre: "3. Category",
                 thName: "Mod Name",
                 thAuthor: "Author",
@@ -234,13 +244,16 @@
                 errorTitle: "Database Error!",
                 errorBody: "Could not load 'scarlet_db_full.json'. Ensure the file is in same folder and you're using a server.",
                 alertsTitle: "Critical Issues Found",
-                removeBtn: "REMOVE NOW"
+                removeBtn: "REMOVE NOW",
+                noFolderSelected: "No folder selected",
+                folderSelected: "Folder loaded"
             },
             pl: {
                 title: "Sims 4 Mod Checker",
                 subtitle: "Profesjonalna analiza folderu Mods",
                 upload: "1. Wybierz folder /Mods",
                 search: "2. Szybki filtr",
+                searchPlaceholder: "Szukaj moda lub autora...",
                 genre: "3. Gatunek",
                 thName: "Nazwa Modyfikacji",
                 thAuthor: "Autor",
@@ -254,7 +267,9 @@
                 errorTitle: "Błąd Bazy Danych!",
                 errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'. Upewnij się, że plik jest w tym samym folderze.",
                 alertsTitle: "Znaleziono Krytyczne Problemy",
-                removeBtn: "USUŃ TERAZ"
+                removeBtn: "USUŃ TERAZ",
+                noFolderSelected: "Nie wybrano folderu",
+                folderSelected: "Folder wczytany"
             }
         };
 
@@ -301,6 +316,20 @@
             document.getElementById('ui-credits-title').innerText = t.creditsTitle;
             document.getElementById('empty-state-msg').innerText = t.emptyMsg;
             document.getElementById('ui-alerts-title').childNodes[2].textContent = t.alertsTitle;
+            
+            // Fixed Placeholders and Category Filter
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('ui-all-categories').innerText = (lang === 'pl' ? 'Wszystkie kategorie' : 'All Categories');
+
+            // Fixed Folder Status
+            const statusLabel = document.getElementById('ui-folder-status');
+            if(userFiles.length === 0) {
+                statusLabel.innerText = t.noFolderSelected;
+                statusLabel.classList.replace('text-blue-400', 'text-slate-400');
+            } else {
+                statusLabel.innerText = t.folderSelected;
+                statusLabel.classList.replace('text-slate-400', 'text-blue-400');
+            }
 
             updateErrorText();
 
@@ -331,6 +360,11 @@
                     .split(/v\d|V\d|_/)[0].trim()
                 );
                 document.getElementById('analyzeBtn').disabled = false;
+                
+                // Update UI Feedback
+                const statusLabel = document.getElementById('ui-folder-status');
+                statusLabel.innerText = langData[currentLang].folderSelected;
+                statusLabel.classList.replace('text-slate-400', 'text-blue-400');
             }
         });
 
