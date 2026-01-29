@@ -21,11 +21,11 @@
     </style>
 </head>
 <body class="py-10">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.3 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.5 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Analyzing...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Analyzing Database...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-xl mt-2 italic">0%</div>
     </div>
 
@@ -119,7 +119,7 @@
             document.getElementById('label-broken').innerText = t.broken;
             document.getElementById('label-ok').innerText = t.ok;
             document.querySelectorAll('.flag-btn').forEach(b => b.classList.toggle('active', b.id === `flag-${lang}`));
-            document.getElementById('ui-folder-status').innerText = (simpleUserFiles.length > 0) ? t.folderSel + simpleUserFiles.length : t.noFolder;
+            if(simpleUserFiles.length > 0) document.getElementById('ui-folder-status').innerText = t.folderSel + simpleUserFiles.length;
             if(lastResults.critical.length > 0 || lastResults.stable.length > 0) renderCards(lastResults.critical, lastResults.stable);
         }
 
@@ -127,11 +127,22 @@
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
-                // Map keys from your JSON file
-                processedDb = data.map(m => ({
-                    name: m.name || "", author: m.author || "", status: m.status || "Unknown",
-                    sName: simplify(m.name), sAuthor: simplify(m.author)
-                })).filter(m => m.sName.length > 4);
+                
+                // FIXED KEY MAPPING: Handles both 'name' and 'Mod Name' keys
+                processedDb = data.map(m => {
+                    const name = m.name || m["Mod Name"] || "";
+                    const author = m.author || m["Creator"] || "";
+                    const status = m.status || m["Patch Status"] || "Unknown";
+                    
+                    return {
+                        name: name,
+                        author: author,
+                        status: status,
+                        sName: simplify(name),
+                        sAuthor: simplify(author)
+                    };
+                }).filter(m => m.sName.length > 4);
+                
                 setLang('en');
             } catch (e) { console.error("Database error."); }
         }
@@ -148,7 +159,7 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const matched = [];
-            const chunkSize = 300; 
+            const chunkSize = 400; 
             const total = processedDb.length;
             
             for (let i = 0; i < total; i += chunkSize) {
@@ -180,7 +191,7 @@
             const container = document.getElementById('resultsContainer');
             container.innerHTML = ''; 
             if (critical.length === 0 && stable.length === 0) {
-                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No matches found in database. CC is not tracked.</div>`;
+                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No matches identified. CC (hairs, furniture) is not tracked.</div>`;
                 return;
             }
             critical.forEach(m => container.appendChild(createCard(m, true)));
