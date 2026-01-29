@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: screen; }
         .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; }
         .status-compatible { color: #4ade80; }
         .flag-btn { cursor: pointer; transition: all 0.2s ease; font-size: 1.8rem; opacity: 0.4; filter: grayscale(40%); }
@@ -15,23 +15,21 @@
         #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.95); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
         .spinner { width: 60px; height: 60px; border: 6px solid #1e293b; border-top: 6px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .collapsible-content { max-height: 5000px; transition: max-height 0.3s ease-out, opacity 0.3s ease; overflow: hidden; }
-        .collapsible-content.collapsed { max-height: 0; opacity: 0; }
     </style>
 </head>
-<body class="p-4 md:p-10 min-h-screen flex flex-col">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.5.7 (2026-01-29)</div>
+<body class="p-4 md:p-10">
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.5.8 (2026-01-29)</div>
     
-    <div id="loader"><div class="spinner mb-6"></div><p id="ui-loader-text" class="text-white font-black uppercase tracking-[0.3em] text-sm">Analizowanie plików...</p></div>
+    <div id="loader"><div class="spinner mb-6"></div><p class="text-white font-black uppercase tracking-[0.3em] text-sm">Przeszukiwanie bazy...</p></div>
 
     <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
         <div>
-            <h1 id="ui-title" class="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">Sims 4 Mod Checker</h1>
-            <p id="ui-subtitle" class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-2">pelna-kulturka.pl</p>
+            <h1 class="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">Sims 4 Mod Checker</h1>
+            <p class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-2">pelna-kulturka.pl</p>
         </div>
         <div class="flex gap-4 glass-card p-2 px-4 shadow-xl">
-            <span id="flag-en" class="flag-btn" onclick="setLang('en')">🇬🇧</span>
-            <span id="flag-pl" class="flag-btn active" onclick="setLang('pl')">🇵🇱</span>
+            <span class="flag-btn active" id="flag-pl">🇵🇱</span>
+            <span class="flag-btn" id="flag-en">🇬🇧</span>
         </div>
     </header>
 
@@ -39,7 +37,7 @@
         <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-end">
                 <div class="space-y-3">
-                    <label id="ui-upload-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">1. Wybierz folder /Mods</label>
+                    <label class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">1. Wybierz folder /Mods</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
                     <button onclick="document.getElementById('folderInput').click()" class="w-full text-left text-xs bg-slate-800 text-slate-400 py-2.5 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center">
                         <span id="ui-folder-status">Nie wybrano folderu</span>
@@ -47,15 +45,15 @@
                     </button>
                 </div>
                 <div class="space-y-3">
-                    <label id="ui-search-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">2. Szybki Filtr</label>
-                    <input type="text" id="searchInput" placeholder="Szukaj..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none text-white">
+                    <label class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">2. Szybki Filtr</label>
+                    <input type="text" id="searchInput" placeholder="Szukaj moda lub autora..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-blue-900/30">Skanuj Mody</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg">Skanuj Mody</button>
             </div>
         </section>
 
         <div id="alertsContainer" class="mb-12 hidden">
-            <h2 id="ui-alerts-title" class="text-red-500 font-black uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
+            <h2 class="text-red-500 font-black uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
                 <span class="inline-block w-2 h-2 bg-red-500 rounded-full animate-ping"></span>Krytyczne Problemy
             </h2>
             <div id="alertsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -64,14 +62,14 @@
         <section class="glass-card overflow-hidden shadow-2xl mb-20">
             <div class="flex justify-between items-center p-6 border-b border-white/5">
                 <div class="flex items-center gap-4">
-                    <h3 id="ui-table-title" class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Wyniki Analizy</h3>
+                    <h3 class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Wyniki Analizy</h3>
                     <span id="ui-counter" class="text-[9px] font-black bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 hidden uppercase"></span>
                 </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead class="bg-slate-800/40 text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5">
-                        <tr><th id="th-name" class="p-6">Modyfikacja</th><th id="th-author" class="p-6">Autor</th><th id="th-status" class="p-6 text-right">Status</th></tr>
+                        <tr><th class="p-6">Modyfikacja</th><th class="p-6">Autor</th><th class="p-6 text-right">Status</th></tr>
                     </thead>
                     <tbody id="resultsBody" class="divide-y divide-slate-800/50 text-sm">
                         <tr><td colspan="3" class="p-20 text-center text-slate-500 italic">Wgraj folder /Mods, aby zobaczyć wyniki.</td></tr>
@@ -81,89 +79,101 @@
         </section>
     </main>
 
-    <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <div class="mb-4 text-center">
-            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-2xl px-16 py-6 rounded-3xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">DONATE</a>
+    <footer class="max-w-4xl mx-auto w-full text-center py-10 mt-10 border-t border-slate-800/50">
+        <div class="mb-6">
+            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-12 py-4 rounded-2xl shadow-xl transition-all uppercase tracking-tighter">DONATE</a>
         </div>
-        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-6 font-medium italic">Dobrowolne wsparcie projektu</p>
-        <div class="mb-12 text-center">
-            <a href="mailto:lupus1908@gmail.com" id="ui-bug-report" class="text-xs font-bold text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-widest border-b border-blue-500/20 pb-1">Znalazłeś błąd? Napisz do mnie</a>
-        </div>
-        <div class="glass-card p-10 text-left border border-white/5 italic text-[11px] leading-relaxed text-slate-400">
-            <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-4 tracking-widest not-italic">Źródła i Informacje</h4>
-            <p>Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Lista jest automatycznie odświeżana raz w tygodniu. Uwaga: Custom Content (włosy, meble) nie jest monitorowany. Baza obejmuje tylko modyfikacje gameplayowe.</p>
+        <div class="mb-8 italic text-sm text-slate-500">Dobrowolne wsparcie projektu</div>
+        <div class="mb-10"><a href="mailto:lupus1908@gmail.com" class="text-xs font-bold text-blue-500 uppercase tracking-widest border-b border-blue-500/20 pb-1">Znalazłeś błąd? Napisz do mnie</a></div>
+        <div class="glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400">
+            <h4 class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Źródła i Informacje</h4>
+            <p>Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Dane są odświeżane automatycznie. Narzędzie skupia się na modach gameplayowych. Custom Content nie jest monitorowany.</p>
         </div>
     </footer>
 
     <script>
-        let processedDb = []; let userFiles = []; let simpleUserFiles = []; let currentLang = 'pl';
-        const langData = {
-            en: { title: "Sims 4 Mod Checker", upload: "1. Select /Mods Folder", search: "2. Quick Filter", searchPlaceholder: "Search...", thName: "Mod Name", thAuthor: "Author", thStatus: "Status", btnAnalyze: "Run Analysis", loaderText: "Scanning...", alertsTitle: "Issues Found", removeBtn: "REMOVE", noFolderSelected: "No folder selected", folderSelected: "Files: ", tableTitle: "Analysis Results", bugReport: "Found an error? Contact me", countLabel: "MODS IDENTIFIED", donateSub: "Voluntary support", creditsTitle: "Sources & Legal" },
-            pl: { title: "Sims 4 Mod Checker", upload: "1. Wybierz folder /Mods", search: "2. Szybki Filtr", searchPlaceholder: "Szukaj...", thName: "Modyfikacja", thAuthor: "Autor", thStatus: "Status", btnAnalyze: "Skanuj Mody", loaderText: "Analizowanie...", alertsTitle: "Krytyczne Problemy", removeBtn: "USUŃ", noFolderSelected: "Nie wybrano folderu", folderSelected: "Pliki: ", tableTitle: "Wyniki Analizy", bugReport: "Znalazłeś błąd? Napisz do mnie", countLabel: "MODÓW IDENTYFIKACJA", donateSub: "Dobrowolne wsparcie projektu", creditsTitle: "Źródła i Informacje" }
-        };
-
+        let processedDb = []; let simpleUserFiles = [];
+        
         function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
 
         async function init() {
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
-                processedDb = data.map(m => ({
-                    name: m.name || "", 
-                    author: m.author || "", 
-                    status: m.status || "Unknown", 
-                    sName: simplify(m.name)
-                })).filter(m => m.sName.length > 2);
-            } catch (e) { console.error("Database failed to load."); }
-        }
-
-        function setLang(lang) {
-            currentLang = lang; const t = langData[lang];
-            document.getElementById('ui-title').innerText = t.title; document.getElementById('ui-upload-label').innerText = t.upload;
-            document.getElementById('ui-search-label').innerText = t.search; document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            document.getElementById('th-name').innerText = t.thName; document.getElementById('th-author').innerText = t.thAuthor;
-            document.getElementById('th-status').innerText = t.thStatus; document.getElementById('ui-loader-text').innerText = t.loaderText;
-            document.getElementById('ui-table-title').innerText = t.tableTitle; document.getElementById('ui-bug-report').innerText = t.bugReport;
-            document.getElementById('ui-donate-sub').innerText = t.donateSub; document.getElementById('ui-credits-title').innerText = t.creditsTitle;
-            document.querySelectorAll('.flag-btn').forEach(b => b.classList.toggle('active', b.id === `flag-${lang}`));
+                // Mapowanie oparte bezpośrednio na Twoim JSONie
+                processedDb = data.map(m => {
+                    const name = m.name || "";
+                    const author = m.author || "";
+                    return {
+                        name: name,
+                        author: author,
+                        status: m.status || "Unknown",
+                        sName: simplify(name),
+                        sAuthor: simplify(author)
+                    };
+                }).filter(m => m.sName.length > 2);
+                console.log("DB załadowana:", processedDb.length);
+            } catch (e) { console.error("Błąd bazy danych!"); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
-            userFiles = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            simpleUserFiles = userFiles.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, '')));
-            document.getElementById('ui-folder-status').innerText = langData[currentLang].folderSelected + userFiles.length;
-            document.getElementById('analyzeBtn').disabled = userFiles.length === 0;
+            const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
+            simpleUserFiles = files.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, '')));
+            document.getElementById('ui-folder-status').innerText = "Wykryto plików: " + simpleUserFiles.length;
+            document.getElementById('analyzeBtn').disabled = simpleUserFiles.length === 0;
         });
 
         function startAnalysis() {
             document.getElementById('loader').style.display = 'flex';
             setTimeout(() => {
                 const term = simplify(document.getElementById('searchInput').value);
-                let matched = processedDb.filter(m => simpleUserFiles.some(sU => sU.includes(m.sName) || m.sName.includes(sU)));
-                if (term) matched = matched.filter(m => simplify(m.name).includes(term) || simplify(m.author).includes(term));
                 
+                // NOWA LOGIKA DOPASOWANIA (Deep Search)
+                let matched = processedDb.filter(m => {
+                    // 1. Sprawdź czy nazwa modu jest w nazwie pliku
+                    const nameMatch = simpleUserFiles.some(sU => sU.includes(m.sName) || m.sName.includes(sU));
+                    if (nameMatch) return true;
+                    
+                    // 2. Jeśli autor jest znany, sprawdź czy nazwa pliku zawiera autora (częste u twórców)
+                    if (m.sAuthor.length > 3) {
+                        return simpleUserFiles.some(sU => sU.includes(m.sAuthor));
+                    }
+                    return false;
+                });
+
+                if (term) matched = matched.filter(m => m.sName.includes(term) || m.sAuthor.includes(term));
+
+                // Sortowanie i renderowanie
                 const critical = matched.filter(m => /(broken|obsolete|minor|issue)/i.test(m.status));
                 const stable = matched.filter(m => !critical.includes(m));
 
-                document.getElementById('ui-counter').innerText = `${matched.length} ${langData[currentLang].countLabel}`;
+                document.getElementById('ui-counter').innerText = matched.length + " MODÓW ZNALEZIONYCH";
                 document.getElementById('ui-counter').classList.remove('hidden');
-                
+
                 renderResults(critical, stable);
                 document.getElementById('loader').style.display = 'none';
-            }, 600);
+            }, 500);
         }
 
         function renderResults(critical, stable) {
-            const alerts = document.getElementById('alertsList'); const body = document.getElementById('resultsBody');
+            const alerts = document.getElementById('alertsList');
+            const body = document.getElementById('resultsBody');
             document.getElementById('alertsContainer').classList.toggle('hidden', critical.length === 0);
+            
             alerts.innerHTML = critical.map(m => `
-                <div class="glass-card p-6 border-l-4 border-red-500 flex justify-between items-center">
+                <div class="glass-card p-6 border-l-4 border-red-500 flex justify-between items-center shadow-lg">
                     <div><h4 class="text-white font-bold">${m.name}</h4><p class="text-[10px] text-slate-500 uppercase">${m.author}</p></div>
                     <span class="text-red-400 font-black text-[10px] uppercase px-3 py-1 bg-red-500/10 rounded border border-red-500/20">${m.status}</span>
                 </div>`).join('');
-            body.innerHTML = stable.length > 0 || critical.length > 0 ? stable.map(m => `
-                <tr class="hover:bg-slate-800/40 transition-colors"><td class="p-6 font-bold text-white">${m.name}</td><td class="p-6 text-slate-400">${m.author}</td><td class="p-6 text-right font-black status-compatible uppercase">${m.status}</td></tr>`).join('') 
-                : `<tr><td colspan="3" class="p-20 text-center text-slate-500 italic">Brak dopasowań w bazie danych.</td></tr>`;
+
+            const allRows = stable.map(m => `
+                <tr class="hover:bg-slate-800/40 transition-colors">
+                    <td class="p-6 font-bold text-white">${m.name}</td>
+                    <td class="p-6 text-slate-400">${m.author}</td>
+                    <td class="p-6 text-right font-black status-compatible uppercase">${m.status}</td>
+                </tr>`).join('');
+                
+            body.innerHTML = allRows || `<tr><td colspan="3" class="p-20 text-center text-slate-500 italic">Brak dopasowań. Skaner szuka nazw modów i autorów w nazwach Twoich plików.</td></tr>`;
         }
 
         init();
