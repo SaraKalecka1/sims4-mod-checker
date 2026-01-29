@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 (async () => {
-    console.log("🚀 Uruchamiam bota dla pelna-kulturka.pl...");
+    console.log("🚀 Uruchamiam bota...");
     const browser = await puppeteer.launch({ 
         headless: "shell",
         args: [
@@ -16,8 +16,7 @@ const fs = require('fs');
     await page.setDefaultNavigationTimeout(120000);
 
     try {
-        console.log("🔗 Łączenie ze stroną Scarlet's Realm...");
-        // CZYSTY URL BEZ NAWIASÓW MARKDOWN
+        console.log("🔗 Łączenie ze stroną...");
         await page.goto('https://scarletsrealm.com/the-sims-4/mods/mod-list/', { 
             waitUntil: 'networkidle2' 
         });
@@ -56,10 +55,10 @@ const fs = require('fs');
         }
 
         fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
-        console.log(`✅ Sukces! Zapisano łącznie: ${allData.length} rekordów.`);
+        console.log(`✅ Sukces! Zapisano: ${allData.length} rekordów.`);
 
     } catch (error) {
-        console.error("❌ Błąd krytyczny:", error.message);
+        console.error("❌ Błąd:", error.message);
         process.exit(1);
     } finally {
         await browser.close();
