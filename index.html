@@ -21,11 +21,11 @@
     </style>
 </head>
 <body class="py-10">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.7 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.8 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Scanning Database...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Smart Scanning...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-xl mt-2 italic">0%</div>
     </div>
 
@@ -58,12 +58,6 @@
                 <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest shadow-lg">Run Analysis</button>
             </div>
         </section>
-
-        <div id="diagPanel" class="glass-card p-4 mb-6 border-l-4 border-yellow-500 hidden">
-            <p class="text-[10px] font-black uppercase text-yellow-500 mb-2">Diagnostic Mode (Internal View):</p>
-            <p id="diag-db-count" class="text-xs text-slate-300">Database Records: Loading...</p>
-            <p id="diag-files-sample" class="text-xs text-slate-300 mt-1">First 5 filenames: N/A</p>
-        </div>
 
         <div id="summaryRow" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 hidden">
             <div class="glass-card p-5 text-center border-b-4 border-blue-500">
@@ -102,11 +96,11 @@
         let lastResults = { critical: [], stable: [] };
         
         const langData = {
-            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Comparing Files...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select /Mods folder to begin analysis.", donateSub: "Free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Gameplay mods only.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
-            pl: { title: "Sims 4 Mod Checker", upload: "1. Wczytaj Folder /Mods", search: "2. Filtrowanie Wyników", searchPlaceholder: "Szukaj modyfikacji...", btnAnalyze: "Skanuj Mody", loaderText: "Skanowanie...", noFolder: "Wybierz folder...", folderSel: "Wykryto: ", emptyMsg: "Wgraj folder /Mods, aby zobaczyć wyniki.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", bugReport: "Kontakt z autorem", creditsTitle: "Źródła i Informacje", creditsDesc: "Baza danych pochodzi z serwisu Scarlet's Realm. Skupia się na modach gameplayowych.", total: "Zidentyfikowane", broken: "Problemy", ok: "Aktualne" }
+            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Smart Scanning...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select /Mods folder to begin analysis.", donateSub: "Free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Gameplay mods only.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
+            pl: { title: "Sims 4 Mod Checker", upload: "1. Wczytaj Folder /Mods", search: "2. Filtrowanie Wyników", searchPlaceholder: "Szukaj modyfikacji...", btnAnalyze: "Uruchom Skanowanie", loaderText: "Skanowanie...", noFolder: "Wybierz folder...", folderSel: "Wykryto: ", emptyMsg: "Wybierz folder /Mods, aby rozpocząć analizę.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", bugReport: "Kontakt z autorem", creditsTitle: "Źródła i Informacje", creditsDesc: "Baza danych pochodzi z serwisu Scarlet's Realm. Skupia się na modach gameplayowych.", total: "Zidentyfikowane", broken: "Problemy", ok: "Aktualne" }
         };
 
-        function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
+        function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, ' ').trim() : ''; }
 
         function setLang(lang) {
             currentLang = lang; const t = langData[lang];
@@ -133,33 +127,25 @@
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
-                
                 processedDb = data.map(m => {
-                    // Try different key formats just in case
                     const name = m.name || m["Mod Name"] || "";
                     const author = m.author || m["Creator"] || "";
-                    const status = m.status || m["Patch Status"] || "Unknown";
-                    
+                    // TOKENIZE name into individual words for smarter matching
+                    const tokens = simplify(name).split(/\s+/).filter(t => t.length > 3);
                     return {
-                        name: name,
-                        author: author,
-                        status: status,
-                        sName: simplify(name),
-                        sAuthor: simplify(author)
+                        name: name, author: author, status: m.status || m["Patch Status"] || "Unknown",
+                        tokens: tokens, sName: simplify(name).replace(/\s+/g, ''),
+                        sAuthor: simplify(author).replace(/\s+/g, '')
                     };
-                }).filter(m => m.sName.length > 2); // Lowered threshold from 4 to 2
-                
-                document.getElementById('diagPanel').classList.remove('hidden');
-                document.getElementById('diag-db-count').innerText = `Database Records: ${processedDb.length}`;
+                }).filter(m => m.tokens.length > 0);
                 setLang('en');
             } catch (e) { console.error("Database error."); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            simpleUserFiles = files.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, '')));
-            
-            document.getElementById('diag-files-sample').innerText = `First 5 filenames: ${simpleUserFiles.slice(0, 5).join(', ')}`;
+            // User files stay compact for comparison
+            simpleUserFiles = files.map(f => f.name.toLowerCase().replace(/[^a-z0-9]/g, ''));
             document.getElementById('ui-folder-status').innerText = langData[currentLang].folderSel + simpleUserFiles.length;
             document.getElementById('analyzeBtn').disabled = simpleUserFiles.length === 0;
         });
@@ -169,21 +155,25 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const matched = [];
-            const chunkSize = 400; 
+            const chunkSize = 350; 
             const total = processedDb.length;
             
             for (let i = 0; i < total; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // BROAD MATCH: Match if database name is inside file name or vice versa
-                    if (simpleUserFiles.some(sU => sU.includes(m.sName) || m.sName.includes(sU))) {
-                        matched.push(m);
-                    }
+                    // SMART TOKEN MATCHING:
+                    // A mod matches if at least 70% of its name-tokens (min 3 chars) are found in a filename
+                    let bestMatch = simpleUserFiles.some(sU => {
+                        if (sU.includes(m.sName)) return true;
+                        const hitCount = m.tokens.filter(token => sU.includes(token)).length;
+                        return (hitCount / m.tokens.length) >= 0.7;
+                    });
+                    if (bestMatch) matched.push(m);
                 });
                 progress.innerText = `${Math.round((i / total) * 100)}%`;
             }
 
-            const term = simplify(document.getElementById('searchInput').value);
+            const term = simplify(document.getElementById('searchInput').value).replace(/\s+/g, '');
             const filtered = term ? matched.filter(m => m.sName.includes(term) || m.sAuthor.includes(term)) : matched;
             
             lastResults.critical = filtered.filter(m => /(broken|obsolete|minor|issue)/i.test(m.status));
@@ -202,11 +192,22 @@
             const container = document.getElementById('resultsContainer');
             container.innerHTML = ''; 
             if (critical.length === 0 && stable.length === 0) {
-                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No matches identified. Total files: ${simpleUserFiles.length}</div>`;
+                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No gameplay mods identified. CC (hairs, furniture) is not tracked.</div>`;
                 return;
             }
-            critical.forEach(m => container.appendChild(createCard(m, true)));
-            stable.forEach(m => container.appendChild(createCard(m, false)));
+            // Group and cap results to prevent "wall of text"
+            const topCritical = critical.slice(0, 100);
+            const topStable = stable.slice(0, 200);
+
+            topCritical.forEach(m => container.appendChild(createCard(m, true)));
+            topStable.forEach(m => container.appendChild(createCard(m, false)));
+            
+            if (critical.length > 100 || stable.length > 200) {
+                const more = document.createElement('div');
+                more.className = 'text-center text-xs text-slate-600 py-4 uppercase font-black';
+                more.innerText = `+ ${critical.length + stable.length - 300} more results hidden (Use filter to narrow down)`;
+                container.appendChild(more);
+            }
         }
 
         function createCard(m, isCritical) {
