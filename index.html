@@ -69,19 +69,22 @@
             border-radius: 1.5rem;
             margin-bottom: 2rem;
             text-align: center;
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-        }
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        /* Alert Section Pulsing Border */
         .alert-glow {
             border: 1px solid rgba(239, 68, 68, 0.3);
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+        }
+
+        .collapsible-content {
+            max-height: 2000px;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            overflow: hidden;
+        }
+        .collapsible-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -111,15 +114,13 @@
 
     <!-- ACTION CENTER -->
     <main class="max-w-6xl mx-auto w-full flex-grow">
-        <!-- Error Message Container -->
         <div id="db-error-msg" class="max-w-6xl mx-auto glass-card">
             <strong id="error-title" class="text-lg">Database Error!</strong><br>
-            <p id="error-body" class="text-sm mt-2 opacity-80">Could not find 'scarlet_db_full.json'. Please make sure the file is in the same folder as this page.</p>
+            <p id="error-body" class="text-sm mt-2 opacity-80">Could not find 'scarlet_db_full.json'.</p>
         </div>
 
         <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-end">
-                <!-- Step 1: Upload (Customized for translations) -->
                 <div class="space-y-3">
                     <label id="ui-upload-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         1. Select /Mods Folder
@@ -133,7 +134,6 @@
                     </div>
                 </div>
 
-                <!-- Step 2: Search -->
                 <div class="space-y-3">
                     <label id="ui-search-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         2. Quick Filter
@@ -142,7 +142,6 @@
                         class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none focus:border-blue-500 transition-all text-white">
                 </div>
 
-                <!-- Step 3: Genre -->
                 <div class="space-y-3">
                     <label id="ui-genre-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">
                         3. Category
@@ -153,7 +152,6 @@
                     </select>
                 </div>
 
-                <!-- Step 4: Run -->
                 <button id="analyzeBtn" onclick="startAnalysis()" disabled 
                     class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg shadow-blue-900/30 transform hover:-translate-y-0.5 active:translate-y-0">
                     Run Analysis
@@ -163,57 +161,77 @@
 
         <!-- CRITICAL ALERTS SECTION -->
         <div id="alertsContainer" class="mb-12 hidden">
-            <h2 id="ui-alerts-title" class="text-red-500 font-black uppercase text-xs mb-4 tracking-widest flex items-center gap-2">
-                <span class="inline-block w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
-                Critical Issues Found
-            </h2>
-            <div id="alertsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="ui-alerts-title" class="text-red-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
+                    <span class="inline-block w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
+                    Critical Issues Found
+                </h2>
+                <button onclick="toggleAlerts()" id="ui-toggle-alerts" class="text-[10px] font-bold text-slate-500 uppercase hover:text-white transition-colors flex items-center gap-1">
+                    [ Collapse ]
+                </button>
+            </div>
+            <div id="alertsList" class="grid grid-cols-1 md:grid-cols-2 gap-4 collapsible-content">
                 <!-- Alert Cards injected here -->
             </div>
         </div>
 
         <!-- RESULTS TABLE -->
         <section class="glass-card overflow-hidden shadow-2xl mb-20 border border-white/5">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-800/40 text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5">
-                        <tr>
-                            <th id="th-name" class="p-6">Mod Name</th>
-                            <th id="th-author" class="p-6">Author</th>
-                            <th id="th-category" class="p-6 text-center">Category</th>
-                            <th id="th-status" class="p-6 text-right">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsBody" class="divide-y divide-slate-800/50 text-sm">
-                        <tr>
-                            <td colspan="4" class="p-20 text-center text-slate-500 italic" id="empty-state-msg">
-                                Please upload your /Mods folder to see the results.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="flex justify-between items-center p-6 border-b border-white/5">
+                <h3 id="ui-table-title" class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Analysis Results</h3>
+                <button onclick="toggleTable()" id="ui-toggle-table" class="text-[10px] font-bold text-slate-500 uppercase hover:text-white transition-colors">
+                    [ Collapse ]
+                </button>
+            </div>
+            <div id="tableContent" class="collapsible-content">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-800/40 text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5">
+                            <tr>
+                                <th id="th-name" class="p-6">Mod Name</th>
+                                <th id="th-author" class="p-6">Author</th>
+                                <th id="th-category" class="p-6 text-center">Category</th>
+                                <th id="th-status" class="p-6 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody" class="divide-y divide-slate-800/50 text-sm">
+                            <tr>
+                                <td colspan="4" class="p-20 text-center text-slate-500 italic" id="empty-state-msg">
+                                    Please upload your /Mods folder to see the results.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- FOOTER -->
     <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <div class="mb-6">
+        <div class="mb-4 text-center">
             <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" 
-                class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-2xl px-16 py-6 rounded-3xl shadow-[0_10px_40px_rgba(255,221,0,0.2)] transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">
+                class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-2xl px-16 py-6 rounded-3xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">
                 DONATE
             </a>
         </div>
-        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-16 font-medium italic">Voluntary project support</p>
+        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-6 font-medium italic">Voluntary project support</p>
+        
+        <!-- Bug Report Button -->
+        <div class="mb-12 text-center">
+            <a href="mailto:lupus1908@gmail.com" id="ui-bug-report" class="text-xs font-bold text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-widest border-b border-blue-500/20 pb-1">
+                Found an error? Contact me
+            </a>
+        </div>
 
         <div class="glass-card p-10 text-left border border-white/5 relative overflow-hidden">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-6 tracking-widest">Sources & Legal</h4>
             <div class="grid md:grid-cols-2 gap-10 text-[11px] leading-relaxed text-slate-400 italic">
                 <p id="ui-desc-en">
-                    This tool fetches mod statuses from the <strong>Scarlet's Realm</strong> database. It is provided for free and is fully compliant with EA's User Generated Content policy.
+                    This tool fetches mod statuses from the <strong>Scarlet's Realm</strong> database. Data is automatically refreshed once a week every Sunday. This project is free and is fully compliant with EA's UGC policy.
                 </p>
                 <p id="ui-desc-pl">
-                    Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Narzędzie jest darmowe i stworzone zgodnie z wytycznymi EA dotyczącymi zawartości fanowskiej.
+                    Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Lista jest automatycznie odświeżana raz w tygodniu w każdą niedzielę. Projekt jest darmowy i stworzony zgodnie z wytycznymi EA dotyczącymi zawartości fanowskiej.
                 </p>
             </div>
         </div>
@@ -242,11 +260,15 @@
                 creditsTitle: "Sources & Legal",
                 emptyMsg: "Please upload your /Mods folder to see the results.",
                 errorTitle: "Database Error!",
-                errorBody: "Could not load 'scarlet_db_full.json'. Ensure the file is in same folder and you're using a server.",
+                errorBody: "Could not load 'scarlet_db_full.json'.",
                 alertsTitle: "Critical Issues Found",
                 removeBtn: "REMOVE NOW",
                 noFolderSelected: "No folder selected",
-                folderSelected: "Folder loaded"
+                folderSelected: "Folder loaded",
+                collapse: "[ Collapse ]",
+                expand: "[ Expand ]",
+                tableTitle: "Analysis Results",
+                bugReport: "Found an error? Contact me"
             },
             pl: {
                 title: "Sims 4 Mod Checker",
@@ -265,11 +287,15 @@
                 creditsTitle: "Źródła i Informacje",
                 emptyMsg: "Wybierz swój folder /Mods, aby zobaczyć wyniki skanowania.",
                 errorTitle: "Błąd Bazy Danych!",
-                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'. Upewnij się, że plik jest w tym samym folderze.",
+                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'.",
                 alertsTitle: "Znaleziono Krytyczne Problemy",
                 removeBtn: "USUŃ TERAZ",
                 noFolderSelected: "Nie wybrano folderu",
-                folderSelected: "Folder wczytany"
+                folderSelected: "Folder wczytany",
+                collapse: "[ Zwiń ]",
+                expand: "[ Rozwiń ]",
+                tableTitle: "Wyniki Analizy",
+                bugReport: "Znalazłeś błąd? Napisz do mnie"
             }
         };
 
@@ -316,19 +342,19 @@
             document.getElementById('ui-credits-title').innerText = t.creditsTitle;
             document.getElementById('empty-state-msg').innerText = t.emptyMsg;
             document.getElementById('ui-alerts-title').childNodes[2].textContent = t.alertsTitle;
+            document.getElementById('ui-table-title').innerText = t.tableTitle;
+            document.getElementById('ui-bug-report').innerText = t.bugReport;
             
-            // Fixed Placeholders and Category Filter
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             document.getElementById('ui-all-categories').innerText = (lang === 'pl' ? 'Wszystkie kategorie' : 'All Categories');
 
-            // Fixed Folder Status
+            updateToggleButtonsText();
+
             const statusLabel = document.getElementById('ui-folder-status');
             if(userFiles.length === 0) {
                 statusLabel.innerText = t.noFolderSelected;
-                statusLabel.classList.replace('text-blue-400', 'text-slate-400');
             } else {
                 statusLabel.innerText = t.folderSelected;
-                statusLabel.classList.replace('text-slate-400', 'text-blue-400');
             }
 
             updateErrorText();
@@ -337,8 +363,28 @@
             const activeFlag = document.getElementById(`flag-${lang}`);
             if (activeFlag) activeFlag.classList.add('active');
             
-            // Re-render if there are results
             if(userFiles.length > 0) filterAndRender(false);
+        }
+
+        function updateToggleButtonsText() {
+            const t = langData[currentLang];
+            const alertsBtn = document.getElementById('ui-toggle-alerts');
+            const tableBtn = document.getElementById('ui-toggle-table');
+            const alertsList = document.getElementById('alertsList');
+            const tableContent = document.getElementById('tableContent');
+
+            if (alertsBtn) alertsBtn.innerText = alertsList.classList.contains('collapsed') ? t.expand : t.collapse;
+            if (tableBtn) tableBtn.innerText = tableContent.classList.contains('collapsed') ? t.expand : t.collapse;
+        }
+
+        function toggleAlerts() {
+            document.getElementById('alertsList').classList.toggle('collapsed');
+            updateToggleButtonsText();
+        }
+
+        function toggleTable() {
+            document.getElementById('tableContent').classList.toggle('collapsed');
+            updateToggleButtonsText();
         }
 
         function populateGenres() {
@@ -351,17 +397,23 @@
             });
         }
 
+        function cleanModName(name) {
+            return name.toLowerCase()
+                .replace(/\[.*?\]/g, '')
+                .replace(/\.(package|ts4script)/g, '')
+                .replace(/v\d+(\.\d+)*/g, '')
+                .replace(/_/g, ' ')
+                .trim();
+        }
+
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             if(files.length > 0) {
-                userFiles = files.map(f => f.name.toLowerCase()
-                    .replace('.package', '')
-                    .replace('.ts4script', '')
-                    .split(/v\d|V\d|_/)[0].trim()
-                );
-                document.getElementById('analyzeBtn').disabled = false;
+                userFiles = files
+                    .filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'))
+                    .map(f => cleanModName(f.name));
                 
-                // Update UI Feedback
+                document.getElementById('analyzeBtn').disabled = false;
                 const statusLabel = document.getElementById('ui-folder-status');
                 statusLabel.innerText = langData[currentLang].folderSelected;
                 statusLabel.classList.replace('text-slate-400', 'text-blue-400');
@@ -391,11 +443,17 @@
             if (userFiles.length > 0) {
                 filtered = filtered.filter(m => {
                     const dbName = (m.name || '').toLowerCase();
-                    return userFiles.some(userFile => dbName.includes(userFile) || userFile.includes(dbName));
+                    return userFiles.some(userFile => {
+                        if (userFile.length < 3) return false;
+                        return userFile.includes(dbName) || dbName.includes(userFile);
+                    });
                 });
+            } else {
+                if (term === '' && genre === 'All') {
+                    filtered = [];
+                }
             }
 
-            // De-duplicate by name to prevent multiple entries for the same mod
             const uniqueMap = new Map();
             filtered.forEach(item => {
                 if (!uniqueMap.has(item.name)) {
@@ -403,10 +461,8 @@
                 }
             });
             const uniqueList = Array.from(uniqueMap.values());
-
             const sorted = uniqueList.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
             
-            // Split into critical and stable
             const critical = sorted.filter(m => {
                 const s = (m.status || '').toLowerCase();
                 return s.includes('broken') || s.includes('obsolete') || s.includes('minor issues');
@@ -418,6 +474,8 @@
 
             if(withScroll && critical.length > 0) {
                 document.getElementById('alertsContainer').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('alertsList').classList.remove('collapsed');
+                updateToggleButtonsText();
             }
         }
 
@@ -448,8 +506,10 @@
 
         function renderTable(data) {
             const body = document.getElementById('resultsBody');
-            if (data.length === 0 && document.getElementById('alertsContainer').classList.contains('hidden')) {
-                body.innerHTML = `<tr><td colspan="4" class="p-10 text-center text-slate-600">No matching mods found in the database.</td></tr>`;
+            const isEmpty = data.length === 0 && document.getElementById('alertsContainer').classList.contains('hidden');
+            
+            if (isEmpty) {
+                body.innerHTML = `<tr><td colspan="4" class="p-10 text-center text-slate-600">${langData[currentLang].emptyMsg}</td></tr>`;
                 return;
             }
             body.innerHTML = data.map(m => {
