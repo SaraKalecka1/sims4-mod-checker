@@ -23,7 +23,7 @@
     </style>
 </head>
 <body class="p-4 md:p-10 min-h-screen flex flex-col">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.5.3 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.5.4 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-6"></div>
@@ -159,6 +159,7 @@
                 if (!response.ok) throw new Error(); 
                 rawDb = await response.json(); 
                 
+                // MAPOWANIE KLUCZY ZE STRONY SCARLET (KLASY NINJA)
                 processedDb = rawDb.map(m => {
                     const name = m.name || m["Mod Name"] || m["Name"] || "";
                     const author = m.author || m["Creator"] || m["Author"] || "";
@@ -209,7 +210,10 @@
         document.getElementById('folderInput').addEventListener('change', (e) => { 
             const files = Array.from(e.target.files); 
             userFiles = files.filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script')); 
+            
+            // USUWANIE ROZSZERZEŃ DLA LEPSZEGO DOPASOWANIA
             simpleUserFiles = userFiles.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, ''))); 
+            
             document.getElementById('analyzeBtn').disabled = (userFiles.length === 0); 
             document.getElementById('ui-folder-status').innerText = langData[currentLang].folderSelected + userFiles.length; 
             scanPerformed = false; 
