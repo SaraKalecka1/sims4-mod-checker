@@ -17,22 +17,23 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .page-btn { background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 8px; font-size: 11px; transition: 0.2s; font-weight: 700; }
+        .page-btn:hover { background: #3b82f6; color: white; }
         .page-btn.active { background: #3b82f6; color: white; }
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.3 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.4 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Deep Scan In Progress...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Filtering 16k+ Files...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-2xl mt-1">0%</div>
     </div>
 
     <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6 px-5">
         <div>
-            <h1 id="ui-title" class="text-3xl font-black text-white uppercase tracking-tighter italic">Sims 4 Mod Checker</h1>
-            <p id="ui-subtitle" class="text-blue-400 font-bold uppercase text-[9px] tracking-[0.4em]">pelna-kulturka.pl</p>
+            <h1 id="ui-title" class="text-3xl font-black text-white uppercase tracking-tighter italic leading-none">Sims 4 Mod Checker</h1>
+            <p id="ui-subtitle" class="text-blue-400 font-bold uppercase text-[9px] tracking-[0.4em] mt-1">pelna-kulturka.pl</p>
         </div>
         <div class="flex gap-2 glass-card p-1 px-3">
             <button class="flag-btn p-1 text-xl" onclick="setLang('pl')">🇵🇱</button>
@@ -52,9 +53,9 @@
                 </div>
                 <div class="space-y-1.5">
                     <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Search Results</label>
-                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Filter results..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
+                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Filter Identified..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg">Analyze 16k Files</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg">Scan Mods Only</button>
             </div>
         </section>
 
@@ -64,7 +65,7 @@
                 <p id="val-total" class="text-xl font-black text-white italic">0</p>
             </div>
             <div class="glass-card p-4 text-center border-b-2 border-red-500">
-                <p id="label-broken" class="text-[8px] font-black text-slate-500 uppercase">Broken</p>
+                <p id="label-broken" class="text-[8px] font-black text-slate-500 uppercase">Issues</p>
                 <p id="val-broken" class="text-xl font-black text-red-400 italic">0</p>
             </div>
             <div class="glass-card p-4 text-center border-b-2 border-green-500">
@@ -75,7 +76,7 @@
 
         <div id="resultsContent" class="mb-20">
             <div id="empty-state" class="text-center p-20 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Waiting for folder...</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Upload folder with 16k+ files to begin.</p>
             </div>
             <div id="list-container" class="space-y-2"></div>
             <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-8 hidden"></div>
@@ -83,15 +84,16 @@
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xs px-10 py-3 rounded-full shadow-xl uppercase italic">Support</a>
-        <p class="mt-8 text-[10px] text-slate-500">Data: Scarlet's Realm. Dual-Layer Match Engine.</p>
+        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xs px-10 py-3 rounded-full shadow-xl uppercase italic">Support Project</a>
+        <p class="mt-8 text-[9px] text-slate-500 leading-relaxed italic">Database: Scarlet's Realm. CC (hair, clothes, furniture) is automatically ignored by the matching engine.</p>
     </footer>
 
     <script>
         let processedDb = []; let userFiles = []; let currentLang = 'en';
         let allMatches = []; let currentPage = 1; const perPage = 15;
+        // Keywords that identify files as CC to be ignored
+        const ccTags = ["hair", "dress", "skirt", "top", "pants", "shoes", "makeup", "accessory", "furniture", "deco", "object", "bed", "chair", "wall", "floor"];
 
-        // Clean strings to only alpha-numeric
         function clean(s) { return s ? s.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
 
         async function init() {
@@ -105,15 +107,16 @@
                         status: m.status || m["Patch Status"] || "Unknown",
                         sName: clean(name)
                     };
-                }).filter(m => m.sName.length > 3);
+                }).filter(m => m.sName.length > 4); // Filter out very short names to avoid false positives
                 setLang('en');
-            } catch (e) { console.error("Database Fail"); }
+            } catch (e) { console.error("Database Load Error"); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            userFiles = files.map(f => clean(f.name));
-            document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files`;
+            // IGNORE CC: Filter out files containing CC tags
+            userFiles = files.filter(f => !ccTags.some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
+            document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files (CC filtered)`;
             document.getElementById('analyzeBtn').disabled = false;
         });
 
@@ -122,13 +125,12 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const found = new Map();
-            const chunkSize = 300;
+            const chunkSize = 350;
 
             for (let i = 0; i < processedDb.length; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // DUAL-LAYER MATCH
-                    // Checks if cleaned mod name is inside any squashed filename
+                    // PRECISION MATCHING: The cleaned mod name must be exactly contained in the filename
                     const isPresent = userFiles.some(f => f.includes(m.sName));
                     if (isPresent) found.set(m.name, m);
                 });
@@ -164,8 +166,11 @@
             container.innerHTML = slice.map(m => {
                 const isErr = /(broken|obsolete|issue)/i.test(m.status);
                 return `
-                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500' : 'border-blue-500/30'}">
-                    <div class="overflow-hidden"><h4 class="text-white font-bold text-xs truncate">${m.name}</h4><p class="text-[8px] text-slate-500 uppercase tracking-widest italic">${m.author}</p></div>
+                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500 shadow-red-900/10 shadow-lg' : 'border-blue-500/30'}">
+                    <div class="overflow-hidden">
+                        <h4 class="text-white font-bold text-xs truncate leading-tight">${m.name}</h4>
+                        <p class="text-[8px] text-slate-500 uppercase tracking-widest italic mt-0.5">${m.author}</p>
+                    </div>
                     <span class="status-badge ${isErr ? 'bg-err' : 'bg-ok'} shrink-0">${m.status}</span>
                 </div>`;
             }).join('');
@@ -194,8 +199,8 @@
         }
 
         const langData = {
-            en: { btnAnalyze: "Analyze 16k Files", total: "Identified", broken: "Broken", ok: "Safe", emptyMsg: "Upload your folder to start." },
-            pl: { btnAnalyze: "Analizuj 16k plików", total: "Zidentyfikowane", broken: "Błędy", ok: "Bezpieczne", emptyMsg: "Wgraj folder, aby zacząć." }
+            en: { btnAnalyze: "Scan Mods Only", total: "Identified", broken: "Issues", ok: "Safe", emptyMsg: "Upload your /Mods folder to begin analysis." },
+            pl: { btnAnalyze: "Skanuj tylko mody", total: "Zidentyfikowane", broken: "Problemy", ok: "Bezpieczne", emptyMsg: "Wgraj folder /Mods, aby zacząć." }
         };
         init();
     </script>
