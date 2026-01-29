@@ -16,7 +16,7 @@
         .spinner { width: 50px; height: 50px; border: 4px solid #1e293b; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .flag-btn { opacity: 0.4; transition: all 0.2s; filter: grayscale(1); }
+        .flag-btn { opacity: 0.4; transition: all 0.2s; filter: grayscale(1); cursor: pointer; border: none; background: none; }
         .flag-btn.active { opacity: 1; transform: scale(1.1); filter: grayscale(0); }
     </style>
 </head>
@@ -86,13 +86,14 @@
         <p id="ui-donate-sub" class="mt-4 italic text-sm text-slate-500">To narzędzie jest darmowe dzięki Waszemu wsparciu.</p>
         <div class="mt-12 glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Źródła i Informacje</h4>
-            <p id="ui-credits-desc">Baza danych pochodzi z <strong>Scarlet's Realm</strong>. Tylko mody gameplayowe.</p>
-            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Kontakt</a></div>
+            <p id="ui-credits-desc">Baza danych pochodzi z <strong>Scarlet's Realm</strong>. Narzędzie skupia się wyłącznie na modyfikacjach gameplayowych.</p>
+            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Kontakt z autorem</a></div>
         </div>
     </footer>
 
     <script>
-        let processedDb = []; let simpleUserFiles = []; let currentLang = 'pl'; let lastResults = { critical: [], stable: [] };
+        let processedDb = []; let simpleUserFiles = []; let currentLang = 'pl';
+        let lastResults = { critical: [], stable: [] };
         
         const langData = {
             en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Analyzing Files...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select your /Mods folder to begin analysis.", donateSub: "This tool is free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Focused on gameplay mods.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
@@ -126,6 +127,7 @@
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
+                // Mapowanie kluczy prosto z Twojego JSONa
                 processedDb = data.map(m => ({
                     name: m.name || "", author: m.author || "", status: m.status || "Unknown",
                     sName: simplify(m.name), sAuthor: simplify(m.author)
@@ -152,6 +154,7 @@
             for (let i = 0; i < total; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
+                    // STRYKTNIEJSZA LOGIKA: min 5 znaków nazwy modu
                     if (simpleUserFiles.some(sU => (sU.includes(m.sName) || m.sName.includes(sU)) && m.sName.length >= 5)) {
                         matched.push(m);
                     }
