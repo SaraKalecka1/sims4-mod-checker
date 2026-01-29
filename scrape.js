@@ -2,34 +2,24 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 (async () => {
-    console.log("🚀 Uruchamiam skaner w trybie STEALTH dla pelna-kulturka.pl...");
+    console.log("🚀 Uruchamiam skaner PEŁNEJ LISTY dla pelna-kulturka.pl...");
     
     const browser = await puppeteer.launch({ 
         headless: "shell",
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox', 
-            '--disable-http2', // Rozwiązuje ERR_HTTP2_PROTOCOL_ERROR
-            '--disable-blink-features=AutomationControlled', // Ukrywa tryb automatyzacji
-            '--disable-web-security'
+            '--disable-http2',
+            '--disable-blink-features=AutomationControlled'
         ]
     });
     
     const page = await browser.newPage();
-
-    // Maskowanie parametrów przeglądarki
-    await page.evaluateOnNewDocument(() => {
-        Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-    });
-
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
     await page.setViewport({ width: 1366, height: 768 });
 
     try {
         const url = 'https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/';
-        console.log(`🔗 Próba połączenia (Stealth Mode): ${url}`);
-        
-        // Używamy domcontentloaded - jest trudniejsze do zablokowania
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
 
         console.log("⏳ Stabilizacja strony (15s)...");
@@ -39,10 +29,10 @@ const fs = require('fs');
         let pageCounter = 1;
         let hasNextPage = true;
 
-        while (hasNextPage && pageCounter <= 30) {
+        // ZWIĘKSZONY LIMIT: 500 stron pozwoli pobrać do 10 000 modów
+        while (hasNextPage && pageCounter <= 500) {
             console.log(`📥 Przetwarzanie strony ${pageCounter}...`);
 
-            // Czekamy na dane w tabeli
             await page.waitForSelector('.ninja_table_pro tbody tr', { timeout: 30000 }).catch(() => null);
 
             const data = await page.evaluate(() => {
@@ -60,22 +50,19 @@ const fs = require('fs');
 
             if (data.length > 0) {
                 allData.push(...data);
-                console.log(`✅ Pobrano ${data.length} wierszy.`);
+                if (pageCounter % 10 === 0) console.log(`📊 Suma pobranych: ${allData.length}`);
             }
 
-            // Obsługa przycisku "Next" - Metoda bezpieczna (Force Click)
             const nextButton = await page.$('li.footable-page-nav[data-page="next"] a');
             
-            if (nextButton && pageCounter < 30) {
-                console.log("🖱️ Klikam 'Dalej'...");
+            if (nextButton) {
                 await page.evaluate(el => {
                     el.scrollIntoView();
                     el.click();
                 }, nextButton);
                 
-                // Losowe czekanie, by udawać człowieka (6-10 sekund)
-                const delay = Math.floor(Math.random() * 4000) + 6000;
-                await new Promise(r => setTimeout(r, delay));
+                // Krótsze czekanie (4s), by przyspieszyć proces przy 400 stronach
+                await new Promise(r => setTimeout(r, 4000));
                 pageCounter++;
             } else {
                 hasNextPage = false;
@@ -84,9 +71,7 @@ const fs = require('fs');
 
         if (allData.length > 0) {
             fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
-            console.log(`\n🎉 SUKCES! Baza pelna-kulturka.pl zaktualizowana: ${allData.length} modów.`);
-        } else {
-            console.log("⚠️ Pobrano 0 rekordów. Serwer może blokować treść tabeli.");
+            console.log(`\n🎉 SUKCES! Pobrano całą bazę: ${allData.length} modów.`);
         }
 
     } catch (error) {
