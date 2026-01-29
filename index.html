@@ -9,26 +9,31 @@
     <style>
         body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
         .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1rem; }
-        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 9px; padding: 3px 10px; border-radius: 99px; }
-        .bg-ok { background: rgba(74, 222, 128, 0.1); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.2); }
-        .bg-err { background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 9px; padding: 4px 12px; border-radius: 99px; }
+        
+        /* CUSTOM STATUS COLORS */
+        .bg-minor { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); } /* Orange */
+        .bg-obsolete { background: rgba(153, 27, 27, 0.2); color: #f87171; border: 1px solid rgba(153, 27, 27, 0.4); } /* Dark Red */
+        .bg-safe { background: rgba(120, 113, 108, 0.15); color: #a8a29e; border: 1px solid rgba(120, 113, 108, 0.3); } /* Brown-ish Grey */
+        .bg-broken { background: rgba(220, 38, 38, 0.15); color: #ef4444; border: 1px solid rgba(220, 38, 38, 0.3); }
+        .bg-updated { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+
         #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.98); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
         .spinner { width: 45px; height: 45px; border: 4px solid #1e293b; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .page-btn { background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 8px; font-size: 11px; transition: 0.2s; font-weight: 700; border: 1px solid rgba(255,255,255,0.05); }
-        .page-btn:hover:not(:disabled) { background: #3b82f6; color: white; border-color: transparent; }
         .page-btn.active { background: #3b82f6; color: white; border-color: transparent; }
         .flag-btn { opacity: 0.4; transition: 0.2s; filter: grayscale(1); cursor: pointer; }
         .flag-btn.active { opacity: 1; filter: grayscale(0); transform: scale(1.1); }
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest italic">Build: 1.7.9 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest italic">Build: 1.8.0 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Precision Analysis In Progress...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Precision Engine Analysis...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-2xl mt-1 italic">0%</div>
     </div>
 
@@ -50,12 +55,12 @@
                     <label id="ui-upload-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">1. Folder Selection</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
                     <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800/50 text-slate-300 py-3 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-xs italic">
-                        <span id="ui-folder-status">Select /Mods folder...</span>
+                        <span id="ui-folder-status">Select folder...</span>
                     </button>
                 </div>
                 <div class="space-y-1.5">
-                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Filter Results</label>
-                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search mod name..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
+                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Filter results</label>
+                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Search..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
                 </div>
                 <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg italic">Run Analysis</button>
             </div>
@@ -67,7 +72,7 @@
                 <p id="val-total" class="text-xl font-black text-white italic">0</p>
             </div>
             <div class="glass-card p-4 text-center border-b-2 border-red-500">
-                <p id="label-broken" class="text-[8px] font-black text-slate-500 uppercase">Broken</p>
+                <p id="label-broken" class="text-[8px] font-black text-slate-500 uppercase">Issues</p>
                 <p id="val-broken" class="text-xl font-black text-red-400 italic">0</p>
             </div>
             <div class="glass-card p-4 text-center border-b-2 border-green-500">
@@ -78,7 +83,7 @@
 
         <div id="resultsContent" class="mb-20 min-h-[300px]">
             <div id="empty-state" class="text-center p-20 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Waiting for folder upload (16k+ files)...</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Select folder with mods to begin.</p>
             </div>
             <div id="list-container" class="space-y-2"></div>
             <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-10 hidden"></div>
@@ -93,7 +98,7 @@
         
         <div class="glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-[9px] mb-3 tracking-widest not-italic">Sources & Compliance</h4>
-            <p id="ui-credits-desc">Data from <strong>Scarlet's Realm</strong>. Fully compliant with EA's Mod Policy. This tool only reads filenames and does not modify your game. Custom Content (hair, furniture) is ignored by CC-Shield.</p>
+            <p id="ui-credits-desc">Data sourced from <strong>Scarlet's Realm</strong>. This tool operates according to EA's Mod Policy, only analyzing filenames to identify game-affecting mods. Custom Content (hair, clothes, objects) is not tracked.</p>
             <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic hover:underline">Contact / Bug Report</a></div>
         </div>
     </footer>
@@ -102,10 +107,8 @@
         let processedDb = []; let userFiles = []; let currentLang = 'en';
         let allMatches = []; let filteredResults = []; let currentPage = 1; const perPage = 15;
         
-        // NOISE WORDS: common words that trigger false positives
-        const noise = ["the", "sims", "mods", "pack", "mod", "game", "addon", "update", "v1", "v2", "version", "traits", "interactions", "better"];
-        // CC SHIELD: Keywords used to ignore non-gameplay files
-        const ccShield = ["hair", "dress", "skirt", "shoes", "makeup", "accessory", "furniture", "deco", "bed", "chair", "wall", "floor", "eyelashes", "skin", "eyes", "jewelry", "bracelet", "necklace", "earrings", "socks", "clutter", "object", "top", "bottom"];
+        // Exclude generic words to prevent false positives
+        const genericWords = ["the", "sims", "mods", "pack", "mod", "game", "addon", "update", "v1", "v2", "version", "traits", "interactions", "better"];
 
         function clean(s) { return s ? s.toString().toLowerCase().replace(/'s\b/g, '').replace(/[^a-z0-9]/g, '') : ''; }
 
@@ -115,23 +118,22 @@
                 const data = await response.json();
                 processedDb = data.map(m => {
                     const name = m.name || m["Mod Name"] || "";
-                    // Precision logic: only words longer than 5 chars that are NOT noise
-                    const tokens = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 5 && !noise.includes(w));
+                    // Only use tokens longer than 4 chars that are NOT generic sims words
+                    const tokens = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 4 && !genericWords.includes(w));
                     return {
                         name, author: m.author || m["Creator"] || "Unknown",
                         status: m.status || m["Patch Status"] || "Unknown",
                         sName: clean(name), tokens: tokens
                     };
-                }).filter(m => m.sName.length > 6); // Ignore very short names
+                }).filter(m => m.tokens.length > 0 || m.sName.length > 8);
                 setLang('en');
-            } catch (e) { console.error("DB Load Fail"); }
+            } catch (e) { console.error("Database connection fail."); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            // APPLY CC SHIELD
-            userFiles = files.filter(f => !ccShield.some(tag => f.name.toLowerCase().includes(tag))).map(f => clean(f.name));
-            document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files (CC Shield Active)`;
+            userFiles = files.map(f => clean(f.name));
+            document.getElementById('ui-folder-status').innerText = `Detected: ${files.length} files`;
             document.getElementById('analyzeBtn').disabled = false;
         });
 
@@ -140,24 +142,20 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const foundMap = new Map();
-            const total = processedDb.length;
             const chunkSize = 400;
 
-            for (let i = 0; i < total; i += chunkSize) {
+            for (let i = 0; i < processedDb.length; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // ULTRA-PRECISION MATCH
+                    // Precision logic: requires full cleaned name match OR 2 unique long tokens
                     const match = userFiles.some(f => {
                         if (f.includes(m.sName)) return true;
-                        // Match if at least 2 long unique tokens appear in the filename
-                        if (m.tokens.length >= 2) {
-                            return m.tokens.filter(t => f.includes(t)).length >= 2;
-                        }
+                        if (m.tokens.length >= 2) return m.tokens.filter(t => f.includes(t)).length >= 2;
                         return false;
                     });
                     if (match) foundMap.set(m.name, m);
                 });
-                progress.innerText = `${Math.round((i / total) * 100)}%`;
+                progress.innerText = `${Math.round((i / processedDb.length) * 100)}%`;
             }
 
             allMatches = Array.from(foundMap.values()).sort((a,b) => a.name.localeCompare(b.name));
@@ -165,11 +163,21 @@
             loader.style.display = 'none';
         }
 
+        function getStatusClass(status) {
+            const s = status.toLowerCase();
+            if (s.includes("minor")) return "bg-minor"; // Orange
+            if (s.includes("obsolete")) return "bg-obsolete"; // Dark Red
+            if (s.includes("no known issues") || s.includes("safe")) return "bg-safe"; // Brown
+            if (s.includes("broken") || s.includes("obsolete")) return "bg-broken";
+            if (s.includes("updated") || s.includes("compatible")) return "bg-updated";
+            return "bg-safe";
+        }
+
         function renderDashboard() {
             const term = clean(document.getElementById('searchInput').value);
             filteredResults = term ? allMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : allMatches;
             
-            const brokenCount = filteredResults.filter(m => /(broken|obsolete|issue)/i.test(m.status)).length;
+            const brokenCount = filteredResults.filter(m => /(broken|obsolete|minor|issue)/i.test(m.status)).length;
             document.getElementById('summaryRow').classList.remove('hidden');
             document.getElementById('empty-state').classList.add('hidden');
             document.getElementById('val-total').innerText = filteredResults.length;
@@ -184,17 +192,17 @@
             const container = document.getElementById('list-container');
             const slice = filteredResults.slice((page-1)*perPage, page*perPage);
             
-            container.innerHTML = slice.length > 0 ? slice.map(m => {
-                const isErr = /(broken|obsolete|issue)/i.test(m.status);
+            container.innerHTML = slice.map(m => {
+                const sClass = getStatusClass(m.status);
                 return `
-                <div class="glass-card p-4 flex justify-between items-center border-l-4 ${isErr ? 'border-red-500 shadow-lg' : 'border-blue-500/30'}">
+                <div class="glass-card p-4 flex justify-between items-center border-l-4 border-slate-700 hover:border-blue-500 transition-all">
                     <div class="overflow-hidden">
                         <h4 class="text-white font-bold text-xs truncate leading-tight">${m.name}</h4>
                         <p class="text-[8px] text-slate-500 uppercase mt-0.5 tracking-widest italic">${m.author}</p>
                     </div>
-                    <span class="status-badge ${isErr ? 'bg-err' : 'bg-ok'} shrink-0">${m.status}</span>
+                    <span class="status-badge ${sClass} shrink-0">${m.status}</span>
                 </div>`;
-            }).join('') : `<div class="text-center p-10 glass-card text-slate-500 italic">No matches. Note: CC is ignored.</div>`;
+            }).join('');
 
             const pages = Math.ceil(filteredResults.length / perPage);
             const nav = document.getElementById('pagination');
@@ -224,8 +232,8 @@
         }
 
         const langData = {
-            en: { btnAnalyze: "Run Analysis", total: "Identified", broken: "Broken", ok: "Safe", emptyMsg: "Select /Mods folder to begin. CC is automatically ignored.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data: Scarlet's Realm. This tool complies with EA's Mod Policy. CC is ignored.", bugReport: "Contact / Bug Report" },
-            pl: { btnAnalyze: "Uruchom analizę", total: "Zidentyfikowane", broken: "Zepsute", ok: "Aktualne", emptyMsg: "Wybierz folder /Mods, aby zacząć. CC jest ignorowane.", donateSub: "Narzędzie jest darmowe dzięki Twojemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane: Scarlet's Realm. Narzędzie jest zgodne z polityką modów EA. CC jest ignorowane.", bugReport: "Kontakt / Zgłoś błąd" }
+            en: { btnAnalyze: "Run Analysis", total: "Identified", broken: "Issues", ok: "Up-to-date", emptyMsg: "Select /Mods folder to begin analysis.", donateSub: "This tool is free thanks to your support.", creditsTitle: "Sources & Compliance", creditsDesc: "Data sourced from Scarlet's Realm. Compliant with EA Mod Policy. CC is not tracked.", bugReport: "Contact / Bug Report" },
+            pl: { btnAnalyze: "Analizuj folder", total: "Zidentyfikowane mody", broken: "Wykryte błędy", ok: "Zgodne z wersją", emptyMsg: "Wybierz folder /Mods, aby rozpocząć analizę.", donateSub: "To narzędzie jest darmowe dzięki Twojemu wsparciu.", creditsTitle: "Źródła i Zgodność", creditsDesc: "Dane pobrane z Scarlet's Realm. Narzędzie zgodne z polityką modów EA. CC nie jest śledzone.", bugReport: "Kontakt / Zgłoś błąd" }
         };
         init();
     </script>
