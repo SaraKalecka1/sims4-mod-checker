@@ -2,14 +2,13 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 (async () => {
-    console.log("🚀 Starting the bot for pelna-kulturka.pl...");
+    console.log("🚀 Uruchamiam bota dla pelna-kulturka.pl...");
     const browser = await puppeteer.launch({ 
-        headless: true,
+        headless: "shell",
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            '--disable-dev-shm-usage'
         ]
     });
     
@@ -17,7 +16,8 @@ const fs = require('fs');
     await page.setDefaultNavigationTimeout(120000);
 
     try {
-        console.log("🔗 Navigating to the mod list...");
+        console.log("🔗 Łączenie ze stroną Scarlet's Realm...");
+        // CZYSTY URL BEZ NAWIASÓW MARKDOWN
         await page.goto('https://scarletsrealm.com/the-sims-4/mods/mod-list/', { 
             waitUntil: 'networkidle2' 
         });
@@ -27,10 +27,8 @@ const fs = require('fs');
         let pageCounter = 1;
 
         while (hasNextPage) {
-            console.log(`Scraping page ${pageCounter}...`);
-            
-            // Czekamy na załadowanie tabeli
-            await page.waitForSelector('.ninja_table_pro', { timeout: 10000 }).catch(() => null);
+            console.log(`Pobieranie strony ${pageCounter}...`);
+            await page.waitForSelector('.ninja_table_pro', { timeout: 15000 }).catch(() => null);
 
             const data = await page.evaluate(() => {
                 const rows = document.querySelectorAll('.ninja_table_pro tbody tr');
@@ -44,13 +42,13 @@ const fs = require('fs');
 
             if (data.length > 0) {
                 allData.push(...data);
-                console.log(`✅ Collected ${data.length} records.`);
+                console.log(`✅ Pobrano ${data.length} pozycji.`);
             }
             
             const nextButton = await page.$('.footable-page-nav[data-page="next"]:not(.disabled)');
             if (nextButton && pageCounter < 25) { 
                 await nextButton.click();
-                await new Promise(r => setTimeout(r, 5000));
+                await new Promise(r => setTimeout(r, 4000));
                 pageCounter++;
             } else {
                 hasNextPage = false;
@@ -58,10 +56,10 @@ const fs = require('fs');
         }
 
         fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
-        console.log(`✅ Success! Total records saved: ${allData.length}`);
+        console.log(`✅ Sukces! Zapisano łącznie: ${allData.length} rekordów.`);
 
     } catch (error) {
-        console.error("❌ Critical Error:", error.message);
+        console.error("❌ Błąd krytyczny:", error.message);
         process.exit(1);
     } finally {
         await browser.close();
