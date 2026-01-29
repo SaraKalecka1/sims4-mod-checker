@@ -21,11 +21,11 @@
     </style>
 </head>
 <body class="py-10">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.8 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.9 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Smart Scanning...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Scanning Database...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-xl mt-2 italic">0%</div>
     </div>
 
@@ -59,6 +59,12 @@
             </div>
         </section>
 
+        <div id="diagPanel" class="glass-card p-4 mb-6 border-l-4 border-yellow-500 hidden">
+            <p class="text-[10px] font-black uppercase text-yellow-500 mb-2">Diagnostic Mode:</p>
+            <p id="diag-db-count" class="text-xs text-slate-300 italic">Database Records: Loading...</p>
+            <p id="diag-files-sample" class="text-xs text-slate-300 mt-1 italic">Sample User Files: N/A</p>
+        </div>
+
         <div id="summaryRow" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 hidden">
             <div class="glass-card p-5 text-center border-b-4 border-blue-500">
                 <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase">Identified</p>
@@ -82,11 +88,11 @@
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-12 border-t border-slate-800/50 px-5">
-        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-14 py-4 rounded-3xl shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">Support the Project</a>
+        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-14 py-4 rounded-3xl shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter italic">Support the Project</a>
         <p id="ui-donate-sub" class="mt-4 italic text-sm text-slate-500">This tool is free thanks to your support.</p>
         <div class="mt-12 glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Sources & Legal</h4>
-            <p id="ui-credits-desc">Database provided by <strong>Scarlet's Realm</strong>. Gameplay mods only.</p>
+            <p id="ui-credits-desc">Database: <strong>Scarlet's Realm</strong>. Gameplay mods only. CC is not tracked.</p>
             <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Contact Developer</a></div>
         </div>
     </footer>
@@ -96,11 +102,18 @@
         let lastResults = { critical: [], stable: [] };
         
         const langData = {
-            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Smart Scanning...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select /Mods folder to begin analysis.", donateSub: "Free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Gameplay mods only.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
+            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Scanning Database...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select your /Mods folder to begin analysis.", donateSub: "This tool is free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Focused on gameplay mods.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
             pl: { title: "Sims 4 Mod Checker", upload: "1. Wczytaj Folder /Mods", search: "2. Filtrowanie Wyników", searchPlaceholder: "Szukaj modyfikacji...", btnAnalyze: "Uruchom Skanowanie", loaderText: "Skanowanie...", noFolder: "Wybierz folder...", folderSel: "Wykryto: ", emptyMsg: "Wybierz folder /Mods, aby rozpocząć analizę.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", bugReport: "Kontakt z autorem", creditsTitle: "Źródła i Informacje", creditsDesc: "Baza danych pochodzi z serwisu Scarlet's Realm. Skupia się na modach gameplayowych.", total: "Zidentyfikowane", broken: "Problemy", ok: "Aktualne" }
         };
 
-        function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, ' ').trim() : ''; }
+        // EXTREME SIMPLIFY: Removes possessives like 's and separators
+        function laxSimplify(str) { 
+            if (!str) return ''; 
+            return str.toString().toLowerCase()
+                .replace(/'s\b/g, '') // Removes possessive 's
+                .replace(/[^a-z0-9]/g, ' ') // Separates words
+                .trim(); 
+        }
 
         function setLang(lang) {
             currentLang = lang; const t = langData[lang];
@@ -130,22 +143,25 @@
                 processedDb = data.map(m => {
                     const name = m.name || m["Mod Name"] || "";
                     const author = m.author || m["Creator"] || "";
-                    // TOKENIZE name into individual words for smarter matching
-                    const tokens = simplify(name).split(/\s+/).filter(t => t.length > 3);
+                    // Break mod name into keywords for partial matching
+                    const keywords = laxSimplify(name).split(/\s+/).filter(k => k.length > 2);
                     return {
-                        name: name, author: author, status: m.status || m["Patch Status"] || "Unknown",
-                        tokens: tokens, sName: simplify(name).replace(/\s+/g, ''),
-                        sAuthor: simplify(author).replace(/\s+/g, '')
+                        name, author, status: m.status || m["Patch Status"] || "Unknown",
+                        keywords, sName: laxSimplify(name).replace(/\s+/g, ''),
+                        sAuthor: laxSimplify(author).replace(/\s+/g, '')
                     };
-                }).filter(m => m.tokens.length > 0);
+                }).filter(m => m.keywords.length > 0);
+                
+                document.getElementById('diagPanel').classList.remove('hidden');
+                document.getElementById('diag-db-count').innerText = `Database Records: ${processedDb.length}`;
                 setLang('en');
             } catch (e) { console.error("Database error."); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
-            // User files stay compact for comparison
             simpleUserFiles = files.map(f => f.name.toLowerCase().replace(/[^a-z0-9]/g, ''));
+            document.getElementById('diag-files-sample').innerText = `Sample User Files: ${simpleUserFiles.slice(0, 3).join(', ')}`;
             document.getElementById('ui-folder-status').innerText = langData[currentLang].folderSel + simpleUserFiles.length;
             document.getElementById('analyzeBtn').disabled = simpleUserFiles.length === 0;
         });
@@ -161,19 +177,20 @@
             for (let i = 0; i < total; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    // SMART TOKEN MATCHING:
-                    // A mod matches if at least 70% of its name-tokens (min 3 chars) are found in a filename
-                    let bestMatch = simpleUserFiles.some(sU => {
+                    // LAX MATCHING LOGIC:
+                    // 1. Check full string (mccc -> mc_cmd_center)
+                    // 2. OR check if at least 75% of mod's name-keywords are in the filename
+                    let match = simpleUserFiles.some(sU => {
                         if (sU.includes(m.sName)) return true;
-                        const hitCount = m.tokens.filter(token => sU.includes(token)).length;
-                        return (hitCount / m.tokens.length) >= 0.7;
+                        const hits = m.keywords.filter(k => sU.includes(k)).length;
+                        return (hits / m.keywords.length) >= 0.75;
                     });
-                    if (bestMatch) matched.push(m);
+                    if (match) matched.push(m);
                 });
                 progress.innerText = `${Math.round((i / total) * 100)}%`;
             }
 
-            const term = simplify(document.getElementById('searchInput').value).replace(/\s+/g, '');
+            const term = laxSimplify(document.getElementById('searchInput').value).replace(/\s+/g, '');
             const filtered = term ? matched.filter(m => m.sName.includes(term) || m.sAuthor.includes(term)) : matched;
             
             lastResults.critical = filtered.filter(m => /(broken|obsolete|minor|issue)/i.test(m.status));
@@ -192,22 +209,11 @@
             const container = document.getElementById('resultsContainer');
             container.innerHTML = ''; 
             if (critical.length === 0 && stable.length === 0) {
-                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No gameplay mods identified. CC (hairs, furniture) is not tracked.</div>`;
+                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No matches identified. CC is not tracked.</div>`;
                 return;
             }
-            // Group and cap results to prevent "wall of text"
-            const topCritical = critical.slice(0, 100);
-            const topStable = stable.slice(0, 200);
-
-            topCritical.forEach(m => container.appendChild(createCard(m, true)));
-            topStable.forEach(m => container.appendChild(createCard(m, false)));
-            
-            if (critical.length > 100 || stable.length > 200) {
-                const more = document.createElement('div');
-                more.className = 'text-center text-xs text-slate-600 py-4 uppercase font-black';
-                more.innerText = `+ ${critical.length + stable.length - 300} more results hidden (Use filter to narrow down)`;
-                container.appendChild(more);
-            }
+            critical.forEach(m => container.appendChild(createCard(m, true)));
+            stable.forEach(m => container.appendChild(createCard(m, false)));
         }
 
         function createCard(m, isCritical) {
