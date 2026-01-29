@@ -5,102 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sims 4 Mod Checker - pelna-kulturka.pl</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
         .glass-card { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 1.5rem; }
-        .status-compatible { color: #4ade80; }
-        .flag-btn { cursor: pointer; transition: all 0.2s ease; font-size: 1.8rem; opacity: 0.4; filter: grayscale(40%); }
-        .flag-btn.active { opacity: 1; transform: scale(1.1); filter: grayscale(0%); }
-        #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.95); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
-        .spinner { width: 60px; height: 60px; border: 6px solid #1e293b; border-top: 6px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
+        .status-badge { font-weight: 900; text-transform: uppercase; font-size: 10px; padding: 4px 12px; border-radius: 99px; letter-spacing: 0.05em; }
+        .bg-ok { background: rgba(74, 222, 128, 0.1); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.2); }
+        .bg-err { background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.2); }
+        #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.98); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #1e293b; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        main { flex: 1; }
+        main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">Build: 1.6.0 (2026-01-29)</div>
+<body class="py-10">
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.1 (2026-01-29)</div>
     
     <div id="loader">
-        <div class="spinner mb-6"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase tracking-[0.3em] text-sm mb-2">Analizowanie...</p>
-        <p id="ui-progress" class="text-blue-500 font-bold text-xs">0%</p>
+        <div class="spinner mb-4"></div>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest">Analizowanie...</p>
+        <div id="ui-progress" class="text-blue-500 font-black text-xl mt-2 italic">0%</div>
     </div>
 
-    <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
+    <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 px-5">
         <div>
-            <h1 id="ui-title" class="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">Sims 4 Mod Checker</h1>
-            <p id="ui-subtitle" class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.3em] mt-2">pelna-kulturka.pl</p>
+            <h1 id="ui-title" class="text-4xl font-black text-white uppercase tracking-tighter italic">Sims 4 Mod Checker</h1>
+            <p class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.4em] mt-1">PRO VERSION / pelna-kulturka.pl</p>
         </div>
-        <div class="flex gap-4 glass-card p-2 px-4 shadow-xl">
-            <span class="flag-btn active" id="flag-pl" onclick="setLang('pl')">🇵🇱</span>
-            <span class="flag-btn" id="flag-en" onclick="setLang('en')">🇬🇧</span>
+        <div class="flex gap-2 glass-card p-1.5 px-3">
+            <button class="flag-btn active p-1 text-2xl" id="flag-pl" onclick="setLang('pl')">🇵🇱</button>
+            <button class="flag-btn p-1 text-2xl" id="flag-en" onclick="setLang('en')">🇬🇧</button>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto w-full">
-        <section class="glass-card p-8 mb-12 shadow-2xl border-t border-white/10">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-end">
-                <div class="space-y-3">
-                    <label id="ui-upload-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">1. Wybierz folder /Mods</label>
+    <main>
+        <section class="glass-card p-8 mb-10 shadow-2xl border-t border-white/10">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-end">
+                <div class="space-y-2">
+                    <label id="ui-upload-label" class="text-[10px] font-black uppercase text-slate-500 ml-2">1. Wczytaj Folder /Mods</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
-                    <button onclick="document.getElementById('folderInput').click()" class="w-full text-left text-xs bg-slate-800 text-slate-400 py-2.5 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center">
-                        <span id="ui-folder-status">Nie wybrano folderu</span>
-                        <svg class="w-4 h-4 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                    <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800 text-slate-300 py-3.5 px-6 rounded-2xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-sm">
+                        <span id="ui-folder-status">Wybierz folder...</span>
+                        <svg class="w-5 h-5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
                     </button>
                 </div>
-                <div class="space-y-3">
-                    <label id="ui-search-label" class="block text-[10px] font-black uppercase text-slate-500 tracking-widest">2. Szybki Filtr</label>
-                    <input type="text" id="searchInput" placeholder="Szukaj..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-3 text-sm outline-none text-white focus:border-blue-500">
+                <div class="space-y-2">
+                    <label id="ui-search-label" class="text-[10px] font-black uppercase text-slate-500 ml-2">2. Filtrowanie Wyników</label>
+                    <input type="text" id="searchInput" placeholder="Szukaj..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3.5 text-sm outline-none text-white focus:border-blue-500 font-medium">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest text-sm shadow-lg">Skanuj Mody</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-4 rounded-2xl transition-all uppercase tracking-widest shadow-lg shadow-blue-900/20">Uruchom Skanowanie</button>
             </div>
         </section>
 
-        <div id="alertsContainer" class="mb-12 hidden">
-            <h2 id="ui-alerts-title" class="text-red-500 font-black uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
-                <span class="inline-block w-2 h-2 bg-red-500 rounded-full animate-ping"></span>Krytyczne Problemy
-            </h2>
-            <div id="alertsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <div id="summaryRow" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 hidden">
+            <div class="glass-card p-5 text-center border-b-4 border-blue-500">
+                <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase">Wykryte Mody</p>
+                <p id="val-total" class="text-3xl font-black text-white italic">0</p>
+            </div>
+            <div class="glass-card p-5 text-center border-b-4 border-red-500">
+                <p id="label-broken" class="text-[9px] font-black text-slate-500 uppercase">Do Naprawy</p>
+                <p id="val-broken" class="text-3xl font-black text-red-400 italic">0</p>
+            </div>
+            <div class="glass-card p-5 text-center border-b-4 border-green-500 md:col-span-1 col-span-2">
+                <p id="label-ok" class="text-[9px] font-black text-slate-500 uppercase">Kompatybilne</p>
+                <p id="val-ok" class="text-3xl font-black text-green-400 italic">0</p>
+            </div>
         </div>
 
-        <section class="glass-card overflow-hidden shadow-2xl mb-20">
-            <div class="flex justify-between items-center p-6 border-b border-white/5">
-                <div class="flex items-center gap-4">
-                    <h3 id="ui-table-title" class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Wyniki Analizy</h3>
-                    <span id="ui-counter" class="text-[9px] font-black bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20 hidden uppercase"></span>
-                </div>
+        <div id="resultsContainer" class="space-y-4 mb-20">
+            <div id="empty-state" class="text-center p-20 glass-card">
+                <p id="ui-empty-msg" class="text-slate-500 italic font-medium">Wybierz folder /Mods, aby rozpocząć analizę.</p>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-800/40 text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5">
-                        <tr><th id="th-name" class="p-6">Modyfikacja</th><th id="th-author" class="p-6">Autor</th><th id="th-status" class="p-6 text-right">Status</th></tr>
-                    </thead>
-                    <tbody id="resultsBody" class="divide-y divide-slate-800/50 text-sm">
-                        <tr><td colspan="3" id="ui-empty-msg" class="p-20 text-center text-slate-500 italic">Wgraj folder /Mods, aby zobaczyć wyniki.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        </div>
     </main>
 
-    <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <div class="mb-4 text-center">
-            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-12 py-4 rounded-2xl shadow-xl transition-all uppercase tracking-tighter">DONATE</a>
-        </div>
-        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-6 font-medium italic">Dobrowolne wsparcie projektu</p>
-        <div class="mb-10"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-xs font-bold text-blue-500 uppercase tracking-widest border-b border-blue-500/20 pb-1">Napisz do mnie</a></div>
-        <div class="glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400">
+    <footer class="max-w-4xl mx-auto w-full text-center py-12 border-t border-slate-800/50 px-5">
+        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xl px-14 py-4 rounded-3xl shadow-2xl transition-all transform hover:-translate-y-1 active:scale-95 uppercase tracking-tighter">Wesprzyj Projekt</a>
+        <div id="ui-donate-sub" class="mt-4 italic text-sm text-slate-500">To narzędzie jest darmowe dzięki Waszemu wsparciu.</div>
+        <div class="mt-12 glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative overflow-hidden">
+             <div class="absolute top-0 right-0 p-4 opacity-5 not-italic font-black text-4xl">INFO</div>
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Źródła i Informacje</h4>
-            <p id="ui-credits-desc">Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Narzędzie skupia się na modach gameplayowych.</p>
+            <p id="ui-credits-desc">Baza danych pochodzi z serwisu <strong>Scarlet's Realm</strong>. Skaner skupia się wyłącznie na plikach skryptowych i gameplayowych (.ts4script, .package). Custom Content (meble, ubrania) nie jest uwzględniony w bazie.</p>
+            <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic hover:underline">Zgłoś błąd / Kontakt</a></div>
         </div>
     </footer>
 
     <script>
         let processedDb = []; let simpleUserFiles = []; let currentLang = 'pl';
+        
         const langData = {
-            en: { title: "Sims 4 Mod Checker", upload: "1. Select /Mods Folder", search: "2. Quick Filter", searchPlaceholder: "Search mod or creator...", thName: "Mod Name", thAuthor: "Author", thStatus: "Status", btnAnalyze: "Run Analysis", loaderText: "Scanning...", alertsTitle: "Critical Issues", noFolder: "No folder selected", folderSel: "Files: ", countLabel: "MODS IDENTIFIED", emptyMsg: "Upload /Mods folder to see results.", donateSub: "Voluntary project support", bugReport: "Found an error? Contact me", creditsTitle: "Sources & Legal", creditsDesc: "Mod statuses are fetched from Scarlet's Realm. Gameplay mods only." },
-            pl: { title: "Sims 4 Mod Checker", upload: "1. Wybierz folder /Mods", search: "2. Szybki Filtr", searchPlaceholder: "Szukaj moda lub autora...", thName: "Modyfikacja", thAuthor: "Autor", thStatus: "Status", btnAnalyze: "Skanuj Mody", loaderText: "Analizowanie...", alertsTitle: "Krytyczne Problemy", noFolder: "Nie wybrano folderu", folderSel: "Pliki: ", countLabel: "MODÓW IDENTYFIKACJA", emptyMsg: "Wgraj folder /Mods, aby zobaczyć wyniki.", donateSub: "Dobrowolne wsparcie projektu", bugReport: "Znalazłeś błąd? Napisz do mnie", creditsTitle: "Źródła i Informacje", creditsDesc: "Statusy modów są pobierane z bazy Scarlet's Realm. Tylko mody gameplayowe." }
+            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search...", btnAnalyze: "Run Scanning", loaderText: "Analyzing Files...", noFolder: "Select folder...", folderSel: "Files: ", countLabel: "MODS IDENTIFIED", emptyMsg: "Select /Mods folder to start analysis.", donateSub: "This tool is free thanks to your support.", bugReport: "Report Bug / Contact", creditsTitle: "Sources & Info", creditsDesc: "Database provided by Scarlet's Realm. Focused on gameplay mods.", total: "Mods Found", broken: "To Fix", ok: "Compatible", scanBtn: "Scan Now" },
+            pl: { title: "Sims 4 Mod Checker", upload: "1. Wczytaj Folder /Mods", search: "2. Filtrowanie Wyników", searchPlaceholder: "Szukaj modyfikacji...", btnAnalyze: "Uruchom Skanowanie", loaderText: "Analizowanie Plików...", noFolder: "Wybierz folder...", folderSel: "Wykryto: ", countLabel: "MODÓW ZIDENTYFIKOWANO", emptyMsg: "Wybierz folder /Mods, aby rozpocząć analizę.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", bugReport: "Zgłoś błąd / Kontakt", creditsTitle: "Źródła i Informacje", creditsDesc: "Baza danych pochodzi z serwisu Scarlet's Realm. Skupia się na modach gameplayowych.", total: "Wykryte Mody", broken: "Do Naprawy", ok: "Kompatybilne", scanBtn: "Skanuj Mody" }
         };
 
         function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
@@ -111,17 +106,16 @@
             document.getElementById('ui-upload-label').innerText = t.upload;
             document.getElementById('ui-search-label').innerText = t.search;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            document.getElementById('th-name').innerText = t.thName;
-            document.getElementById('th-author').innerText = t.thAuthor;
-            document.getElementById('th-status').innerText = t.thStatus;
             document.getElementById('analyzeBtn').innerText = t.btnAnalyze;
             document.getElementById('ui-loader-text').innerText = t.loaderText;
-            document.getElementById('ui-alerts-title').innerText = t.alertsTitle;
             document.getElementById('ui-empty-msg').innerText = t.emptyMsg;
             document.getElementById('ui-donate-sub').innerText = t.donateSub;
             document.getElementById('ui-bug-report').innerText = t.bugReport;
             document.getElementById('ui-credits-title').innerText = t.creditsTitle;
             document.getElementById('ui-credits-desc').innerHTML = t.creditsDesc;
+            document.getElementById('label-total').innerText = t.total;
+            document.getElementById('label-broken').innerText = t.broken;
+            document.getElementById('label-ok').innerText = t.ok;
             document.querySelectorAll('.flag-btn').forEach(b => b.classList.toggle('active', b.id === `flag-${lang}`));
             document.getElementById('ui-folder-status').innerText = (simpleUserFiles.length > 0) ? t.folderSel + simpleUserFiles.length : t.noFolder;
         }
@@ -133,8 +127,8 @@
                 processedDb = data.map(m => ({
                     name: m.name || "", author: m.author || "", status: m.status || "Unknown",
                     sName: simplify(m.name), sAuthor: simplify(m.author)
-                })).filter(m => m.sName.length > 2);
-            } catch (e) { console.error("Database failed."); }
+                })).filter(m => m.sName.length > 4); // Minimalna długość nazwy modu, aby uniknąć śmieciowych dopasowań
+            } catch (e) { console.error("Database error."); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
@@ -144,59 +138,70 @@
             document.getElementById('analyzeBtn').disabled = simpleUserFiles.length === 0;
         });
 
-        // ASYNCHRONICZNY SILNIK ANALIZY (CHUNKING)
         async function startAnalysis() {
             const loader = document.getElementById('loader');
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             
             const matched = [];
-            const chunkSize = 200; // Liczba rekordów bazy przetwarzanych w jednym kroku
-            const totalRecords = processedDb.length;
+            const chunkSize = 250; 
+            const total = processedDb.length;
             
-            for (let i = 0; i < totalRecords; i += chunkSize) {
-                // Pozwól UI na odświeżenie
-                await new Promise(resolve => setTimeout(resolve, 0));
-                
+            for (let i = 0; i < total; i += chunkSize) {
+                await new Promise(r => setTimeout(r, 0));
                 const chunk = processedDb.slice(i, i + chunkSize);
                 chunk.forEach(m => {
-                    const isMatched = simpleUserFiles.some(sU => sU.includes(m.sName) || m.sName.includes(sU)) ||
-                                     (m.sAuthor.length > 3 && simpleUserFiles.some(sU => sU.includes(m.sAuthor)));
-                    if (isMatched) matched.push(m);
+                    // STRYKTNIEJSZA LOGIKA: Nazwa modu musi być w nazwie pliku I mieć min 5 znaków
+                    const nameMatch = simpleUserFiles.some(sU => (sU.includes(m.sName) || m.sName.includes(sU)) && m.sName.length >= 5);
+                    if (nameMatch) matched.push(m);
                 });
-                
-                // Aktualizuj procenty
-                const pct = Math.round((i / totalRecords) * 100);
-                progress.innerText = `${pct}%`;
+                progress.innerText = `${Math.round((i / total) * 100)}%`;
             }
 
             const term = simplify(document.getElementById('searchInput').value);
-            let filtered = matched;
-            if (term) filtered = matched.filter(m => m.sName.includes(term) || m.sAuthor.includes(term));
+            const filtered = term ? matched.filter(m => m.sName.includes(term) || m.sAuthor.includes(term)) : matched;
             
             const critical = filtered.filter(m => /(broken|obsolete|minor|issue)/i.test(m.status));
             const stable = filtered.filter(m => !critical.includes(m));
 
-            document.getElementById('ui-counter').innerText = `${filtered.length} ${langData[currentLang].countLabel}`;
-            document.getElementById('ui-counter').classList.remove('hidden');
+            // Podsumowanie
+            document.getElementById('summaryRow').classList.remove('hidden');
+            document.getElementById('val-total').innerText = filtered.length;
+            document.getElementById('val-broken').innerText = critical.length;
+            document.getElementById('val-ok').innerText = stable.length;
             
-            renderResults(critical, stable);
+            renderCards(critical, stable);
             loader.style.display = 'none';
         }
 
-        function renderResults(critical, stable) {
-            const alerts = document.getElementById('alertsList'); const body = document.getElementById('resultsBody');
-            document.getElementById('alertsContainer').classList.toggle('hidden', critical.length === 0);
-            
-            alerts.innerHTML = critical.map(m => `
-                <div class="glass-card p-6 border-l-4 border-red-500 flex justify-between items-center shadow-lg">
-                    <div><h4 class="text-white font-bold">${m.name}</h4><p class="text-[10px] text-slate-500 uppercase">${m.author}</p></div>
-                    <span class="text-red-400 font-black text-[10px] uppercase px-3 py-1 bg-red-500/10 rounded border border-red-500/20">${m.status}</span>
-                </div>`).join('');
+        function renderCards(critical, stable) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = ''; 
 
-            body.innerHTML = (stable.length > 0 || critical.length > 0) ? stable.map(m => `
-                <tr class="hover:bg-slate-800/40 transition-colors"><td class="p-6 font-bold text-white">${m.name}</td><td class="p-6 text-slate-400">${m.author}</td><td class="p-6 text-right font-black status-compatible uppercase">${m.status}</td></tr>`).join('') 
-                : `<tr><td colspan="3" class="p-20 text-center text-slate-500 italic">${langData[currentLang].emptyMsg}</td></tr>`;
+            if (critical.length === 0 && stable.length === 0) {
+                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">Brak dopasowań w bazie. CC nie jest monitorowane.</div>`;
+                return;
+            }
+
+            // Najpierw Problemy
+            critical.forEach(m => container.appendChild(createCard(m, true)));
+            // Potem Kompatybilne
+            stable.forEach(m => container.appendChild(createCard(m, false)));
+        }
+
+        function createCard(m, isCritical) {
+            const div = document.createElement('div');
+            div.className = `glass-card p-6 flex flex-col md:flex-row justify-between items-center gap-4 transition-all hover:border-white/10 ${isCritical ? 'border-l-4 border-l-red-500 shadow-lg shadow-red-900/5' : ''}`;
+            div.innerHTML = `
+                <div class="flex-1">
+                    <h4 class="text-white font-bold text-lg leading-tight">${m.name}</h4>
+                    <p class="text-[10px] text-slate-500 font-black uppercase mt-1 tracking-widest">${m.author || 'Unknown Author'}</p>
+                </div>
+                <div class="text-right">
+                    <span class="status-badge ${isCritical ? 'bg-err' : 'bg-ok'}">${m.status}</span>
+                </div>
+            `;
+            return div;
         }
 
         init();
