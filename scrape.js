@@ -2,23 +2,37 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 (async () => {
-    console.log("🚀 Uruchamiam zaawansowany skaner dla pelna-kulturka.pl...");
+    console.log("🚀 Uruchamiam skaner w trybie STEALTH dla pelna-kulturka.pl...");
+    
     const browser = await puppeteer.launch({ 
         headless: "shell",
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-http2']
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox', 
+            '--disable-http2', // Rozwiązuje ERR_HTTP2_PROTOCOL_ERROR
+            '--disable-blink-features=AutomationControlled', // Ukrywa tryb automatyzacji
+            '--disable-web-security'
+        ]
     });
     
     const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-    await page.setViewport({ width: 1280, height: 800 });
+
+    // Maskowanie parametrów przeglądarki
+    await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+    });
+
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
+    await page.setViewport({ width: 1366, height: 768 });
 
     try {
         const url = 'https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/';
-        console.log(`🔗 Próba połączenia z: ${url}`);
+        console.log(`🔗 Próba połączenia (Stealth Mode): ${url}`);
         
-        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        // Używamy domcontentloaded - jest trudniejsze do zablokowania
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
 
-        console.log("⏳ Czekam na tabelę Ninja (15s)...");
+        console.log("⏳ Stabilizacja strony (15s)...");
         await new Promise(r => setTimeout(r, 15000));
 
         let allData = [];
@@ -26,9 +40,11 @@ const fs = require('fs');
         let hasNextPage = true;
 
         while (hasNextPage && pageCounter <= 30) {
-            console.log(`📥 Scrapowanie strony ${pageCounter}...`);
+            console.log(`📥 Przetwarzanie strony ${pageCounter}...`);
 
-            // Pobieranie danych
+            // Czekamy na dane w tabeli
+            await page.waitForSelector('.ninja_table_pro tbody tr', { timeout: 30000 }).catch(() => null);
+
             const data = await page.evaluate(() => {
                 const rows = document.querySelectorAll('.ninja_table_pro tbody tr');
                 return Array.from(rows).map(row => {
@@ -39,7 +55,7 @@ const fs = require('fs');
                         status: cols[3]?.innerText.trim() || "",
                         update: cols[4]?.innerText.trim() || ""
                     };
-                }).filter(item => item.name.length > 1);
+                }).filter(item => item.name.length > 2);
             });
 
             if (data.length > 0) {
@@ -47,30 +63,30 @@ const fs = require('fs');
                 console.log(`✅ Pobrano ${data.length} wierszy.`);
             }
 
-            // --- POPRAWKA KLIKANIA (Next Button) ---
+            // Obsługa przycisku "Next" - Metoda bezpieczna (Force Click)
             const nextButton = await page.$('li.footable-page-nav[data-page="next"] a');
             
-            if (nextButton) {
-                console.log("🖱️ Przechodzę do następnej strony...");
-                // Przewijamy do przycisku, żeby był widoczny
-                await page.evaluate(el => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), nextButton);
-                await new Promise(r => setTimeout(r, 2000));
+            if (nextButton && pageCounter < 30) {
+                console.log("🖱️ Klikam 'Dalej'...");
+                await page.evaluate(el => {
+                    el.scrollIntoView();
+                    el.click();
+                }, nextButton);
                 
-                // Klikamy przez evaluate (bardziej odporne na przeszkody)
-                await page.evaluate(el => el.click(), nextButton);
-                
-                // Czekamy aż tabela się przeładuje
-                await new Promise(r => setTimeout(r, 8000));
+                // Losowe czekanie, by udawać człowieka (6-10 sekund)
+                const delay = Math.floor(Math.random() * 4000) + 6000;
+                await new Promise(r => setTimeout(r, delay));
                 pageCounter++;
             } else {
-                console.log("🏁 Koniec stron lub przycisk nieaktywny.");
                 hasNextPage = false;
             }
         }
 
         if (allData.length > 0) {
             fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
-            console.log(`\n🎉 SUKCES! Zapisano łącznie: ${allData.length} modów.`);
+            console.log(`\n🎉 SUKCES! Baza pelna-kulturka.pl zaktualizowana: ${allData.length} modów.`);
+        } else {
+            console.log("⚠️ Pobrano 0 rekordów. Serwer może blokować treść tabeli.");
         }
 
     } catch (error) {
