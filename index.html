@@ -17,23 +17,22 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         main { flex: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .page-btn { background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 8px; font-size: 11px; transition: 0.2s; font-weight: 700; }
-        .page-btn:hover:not(:disabled) { background: #3b82f6; color: white; }
         .page-btn.active { background: #3b82f6; color: white; }
     </style>
 </head>
 <body class="py-8">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.2 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.7.3 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest">Precision Scan...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-[10px] tracking-widest italic">Deep Scan In Progress...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-2xl mt-1">0%</div>
     </div>
 
     <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6 px-5">
         <div>
             <h1 id="ui-title" class="text-3xl font-black text-white uppercase tracking-tighter italic">Sims 4 Mod Checker</h1>
-            <p id="ui-subtitle" class="text-blue-400 font-bold uppercase text-[9px] tracking-[0.4em]">PRO Analysis / pelna-kulturka.pl</p>
+            <p id="ui-subtitle" class="text-blue-400 font-bold uppercase text-[9px] tracking-[0.4em]">pelna-kulturka.pl</p>
         </div>
         <div class="flex gap-2 glass-card p-1 px-3">
             <button class="flag-btn p-1 text-xl" onclick="setLang('pl')">🇵🇱</button>
@@ -45,17 +44,17 @@
         <section class="glass-card p-6 mb-8 shadow-2xl">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
                 <div class="space-y-1.5">
-                    <label class="text-[9px] font-black uppercase text-slate-500 ml-1">1. Folder Selection</label>
+                    <label id="ui-upload-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">1. Folder Selection</label>
                     <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
                     <button onclick="document.getElementById('folderInput').click()" class="w-full bg-slate-800/50 text-slate-300 py-3 px-5 rounded-xl border border-white/5 hover:bg-slate-700 transition-all flex justify-between items-center font-bold text-xs">
                         <span id="ui-folder-status">Select /Mods folder...</span>
                     </button>
                 </div>
                 <div class="space-y-1.5">
-                    <label class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Search Results</label>
-                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Filter Identified..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
+                    <label id="ui-search-label" class="text-[9px] font-black uppercase text-slate-500 ml-1">2. Search Results</label>
+                    <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="Filter results..." class="w-full bg-slate-900/80 border border-slate-700/50 rounded-xl p-3 text-xs outline-none text-white focus:border-blue-500">
                 </div>
-                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg">Run Analysis</button>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white font-black py-3 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg">Analyze 16k Files</button>
             </div>
         </section>
 
@@ -74,46 +73,41 @@
             </div>
         </div>
 
-        <div id="resultsContent" class="mb-20 min-h-[300px]">
+        <div id="resultsContent" class="mb-20">
             <div id="empty-state" class="text-center p-20 glass-card">
-                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Upload folder with 16k+ files to begin.</p>
+                <p id="ui-empty-msg" class="text-slate-500 italic text-sm">Waiting for folder...</p>
             </div>
             <div id="list-container" class="space-y-2"></div>
-            <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-10 hidden"></div>
+            <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-8 hidden"></div>
         </div>
     </main>
 
     <footer class="max-w-4xl mx-auto w-full text-center py-10 border-t border-slate-800/50">
-        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xs px-10 py-3 rounded-full shadow-xl uppercase tracking-tighter italic">Support Project</a>
-        <div class="mt-8 glass-card p-6 text-left italic text-[10px] leading-relaxed text-slate-500 border border-white/5">
-            <p>Data: Scarlet's Realm. Build 1.7.2 optimized for 16k+ file structures.</p>
-        </div>
+        <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea45] text-black font-black text-xs px-10 py-3 rounded-full shadow-xl uppercase italic">Support</a>
+        <p class="mt-8 text-[10px] text-slate-500">Data: Scarlet's Realm. Dual-Layer Match Engine.</p>
     </footer>
 
     <script>
-        let rawDb = []; let userFiles = []; let currentLang = 'en';
-        let matches = []; let filtered = []; let currentPage = 1; const perPage = 15;
-        const noise = ["the", "sims", "mods", "pack", "mod", "game", "addon", "update", "v1", "v2", "version", "traits", "interactions"];
+        let processedDb = []; let userFiles = []; let currentLang = 'en';
+        let allMatches = []; let currentPage = 1; const perPage = 15;
 
+        // Clean strings to only alpha-numeric
         function clean(s) { return s ? s.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
 
         async function init() {
             try {
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
-                rawDb = data.map(m => {
+                processedDb = data.map(m => {
                     const name = m.name || m["Mod Name"] || "";
-                    // Anchor = longest word in name that isn't noise
-                    const words = name.toLowerCase().replace(/[^a-z ]/g, '').split(' ').filter(w => w.length > 3 && !noise.includes(w));
                     return {
                         name, author: m.author || m["Creator"] || "Unknown",
                         status: m.status || m["Patch Status"] || "Unknown",
-                        anchor: words.sort((a,b) => b.length - a.length)[0] || clean(name),
                         sName: clean(name)
                     };
-                }).filter(m => m.anchor.length > 3);
+                }).filter(m => m.sName.length > 3);
                 setLang('en');
-            } catch (e) { console.error("DB Load Fail"); }
+            } catch (e) { console.error("Database Fail"); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
@@ -128,41 +122,44 @@
             const progress = document.getElementById('ui-progress');
             loader.style.display = 'flex';
             const found = new Map();
-            const chunkSize = 400;
+            const chunkSize = 300;
 
-            for (let i = 0; i < rawDb.length; i += chunkSize) {
+            for (let i = 0; i < processedDb.length; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
-                rawDb.slice(i, i + chunkSize).forEach(m => {
-                    // Precision logic: Does the file contain the unique anchor word AND the cleaned name?
-                    const isPresent = userFiles.some(f => f.includes(m.anchor));
+                processedDb.slice(i, i + chunkSize).forEach(m => {
+                    // DUAL-LAYER MATCH
+                    // Checks if cleaned mod name is inside any squashed filename
+                    const isPresent = userFiles.some(f => f.includes(m.sName));
                     if (isPresent) found.set(m.name, m);
                 });
-                progress.innerText = `${Math.round((i / rawDb.length) * 100)}%`;
+                progress.innerText = `${Math.round((i / processedDb.length) * 100)}%`;
             }
 
-            matches = Array.from(found.values()).sort((a,b) => a.name.localeCompare(b.name));
-            handleSearch();
+            allMatches = Array.from(found.values()).sort((a,b) => a.name.localeCompare(b.name));
+            renderDashboard();
             loader.style.display = 'none';
         }
 
-        function handleSearch() {
+        function renderDashboard() {
             const term = clean(document.getElementById('searchInput').value);
-            filtered = term ? matches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : matches;
+            const filtered = term ? allMatches.filter(m => m.sName.includes(term) || clean(m.author).includes(term)) : allMatches;
             
-            const brokenCount = filtered.filter(m => /(broken|obsolete|issue)/i.test(m.status)).length;
+            const broken = filtered.filter(m => /(broken|obsolete|issue)/i.test(m.status));
+            const safe = filtered.filter(m => !broken.includes(m));
+
             document.getElementById('summaryRow').classList.remove('hidden');
             document.getElementById('empty-state').classList.add('hidden');
             document.getElementById('val-total').innerText = filtered.length;
-            document.getElementById('val-broken').innerText = brokenCount;
-            document.getElementById('val-ok').innerText = filtered.length - brokenCount;
+            document.getElementById('val-broken').innerText = broken.length;
+            document.getElementById('val-ok').innerText = safe.length;
 
-            renderPage(1);
+            displayPage(1, filtered);
         }
 
-        function renderPage(page) {
+        function displayPage(page, data) {
             currentPage = page;
             const container = document.getElementById('list-container');
-            const slice = filtered.slice((page-1)*perPage, page*perPage);
+            const slice = data.slice((page-1)*perPage, page*perPage);
             
             container.innerHTML = slice.map(m => {
                 const isErr = /(broken|obsolete|issue)/i.test(m.status);
@@ -173,15 +170,15 @@
                 </div>`;
             }).join('');
 
-            const pages = Math.ceil(filtered.length / perPage);
+            const pages = Math.ceil(data.length / perPage);
             const nav = document.getElementById('pagination');
             nav.classList.toggle('hidden', pages <= 1);
             nav.innerHTML = '';
-            for(let i=1; i <= Math.min(pages, 12); i++) {
+            for(let i=1; i <= Math.min(pages, 10); i++) {
                 const b = document.createElement('button');
                 b.className = `page-btn ${i===currentPage?'active':''}`;
                 b.innerText = i;
-                b.onclick = () => { renderPage(i); window.scrollTo(0,0); };
+                b.onclick = () => { displayPage(i, data); window.scrollTo(0,0); };
                 nav.appendChild(b);
             }
         }
@@ -197,8 +194,8 @@
         }
 
         const langData = {
-            en: { btnAnalyze: "Run Analysis", total: "Identified", broken: "Issues", ok: "Safe", emptyMsg: "Upload /Mods folder to begin." },
-            pl: { btnAnalyze: "Skanuj Mody", total: "Wykryte", broken: "Problemy", ok: "Bezpieczne", emptyMsg: "Wgraj folder /Mods (16k+ plików)." }
+            en: { btnAnalyze: "Analyze 16k Files", total: "Identified", broken: "Broken", ok: "Safe", emptyMsg: "Upload your folder to start." },
+            pl: { btnAnalyze: "Analizuj 16k plików", total: "Zidentyfikowane", broken: "Błędy", ok: "Bezpieczne", emptyMsg: "Wgraj folder, aby zacząć." }
         };
         init();
     </script>
