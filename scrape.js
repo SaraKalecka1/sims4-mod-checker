@@ -5,23 +5,33 @@ const fs = require('fs');
     console.log("🚀 Uruchamiam skaner dla pelna-kulturka.pl...");
     const browser = await puppeteer.launch({ 
         headless: "shell",
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox', 
+            '--disable-dev-shm-usage',
+            '--disable-http2' // KLUCZOWA POPRAWKA: Wyłącza HTTP/2, aby uniknąć ERR_HTTP2_PROTOCOL_ERROR
+        ]
     });
     
     const page = await browser.newPage();
+    
+    // Ustawiamy User-Agent, aby bot nie wyglądał jak automat
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
+    await page.setDefaultNavigationTimeout(90000);
 
     try {
-        console.log("🔗 Łączenie z: https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/");
+        const targetUrl = 'https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/';
+        console.log(`🔗 Łączenie z: ${targetUrl}`);
         
-        // Używamy adresu podanego przez Ciebie
-        await page.goto('https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/', { 
-            waitUntil: 'networkidle2',
-            timeout: 90000 
+        // Przechodzimy na stronę. Jeśli networkidle2 zawiedzie, spróbujemy domcontentloaded
+        await page.goto(targetUrl, { 
+            waitUntil: 'domcontentloaded', 
+            timeout: 60000 
         });
 
-        console.log("⏳ Czekam na tabelę Ninja Tables...");
-        // Czekamy konkretnie na wiersze danych, nie tylko na samą tabelę
+        console.log("⏳ Czekam na załadowanie tabeli modów...");
+        // Czekamy 10 sekund na wszelki wypadek, aby skrypty tabeli zdążyły ruszyć
+        await new Promise(r => setTimeout(r, 10000));
         await page.waitForSelector('.ninja_table_pro tbody tr', { timeout: 60000 });
 
         let allData = [];
@@ -29,7 +39,7 @@ const fs = require('fs');
         let hasNextPage = true;
 
         while (hasNextPage && pageCounter <= 25) {
-            console.log(`Pobieranie strony ${pageCounter}...`);
+            console.log(`Pobieranie danych ze strony ${pageCounter}...`);
 
             const data = await page.evaluate(() => {
                 const rows = document.querySelectorAll('.ninja_table_pro tbody tr');
@@ -38,7 +48,7 @@ const fs = require('fs');
                     author: row.querySelector('.ninja_column_1')?.innerText.trim() || "Brak",
                     status: row.querySelector('.ninja_column_3')?.innerText.trim() || "Brak",
                     update: row.querySelector('.ninja_column_4')?.innerText.trim() || "Brak"
-                })).filter(item => item.name !== "Brak");
+                })).filter(item => item.name !== "Brak" && item.name !== "");
             });
 
             if (data.length > 0) {
@@ -46,12 +56,11 @@ const fs = require('fs');
                 console.log(`✅ Pobrano ${data.length} pozycji.`);
             }
 
-            // Przycisk "Next" w tabelach Ninja / FooTable
+            // Przycisk "Next"
             const nextButton = await page.$('.footable-page-nav[data-page="next"]:not(.disabled)');
             if (nextButton) { 
                 await nextButton.click();
-                // Ważne: dajemy stronie czas na odświeżenie wierszy
-                await new Promise(r => setTimeout(r, 5000));
+                await new Promise(r => setTimeout(r, 6000));
                 pageCounter++;
             } else {
                 hasNextPage = false;
@@ -62,11 +71,12 @@ const fs = require('fs');
             fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
             console.log(`\n🎉 Sukces! Zapisano łącznie: ${allData.length} rekordów.`);
         } else {
-            console.log("\n⚠️ Tabela została znaleziona, ale wiersze są puste. Sprawdź selektory.");
+            console.log("\n⚠️ Tabela znaleziona, ale nadal nie pobrano danych. Sprawdzam strukturę...");
         }
 
     } catch (error) {
         console.error("❌ Błąd krytyczny:", error.message);
+        // Jeśli błąd to timeout, spróbujemy zrobić zrzut ekranu do logów w przyszłości
         process.exit(1);
     } finally {
         await browser.close();
