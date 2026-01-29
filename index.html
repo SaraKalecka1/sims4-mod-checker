@@ -21,11 +21,11 @@
     </style>
 </head>
 <body class="py-10">
-    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.6 (2026-01-29)</div>
+    <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 font-bold z-50 uppercase tracking-widest">Build: 1.6.7 (2026-01-29)</div>
     
     <div id="loader">
         <div class="spinner mb-4"></div>
-        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Scanning...</p>
+        <p id="ui-loader-text" class="text-white font-black uppercase text-sm tracking-widest italic">Scanning Database...</p>
         <div id="ui-progress" class="text-blue-500 font-black text-xl mt-2 italic">0%</div>
     </div>
 
@@ -59,6 +59,12 @@
             </div>
         </section>
 
+        <div id="diagPanel" class="glass-card p-4 mb-6 border-l-4 border-yellow-500 hidden">
+            <p class="text-[10px] font-black uppercase text-yellow-500 mb-2">Diagnostic Mode (Internal View):</p>
+            <p id="diag-db-count" class="text-xs text-slate-300">Database Records: Loading...</p>
+            <p id="diag-files-sample" class="text-xs text-slate-300 mt-1">First 5 filenames: N/A</p>
+        </div>
+
         <div id="summaryRow" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10 hidden">
             <div class="glass-card p-5 text-center border-b-4 border-blue-500">
                 <p id="label-total" class="text-[9px] font-black text-slate-500 uppercase">Identified</p>
@@ -86,7 +92,7 @@
         <p id="ui-donate-sub" class="mt-4 italic text-sm text-slate-500">This tool is free thanks to your support.</p>
         <div class="mt-12 glass-card p-8 text-left italic text-[11px] leading-relaxed text-slate-400 border border-white/5 relative">
             <h4 id="ui-credits-title" class="text-blue-500 font-black uppercase text-xs mb-3 tracking-widest not-italic">Sources & Legal</h4>
-            <p id="ui-credits-desc">Database provided by <strong>Scarlet's Realm</strong>. Focused on gameplay mods.</p>
+            <p id="ui-credits-desc">Database provided by <strong>Scarlet's Realm</strong>. Gameplay mods only.</p>
             <div class="mt-4"><a id="ui-bug-report" href="mailto:lupus1908@gmail.com" class="text-blue-400 font-bold uppercase not-italic">Contact Developer</a></div>
         </div>
     </footer>
@@ -96,21 +102,11 @@
         let lastResults = { critical: [], stable: [] };
         
         const langData = {
-            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Scanning...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select your /Mods folder to begin analysis.", donateSub: "This tool is free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Gameplay mods only.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
-            pl: { title: "Sims 4 Mod Checker", upload: "1. Wczytaj Folder /Mods", search: "2. Filtrowanie Wyników", searchPlaceholder: "Szukaj modyfikacji...", btnAnalyze: "Uruchom Skanowanie", loaderText: "Skanowanie...", noFolder: "Wybierz folder...", folderSel: "Wykryto: ", emptyMsg: "Wybierz folder /Mods, aby rozpocząć analizę.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", bugReport: "Kontakt z autorem", creditsTitle: "Źródła i Informacje", creditsDesc: "Baza danych pochodzi z serwisu Scarlet's Realm. Skupia się na modach gameplayowych.", total: "Zidentyfikowane", broken: "Problemy", ok: "Aktualne" }
+            en: { title: "Sims 4 Mod Checker", upload: "1. Load /Mods Folder", search: "2. Filter Results", searchPlaceholder: "Search mod or creator...", btnAnalyze: "Run Analysis", loaderText: "Comparing Files...", noFolder: "Select folder...", folderSel: "Detected: ", emptyMsg: "Select /Mods folder to begin analysis.", donateSub: "Free thanks to your support.", bugReport: "Contact Developer", creditsTitle: "Sources & Legal", creditsDesc: "Database provided by Scarlet's Realm. Gameplay mods only.", total: "Identified", broken: "Issues", ok: "Up-to-date" },
+            pl: { title: "Sims 4 Mod Checker", upload: "1. Wczytaj Folder /Mods", search: "2. Filtrowanie Wyników", searchPlaceholder: "Szukaj modyfikacji...", btnAnalyze: "Skanuj Mody", loaderText: "Skanowanie...", noFolder: "Wybierz folder...", folderSel: "Wykryto: ", emptyMsg: "Wgraj folder /Mods, aby zobaczyć wyniki.", donateSub: "To narzędzie jest darmowe dzięki Waszemu wsparciu.", bugReport: "Kontakt z autorem", creditsTitle: "Źródła i Informacje", creditsDesc: "Baza danych pochodzi z serwisu Scarlet's Realm. Skupia się na modach gameplayowych.", total: "Zidentyfikowane", broken: "Problemy", ok: "Aktualne" }
         };
 
         function simplify(str) { return str ? str.toString().toLowerCase().replace(/[^a-z0-9]/g, '') : ''; }
-
-        // UNIVERSAL KEY MAPPER: Finds keys regardless of spaces or casing
-        function findVal(obj, possibleKeys) {
-            const actualKeys = Object.keys(obj);
-            for (let target of possibleKeys) {
-                let found = actualKeys.find(k => k.toLowerCase().replace(/ /g, '') === target.toLowerCase().replace(/ /g, ''));
-                if (found) return obj[found];
-            }
-            return "";
-        }
 
         function setLang(lang) {
             currentLang = lang; const t = langData[lang];
@@ -138,11 +134,11 @@
                 const response = await fetch('scarlet_db_full.json');
                 const data = await response.json();
                 
-                // Maps keys based on detected structure in image_d74080.png and Scarlet's table classes
                 processedDb = data.map(m => {
-                    const name = findVal(m, ["name", "Mod Name", "ModName"]);
-                    const author = findVal(m, ["author", "Creator", "Author"]);
-                    const status = findVal(m, ["status", "Patch Status", "PatchStatus", "Status"]);
+                    // Try different key formats just in case
+                    const name = m.name || m["Mod Name"] || "";
+                    const author = m.author || m["Creator"] || "";
+                    const status = m.status || m["Patch Status"] || "Unknown";
                     
                     return {
                         name: name,
@@ -151,15 +147,19 @@
                         sName: simplify(name),
                         sAuthor: simplify(author)
                     };
-                }).filter(m => m.sName.length > 4);
+                }).filter(m => m.sName.length > 2); // Lowered threshold from 4 to 2
                 
+                document.getElementById('diagPanel').classList.remove('hidden');
+                document.getElementById('diag-db-count').innerText = `Database Records: ${processedDb.length}`;
                 setLang('en');
-            } catch (e) { console.error("Database failed."); }
+            } catch (e) { console.error("Database error."); }
         }
 
         document.getElementById('folderInput').addEventListener('change', (e) => {
             const files = Array.from(e.target.files).filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'));
             simpleUserFiles = files.map(f => simplify(f.name.replace(/\.(package|ts4script)$/i, '')));
+            
+            document.getElementById('diag-files-sample').innerText = `First 5 filenames: ${simpleUserFiles.slice(0, 5).join(', ')}`;
             document.getElementById('ui-folder-status').innerText = langData[currentLang].folderSel + simpleUserFiles.length;
             document.getElementById('analyzeBtn').disabled = simpleUserFiles.length === 0;
         });
@@ -175,7 +175,8 @@
             for (let i = 0; i < total; i += chunkSize) {
                 await new Promise(r => setTimeout(r, 0));
                 processedDb.slice(i, i + chunkSize).forEach(m => {
-                    if (simpleUserFiles.some(sU => (sU.includes(m.sName) || m.sName.includes(sU)) && m.sName.length >= 5)) {
+                    // BROAD MATCH: Match if database name is inside file name or vice versa
+                    if (simpleUserFiles.some(sU => sU.includes(m.sName) || m.sName.includes(sU))) {
                         matched.push(m);
                     }
                 });
@@ -201,7 +202,7 @@
             const container = document.getElementById('resultsContainer');
             container.innerHTML = ''; 
             if (critical.length === 0 && stable.length === 0) {
-                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No matches identified. CC is not tracked.</div>`;
+                container.innerHTML = `<div class="text-center p-20 glass-card text-slate-500 italic">No matches identified. Total files: ${simpleUserFiles.length}</div>`;
                 return;
             }
             critical.forEach(m => container.appendChild(createCard(m, true)));
