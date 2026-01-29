@@ -102,7 +102,7 @@
 
     <!-- UPDATE MARKER -->
     <div class="fixed bottom-2 right-2 text-[8px] text-slate-700 uppercase tracking-widest font-bold z-50 pointer-events-none select-none">
-        Build: 1.5.0 (2026-01-29)
+        Build: 1.5.1 (2026-01-29)
     </div>
 
     <!-- OVERLAYS -->
@@ -295,7 +295,7 @@
                 emptyMsg: "Please upload your /Mods folder to see the results.",
                 noResultsMsg: "No matching mods found in the database for your folder.",
                 errorTitle: "Database Error!",
-                errorBody: "Could not load 'scarlet_db_full.json'. Make sure the file exists and you are using a server.",
+                errorBody: "Could not load database. Make sure 'scarlet_db_full.json' exists in the same folder and you are using GitHub Pages.",
                 alertsTitle: "Critical Issues Found",
                 removeBtn: "REMOVE NOW",
                 noFolderSelected: "No folder selected",
@@ -329,7 +329,7 @@
                 emptyMsg: "Wybierz swój folder /Mods, aby zobaczyć wyniki skanowania.",
                 noResultsMsg: "Nie znaleziono Twoich modów w bazie danych.",
                 errorTitle: "Błąd Bazy Danych!",
-                errorBody: "Nie można wczytać pliku 'scarlet_db_full.json'. Upewnij się, że plik jest w tym samym folderze.",
+                errorBody: "Nie można wczytać bazy. Upewnij się, że plik 'scarlet_db_full.json' jest w tym samym folderze na GitHubie.",
                 alertsTitle: "Znaleziono Krytyczne Problemy",
                 removeBtn: "USUŃ TERAZ",
                 noFolderSelected: "Nie wybrano folderu",
@@ -349,6 +349,7 @@
 
         function simplify(str) {
             if (!str) return '';
+            // Basic simplification: lower case, remove non-alphanumeric
             return str.toString().toLowerCase().replace(/[^a-z0-9]/g, '');
         }
 
@@ -357,19 +358,21 @@
             btn.innerText = langData[currentLang].dbLoading;
             
             try {
+                // FIXED FETCH: Use relative path without complex URL parsing
                 const response = await fetch('scarlet_db_full.json');
                 if (!response.ok) throw new Error("File not found");
                 rawDb = await response.json();
                 
-                // PERFORMANCE OPTIMIZATION: Process simplified names once
                 processedDb = rawDb.map(m => ({
                     ...m,
-                    sName: simplify(m.name)
+                    sName: simplify(m.name),
+                    sAuthor: simplify(m.author)
                 }));
 
                 populateGenres();
                 document.getElementById('db-error-msg').style.display = 'none';
                 btn.innerText = langData[currentLang].btnAnalyze;
+                console.log("Database loaded successfully:", processedDb.length, "items");
             } catch (e) { 
                 console.error("Critical: Database load failed", e);
                 document.getElementById('db-error-msg').style.display = 'block';
@@ -380,8 +383,10 @@
 
         function updateErrorText() {
             const t = langData[currentLang];
-            document.getElementById('error-title').innerText = t.errorTitle;
-            document.getElementById('error-body').innerText = t.errorBody;
+            const titleEl = document.getElementById('error-title');
+            const bodyEl = document.getElementById('error-body');
+            if (titleEl) titleEl.innerText = t.errorTitle;
+            if (bodyEl) bodyEl.innerText = t.errorBody;
         }
 
         function setLang(lang) {
@@ -398,10 +403,11 @@
             document.getElementById('th-category').innerText = t.thCat;
             document.getElementById('th-status').innerText = t.thStatus;
             
+            const btn = document.getElementById('analyzeBtn');
             if (rawDb.length > 0) {
-                document.getElementById('analyzeBtn').innerText = t.btnAnalyze;
+                btn.innerText = t.btnAnalyze;
             } else {
-                document.getElementById('analyzeBtn').innerText = t.dbError;
+                btn.innerText = t.dbError;
             }
 
             document.getElementById('ui-loader-text').innerText = t.loaderText;
@@ -433,7 +439,7 @@
             const activeFlag = document.getElementById(`flag-${lang}`);
             if (activeFlag) activeFlag.classList.add('active');
             
-            if(userFiles.length > 0) filterAndRender(false);
+            if(userFiles.length > 0 && scanPerformed) filterAndRender(false);
         }
 
         function updateToggleButtonsText() {
@@ -478,7 +484,6 @@
                     .filter(f => f.name.endsWith('.package') || f.name.endsWith('.ts4script'))
                     .map(f => f.name.replace(/\.(package|ts4script)$/, ''));
                 
-                // PERFORMANCE OPTIMIZATION: Simplify filenames once here
                 simpleUserFiles = userFiles.map(f => simplify(f));
 
                 document.getElementById('analyzeBtn').disabled = false;
@@ -486,46 +491,53 @@
                 statusLabel.innerText = langData[currentLang].folderSelected;
                 statusLabel.classList.replace('text-slate-400', 'text-blue-400');
                 scanPerformed = false;
+                
+                // Clear existing results when new folder is selected
+                document.getElementById('alertsContainer').classList.add('hidden');
+                document.getElementById('ui-counter').classList.add('hidden');
                 renderTable([]); 
             }
         });
 
         function startAnalysis() {
-            if (processedDb.length === 0) return;
+            if (processedDb.length === 0) {
+                init(); // Retry loading if failed
+                return;
+            }
             const loader = document.getElementById('loader');
             loader.style.display = 'flex';
             scanPerformed = true;
             setTimeout(() => {
                 filterAndRender(true);
                 loader.style.display = 'none';
-            }, 600);
+            }, 800);
         }
 
         function filterAndRender(withScroll) {
             const term = document.getElementById('searchInput').value.toLowerCase();
             const genre = document.getElementById('genreFilter').value;
             
-            // Step 1: Base database filtering
-            let filtered = processedDb.filter(m => {
+            // Logic improvement: Better matching using word-based check
+            let matchedInFolder = processedDb.filter(m => {
+                const sDb = m.sName;
+                if (sDb.length < 3) return false;
+                
+                return simpleUserFiles.some(sU => {
+                    // Check if the filename contains the mod name OR mod name contains filename
+                    // This covers cases like "ModName_v1" and DB entry "Mod Name"
+                    return sU.includes(sDb) || sDb.includes(sU);
+                });
+            });
+
+            // Apply filters on top of the matched mods
+            let filtered = matchedInFolder.filter(m => {
                 const matchesGenre = genre === 'All' || m.category === genre;
                 const nameMatch = (m.name || '').toLowerCase().includes(term);
                 const authorMatch = (m.author || '').toLowerCase().includes(term);
                 return matchesGenre && (nameMatch || authorMatch);
             });
 
-            // Step 2: Folder matching logic (Optimized)
-            if (userFiles.length > 0) {
-                filtered = filtered.filter(m => {
-                    const sDb = m.sName;
-                    if (sDb.length < 3) return false;
-                    // Fast check against pre-simplified folder list
-                    return simpleUserFiles.some(sU => sU.includes(sDb) || sDb.includes(sU));
-                });
-            } else if (term === '' && genre === 'All') {
-                filtered = [];
-            }
-
-            // Step 3: De-duplicate and Sort
+            // De-duplicate and Sort
             const uniqueMap = new Map();
             filtered.forEach(item => {
                 if (!uniqueMap.has(item.name)) uniqueMap.set(item.name, item);
@@ -538,6 +550,7 @@
             });
             const stable = sorted.filter(m => !critical.includes(m));
 
+            // Success Popup
             if (withScroll && scanPerformed && critical.length === 0 && stable.length > 0) {
                 document.getElementById('successModal').style.display = 'flex';
             }
@@ -546,8 +559,6 @@
             if (scanPerformed) {
                 counterEl.innerText = `${sorted.length} ${langData[currentLang].countLabel}`;
                 counterEl.classList.remove('hidden');
-            } else {
-                counterEl.classList.add('hidden');
             }
 
             renderAlerts(critical);
