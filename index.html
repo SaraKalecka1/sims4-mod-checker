@@ -3,75 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sims 4 Mod Checker - Dark Mode</title>
+    <title>Sims 4 Mod Checker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-        .card { background-color: #1e293b; border: 1px solid #334155; }
-        .status-broken { background-color: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; color: #fca5a5; }
+        body { background-color: #0b0f1a; color: #cbd5e1; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
+        .status-broken { background-color: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; color: #fca5a5; }
         .status-compatible { color: #4ade80; }
-        .flag-btn { cursor: pointer; transition: transform 0.2s; font-size: 1.8rem; filter: grayscale(20%); }
-        .flag-btn:hover { transform: scale(1.15); filter: grayscale(0%); }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; }
+        .flag-btn { cursor: pointer; transition: all 0.2s; font-size: 1.8rem; opacity: 0.5; }
+        .flag-btn.active { opacity: 1; transform: scale(1.1); }
+        
+        /* Loader styles */
+        #loader { display: none; position: fixed; inset: 0; background: rgba(11, 15, 26, 0.9); z-index: 100; align-items: center; justify-content: center; flex-direction: column; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #1e293b; border-top: 5px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-10">
 
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+    <div id="loader">
+        <div class="spinner mb-4"></div>
+        <p id="ui-loader-text" class="text-white font-black uppercase tracking-widest text-sm">Scanning Mods...</p>
+    </div>
+
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
         <div>
-            <h1 id="ui-title" class="text-4xl font-black text-white tracking-tight">Sims 4 Mod Checker</h1>
-            <p id="ui-subtitle" class="text-blue-400 font-medium">Automatyczna analiza folderu Mods</p>
+            <h1 id="ui-title" class="text-4xl font-black text-white uppercase tracking-tighter">Sims 4 Mod Checker</h1>
+            <p id="ui-subtitle" class="text-blue-500 font-bold uppercase text-xs tracking-[0.2em]">Automated Mods Folder Analysis</p>
         </div>
-        <div class="flex gap-6 bg-slate-800 p-3 rounded-2xl shadow-inner">
-            <span class="flag-btn" onclick="setLang('pl')" title="Polski">🇵🇱</span>
-            <span class="flag-btn" onclick="setLang('en')" title="English">🇬🇧</span>
-        </div>
-    </div>
-
-    <div class="max-w-4xl mx-auto mb-12 hidden" id="video-section">
-        <div class="video-container shadow-2xl">
-            <iframe src="https://www.youtube.com/embed/TWOJ_ID_WIDEO" frameborder="0" allowfullscreen></iframe>
+        <div class="flex gap-4 glass-card p-2 rounded-2xl">
+            <span id="flag-pl" class="flag-btn active" onclick="setLang('pl')">🇵🇱</span>
+            <span id="flag-en" class="flag-btn" onclick="setLang('en')">🇬🇧</span>
         </div>
     </div>
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="card p-6 rounded-2xl shadow-xl transition hover:border-blue-500">
-            <label id="ui-upload-label" class="block mb-3 font-bold text-slate-200">1. Wczytaj folder /Mods</label>
-            <input type="file" id="folderInput" webkitdirectory directory multiple class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-        </div>
-        
-        <div class="card p-6 rounded-2xl shadow-xl transition hover:border-blue-500">
-            <label id="ui-search-label" class="block mb-3 font-bold text-slate-200">2. Szukaj / Filtruj</label>
-            <input type="text" id="searchInput" placeholder="Autor lub nazwa..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition">
-        </div>
-
-        <div class="card p-6 rounded-2xl shadow-xl transition hover:border-blue-500">
-            <label id="ui-genre-label" class="block mb-3 font-bold text-slate-200">3. Gatunek</label>
-            <select id="genreFilter" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 outline-none cursor-pointer">
-                <option value="All">Wszystkie / All Categories</option>
-            </select>
+    <div class="max-w-6xl mx-auto glass-card p-8 rounded-3xl mb-10 shadow-2xl border-t border-white/10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-end">
+            <div>
+                <label id="ui-upload-label" class="block mb-3 text-[10px] font-black uppercase text-slate-500 tracking-widest">1. Choose Mods Folder</label>
+                <input type="file" id="folderInput" webkitdirectory directory multiple class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 cursor-pointer">
+            </div>
+            <div>
+                <label id="ui-search-label" class="block mb-3 text-[10px] font-black uppercase text-slate-500 tracking-widest">2. Search / Filter</label>
+                <input type="text" id="searchInput" placeholder="..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm outline-none focus:border-blue-500 transition text-white">
+            </div>
+            <div>
+                <label id="ui-genre-label" class="block mb-3 text-[10px] font-black uppercase text-slate-500 tracking-widest">3. Category</label>
+                <select id="genreFilter" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm outline-none cursor-pointer text-white">
+                    <option value="All">All Categories</option>
+                </select>
+            </div>
+            <div>
+                <button id="analyzeBtn" onclick="startAnalysis()" disabled class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-black py-3.5 rounded-xl transition-all shadow-lg shadow-blue-900/20 uppercase tracking-widest text-sm">
+                    Analyze Mods
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="max-w-6xl mx-auto card rounded-2xl overflow-hidden shadow-2xl">
+    <div class="max-w-6xl mx-auto glass-card rounded-3xl overflow-hidden shadow-2xl mb-16">
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-slate-800 text-slate-400 uppercase text-xs tracking-wider">
+            <table class="w-full text-left">
+                <thead class="bg-slate-800/50 text-[10px] font-black uppercase text-slate-500 tracking-widest">
                     <tr>
-                        <th id="th-name" class="p-5 border-b border-slate-700">Mod Name</th>
-                        <th id="th-author" class="p-5 border-b border-slate-700">Author</th>
-                        <th id="th-category" class="p-5 border-b border-slate-700">Category</th>
-                        <th id="th-status" class="p-5 border-b border-slate-700">Status</th>
+                        <th id="th-name" class="p-5">Mod Name</th>
+                        <th id="th-author" class="p-5">Author</th>
+                        <th id="th-category" class="p-5 text-center">Category</th>
+                        <th id="th-status" class="p-5 text-right">Status</th>
                     </tr>
                 </thead>
-                <tbody id="resultsBody" class="divide-y divide-slate-700">
+                <tbody id="resultsBody" class="divide-y divide-slate-800 text-sm">
                     </tbody>
             </table>
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto mt-16 text-center">
-        <div class="mb-10">
-            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-flex items-center gap-3 bg-[#FFDD00] hover:bg-[#ffeb66] text-black font-black py-4 px-8 rounded-2xl transition transform hover:scale-105 shadow-xl" id="ui-donate">
-                <span class="text-
+    <div class="max-w-3xl mx-auto text-center border-t border-slate-800 pt-16 pb-20">
+        <div class="mb-4">
+            <a href="https://buycoffee.to/sim4-mod-checker" target="_blank" class="inline-block bg-[#FFDD00] hover:bg-[#ffea5c] text-black font-black text-xl px-12 py-5 rounded-2xl shadow-xl transition-all transform hover:-translate-y-1">
+                DONATE
+            </a>
+        </div>
+        <p id="ui-donate-sub" class="text-slate-500 text-sm mb-12 italic">Dobrowolne wsparcie projektu</p>
+        
+        <div class="glass-card p-8 rounded-3xl text-left border border-white/5">
+            <h4 id="ui-credits-title" class="text-white font-black uppercase text-xs mb-4 tracking-widest text-blue-500">Information / Informacje</h4>
+            <div class="grid md:grid-cols-2 gap-8 text-[11px] leading-relaxed text-slate-400">
+                <p id="ui-desc-pl">Statusy modów są pobierane z bazy <strong>Scarlet's Realm</strong>. Narzędzie jest darmowe i stworzone zgodnie z wytycznymi EA dotyczącymi zawartości fanowskiej.</p>
+                <p id="ui-desc-en">Mod statuses are fetched from <strong>Scarlet's Realm</strong> database. This tool is free and developed in accordance with EA's UGC policy.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let db = [];
+        let userFiles = [];
+        let currentLang = 'pl';
+
+        const langData = {
+            pl: {
+                title: "Sims 4 Mod Checker",
+                subtitle: "Analiza folderu Mods",
+                upload: "1. Wybierz folder /Mods",
+                search: "2. Szukaj...",
+                genre: "3. Gatunek",
+                thName: "Nazwa Modyfikacji",
+                thAuthor: "Autor",
+                thCat: "Kategoria",
+                thStatus: "Status",
+                btnAnalyze: "Skanuj Mody",
+                loaderText: "Skanowanie folderu...",
+                donateSub: "Dobrowolne wsparcie projektu",
+                creditsTitle: "Źródła i Informacje"
+            },
+            en: {
+                title: "Sims 4 Mod Checker",
+                subtitle: "Automated Mods Analysis",
+                upload: "1. Choose Mods Folder",
+                search: "2. Search...",
+                genre: "3. Category",
+                thName: "Mod Name",
+                thAuthor: "Author",
+                thCat: "Category",
+                thStatus: "Status",
+                btnAnalyze: "Analyze Mods",
+                loaderText: "Scanning files...",
+                donateSub: "Voluntary project support",
+                creditsTitle: "Sources & Info"
+            }
+        };
+
+        async function init() {
+            try {
+                const response = await fetch('scarlet_db_full.json');
+                db = await response.json();
+                populateGenres();
+            } catch (e) { console.error("Database error:", e); }
+        }
+
+        function setLang(lang) {
+            currentLang = lang;
+            const t = langData[lang];
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-subtitle').innerText = t.subtitle;
+            document.getElementById('ui-upload-label').innerText = t.upload;
+            document.getElementById('ui-search-label').innerText = t.search;
+            document.getElementById('ui-genre-label').innerText = t.genre;
+            document.getElementById('th-name').innerText = t.thName;
+            document.getElementById('th-author').innerText = t.thAuthor;
+            document.getElementById('th-category').innerText = t.thCat;
+            document.getElementById('th-status').innerText = t.thStatus;
+            document.getElementById('analyzeBtn').innerText = t.btnAnalyze;
+            document.getElementById('ui-loader-text').innerText = t.loaderText;
+            document.getElementById('ui-donate-sub').innerText = t.donateSub;
+            document.getElementById('ui-credits-title').innerText = t.creditsTitle;
+
+            document.querySelectorAll('.flag-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`flag-${lang}`).classList.add('active');
+        }
+
+        function populateGenres() {
+            const genres = [...new Set(db.map(m => m.category))].sort();
+            const select = document.getElementById('genreFilter');
+            genres.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g; opt.innerText = g;
+                select.appendChild(opt);
+            });
+        }
+
+        document.getElementById('folderInput').addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if(files.length > 0) {
+                userFiles = files.map(f => f.name.toLowerCase().replace('.package', '').replace('.ts4script', ''));
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        });
+
+        function startAnalysis() {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            
+            // Timeout pozwala przeglądarce wyświetlić loader przed ciężkim filtrowaniem
+            setTimeout(() => {
+                filterAndRender();
+                loader.style.display = 'none';
+            }, 800);
+        }
+
+        function filterAndRender() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const genre = document.getElementById('genreFilter').value;
+            
+            let filtered = db.filter(m => {
+                const matchesSearch = m.name.toLowerCase().includes(term) || m.author.toLowerCase().includes(term);
+                const matchesGenre = genre === 'All' || m.category === genre;
+                return matchesSearch && matchesGenre;
+            });
+
+            if (userFiles.length > 0) {
+                filtered = filtered.filter(m => userFiles.some(uF => m.name.toLowerCase().includes(uF) || uF.includes(m.name.toLowerCase())));
+            }
+
+            renderTable(filtered.sort((a, b) => a.author.localeCompare(b.author)));
+        }
+
+        function renderTable(data) {
+            const body = document.getElementById('resultsBody');
+            body.innerHTML = data.map(m => {
+                const s = m.status.toLowerCase();
+                const isBroken = s.includes('broken') || s.includes('obsolete');
+                return `
+                    <tr class="${isBroken ? 'status-broken' : 'hover:bg-slate-800/30'} transition">
+                        <td class="p-5 font-bold text-white">${m.name}</td>
+                        <td class="p-5 text-slate-400 font-medium">${m.author}</td>
+                        <td class="p-5 text-center"><span class="bg-slate-800 px-3 py-1 rounded-full text-[9px] text-slate-500 border border-slate-700 uppercase">${m.category}</span></td>
+                        <td class="p-5 text-right font-black ${isBroken ? 'text-red-400' : 'status-compatible'}">${m.status.toUpperCase()}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        init();
+        setLang('pl');
+    </script>
+</body>
+</html>
