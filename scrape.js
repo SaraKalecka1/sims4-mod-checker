@@ -2,65 +2,79 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 (async () => {
-    console.log("🚀 Uruchamiam skaner dla pelna-kulturka.pl...");
+    console.log("🚀 Uruchamiam zaawansowany skaner dla pelna-kulturka.pl...");
+    
     const browser = await puppeteer.launch({ 
         headless: "shell",
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox', 
             '--disable-dev-shm-usage',
-            '--disable-http2' // KLUCZOWA POPRAWKA: Wyłącza HTTP/2, aby uniknąć ERR_HTTP2_PROTOCOL_ERROR
+            '--disable-http2', // Naprawia ERR_HTTP2_PROTOCOL_ERROR
+            '--disable-blink-features=AutomationControlled', // Ukrywa fakt, że to bot
+            '--lang=pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7'
         ]
     });
     
     const page = await browser.newPage();
-    
-    // Ustawiamy User-Agent, aby bot nie wyglądał jak automat
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-    await page.setDefaultNavigationTimeout(90000);
+
+    // Udajemy prawdziwego użytkownika na Windowsie
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
+    await page.setViewport({ width: 1920, height: 1080 });
 
     try {
-        const targetUrl = 'https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/';
-        console.log(`🔗 Łączenie z: ${targetUrl}`);
+        const url = 'https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/';
+        console.log(`🔗 Próba połączenia z: ${url}`);
         
-        // Przechodzimy na stronę. Jeśli networkidle2 zawiedzie, spróbujemy domcontentloaded
-        await page.goto(targetUrl, { 
+        // Używamy 'domcontentloaded' zamiast 'networkidle2', aby uniknąć blokad na skryptach śledzących
+        await page.goto(url, { 
             waitUntil: 'domcontentloaded', 
             timeout: 60000 
         });
 
-        console.log("⏳ Czekam na załadowanie tabeli modów...");
-        // Czekamy 10 sekund na wszelki wypadek, aby skrypty tabeli zdążyły ruszyć
-        await new Promise(r => setTimeout(r, 10000));
-        await page.waitForSelector('.ninja_table_pro tbody tr', { timeout: 60000 });
+        console.log("⏳ Strona załadowana. Czekam 15s na inicjalizację tabeli Ninja...");
+        // Ninja Tables potrzebują chwili, by pobrać dane przez AJAX
+        await new Promise(r => setTimeout(r, 15000));
+
+        // Sprawdzamy czy tabela w ogóle istnieje
+        const tableExists = await page.$('.ninja_table_pro');
+        if (!tableExists) {
+            console.log("❌ Nie znaleziono tabeli! Robię zrzut ekranu dla diagnostyki...");
+            await page.screenshot({ path: 'error_screenshot.png' });
+            throw new Error("Tabela .ninja_table_pro nie pojawiła się na stronie.");
+        }
 
         let allData = [];
         let pageCounter = 1;
         let hasNextPage = true;
 
-        while (hasNextPage && pageCounter <= 25) {
-            console.log(`Pobieranie danych ze strony ${pageCounter}...`);
+        while (hasNextPage && pageCounter <= 30) {
+            console.log(`📥 Scrapowanie strony ${pageCounter}...`);
 
             const data = await page.evaluate(() => {
                 const rows = document.querySelectorAll('.ninja_table_pro tbody tr');
-                return Array.from(rows).map(row => ({
-                    name: row.querySelector('.ninja_column_0')?.innerText.trim() || "Brak",
-                    author: row.querySelector('.ninja_column_1')?.innerText.trim() || "Brak",
-                    status: row.querySelector('.ninja_column_3')?.innerText.trim() || "Brak",
-                    update: row.querySelector('.ninja_column_4')?.innerText.trim() || "Brak"
-                })).filter(item => item.name !== "Brak" && item.name !== "");
+                return Array.from(rows).map(row => {
+                    const cols = row.querySelectorAll('td');
+                    // Pobieramy dane na podstawie pozycji kolumn (0: Nazwa, 1: Autor, 3: Status, 4: Data)
+                    return {
+                        name: cols[0]?.innerText.trim() || "",
+                        author: cols[1]?.innerText.trim() || "",
+                        status: cols[3]?.innerText.trim() || "",
+                        update: cols[4]?.innerText.trim() || ""
+                    };
+                }).filter(item => item.name.length > 1);
             });
 
             if (data.length > 0) {
                 allData.push(...data);
-                console.log(`✅ Pobrano ${data.length} pozycji.`);
+                console.log(`✅ Pobrano ${data.length} wierszy.`);
             }
 
-            // Przycisk "Next"
+            // Szukamy przycisku "Next"
             const nextButton = await page.$('.footable-page-nav[data-page="next"]:not(.disabled)');
-            if (nextButton) { 
+            if (nextButton && pageCounter < 30) { 
                 await nextButton.click();
-                await new Promise(r => setTimeout(r, 6000));
+                await new Promise(r => setTimeout(r, 5000));
                 pageCounter++;
             } else {
                 hasNextPage = false;
@@ -69,14 +83,13 @@ const fs = require('fs');
 
         if (allData.length > 0) {
             fs.writeFileSync('scarlet_db_full.json', JSON.stringify(allData, null, 2));
-            console.log(`\n🎉 Sukces! Zapisano łącznie: ${allData.length} rekordów.`);
+            console.log(`\n🎉 SUKCES! Zapisano: ${allData.length} modów.`);
         } else {
-            console.log("\n⚠️ Tabela znaleziona, ale nadal nie pobrano danych. Sprawdzam strukturę...");
+            console.log("\n⚠️ Tabela pusta. Serwer mógł zablokować dostęp do danych.");
         }
 
     } catch (error) {
-        console.error("❌ Błąd krytyczny:", error.message);
-        // Jeśli błąd to timeout, spróbujemy zrobić zrzut ekranu do logów w przyszłości
+        console.error("❌ BŁĄD:", error.message);
         process.exit(1);
     } finally {
         await browser.close();
