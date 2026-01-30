@@ -1,12 +1,12 @@
-name: Scarlet Scraper (Playwright)
+name: Scarlet Scraper (Playwright & Debug)
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
+    - cron: '0 */6 * * *' # Uruchamia co 6 godzin
+  workflow_dispatch:      # Pozwala na ręczne kliknięcie "Run workflow"
 
 permissions:
-  contents: write
+  contents: write         # Niezbędne do zapisania pliku JSON
 
 jobs:
   build:
@@ -25,30 +25,23 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install playwright beautifulsoup4
-          playwright install chromium # Instaluje przeglądarkę dla bota
+          playwright install chromium
 
       - name: Run Scraper
         run: python scrape.py
+
+      # Ten krok wyśle Ci zdjęcia, jeśli bot utknie (szukaj w zakładce 'Artifacts' po zakończeniu)
+      - name: Upload Debug Screenshots
+        if: always() 
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: '*.png' # Pobierze wszystkie pliki PNG wygenerowane przez skrypt
 
       - name: Commit and Push changes
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
           git add scarlet_mods.json
-          # Commituj tylko jeśli są zmiany
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Scarlet Mod List (Playwright)" && git push)
-          # ... poprzednie kroki ...
-
-      - name: Run Scraper
-        run: python scrape.py
-
-      # NOWY KROK: Wysyłanie zrzutu ekranu do Ciebie (tylko w razie błędów lub debugowania)
-      - name: Upload Screenshot (Debug)
-        if: always() # Wykonaj zawsze, nawet jak skrypt padnie
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-screenshot
-          path: debug_screenshot.png
-
-      - name: Commit and Push changes
-        # ... reszta commita ...
+          # Commituj tylko jeśli są zmiany w pliku
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Scarlet Mod List" && git push)
