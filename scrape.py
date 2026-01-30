@@ -3,38 +3,33 @@ import time
 from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 
-def scrape_yes_clicker():
+def scrape_slow_scroll():
     url = "https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/"
     output_file = "scarlet_mods.json"
     
-    print(f"🚀 Uruchamiam bota (Target: 'Yes')...")
+    print(f"🚀 Uruchamiam bota (Tryb: Slow Scroll)...")
 
     with sync_playwright() as p:
-        # Uruchamiamy przeglądarkę
         browser = p.chromium.launch(headless=True)
-        # Ustawiamy duże okno i język angielski (żeby przyciski były po angielsku)
-        context = browser.new_context(
-            viewport={'width': 1920, 'height': 1080},
-            locale='en-US' 
-        )
+        # Ustawiamy wysoki ekran, żeby widzieć więcej na raz
+        context = browser.new_context(viewport={'width': 1920, 'height': 1280})
         page = context.new_page()
 
         captured_data = []
 
-        # 1. Nasłuchiwanie sieci (Kradzież danych)
+        # 1. Nasłuchiwanie sieci
         def handle_response(response):
             if "admin-ajax.php" in response.url and response.status == 200:
                 try:
                     json_body = response.json()
                     chunk = []
-                    # Wyciąganie danych z różnych formatów
                     if isinstance(json_body, dict) and 'data' in json_body:
                         chunk = json_body['data']
                     elif isinstance(json_body, list):
                         chunk = json_body
                     
                     if chunk:
-                        print(f"🎯 Przechwycono {len(chunk)} rekordów!")
+                        print(f"🎯 DANE ZŁAPANE W LOCIE: {len(chunk)} rekordów!")
                         captured_data.extend(chunk)
                 except:
                     pass
@@ -42,70 +37,74 @@ def scrape_yes_clicker():
         page.on("response", handle_response)
 
         print(f"🌍 Wchodzę na: {url}")
-        page.goto(url, timeout=60000, wait_until="domcontentloaded")
+        page.goto(url, timeout=90000, wait_until="domcontentloaded")
         
-        # Czekamy chwilę, aż modal (okienko) się załaduje
-        time.sleep(6)
-        
-        # Zrób zdjęcie PRZED kliknięciem (zobaczymy czy widzi Yes)
-        page.screenshot(path="debug_1_before_click.png")
+        # Czekamy chwilę na inicjalizację
+        time.sleep(5)
 
-        # --- SEKCJA: KLIKANIE "YES" ---
-        print("🔨 Szukam przycisku 'Yes'...")
-        
+        # 2. Obsługa Pop-upów (Zostawiamy na wszelki wypadek)
         try:
-            # Strategia 1: Szukamy dokładnego tekstu "Yes" (duże/małe litery ignorowane)
-            # To kliknie w przycisk, który ma napisane po prostu "Yes"
-            yes_btn = page.get_by_text("Yes", exact=True)
-            
-            if yes_btn.count() > 0 and yes_btn.first.is_visible():
-                print("✅ Znaleziono idealne 'Yes'. Klikam!")
-                yes_btn.first.click()
-            else:
-                print("⚠️ Nie znaleziono idealnego 'Yes', szukam wariantów...")
-                
-                # Strategia 2: Szukamy przycisku zawierającego "Yes" (np. "Yes, I am 18")
-                # Ale uważamy, żeby nie kliknąć w coś innego
-                alt_btn = page.locator("button:has-text('Yes'), a:has-text('Yes'), div[role='button']:has-text('Yes')").first
-                if alt_btn.is_visible():
-                    print("✅ Znaleziono przycisk zawierający 'Yes'. Klikam!")
-                    alt_btn.click()
-                else:
-                    print("❌ Nie widzę przycisku Yes.")
-            
-            time.sleep(3) # Czekamy na zniknięcie modala
-            
-        except Exception as e:
-            print(f"⚠️ Błąd podczas klikania: {e}")
-
-        # Klikamy też Cookies dla pewności (czasem "Yes" jest od cookies)
-        try:
-            page.get_by_text("Accept", exact=False).first.click()
+            # Cookies
+            page.get_by_text("Accept", exact=False).first.click(timeout=2000)
+            print("🍪 Kliknięto Cookies.")
         except: pass
-        
-        # --- KONIEC KLIKANIA ---
 
-        # 3. Wymuszenie ładowania tabeli (przewijanie)
-        print("📜 Przewijanie strony...")
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-        time.sleep(2)
-        page.evaluate("window.scrollTo(0, 500)")
+        try:
+            # Age Gate (Yes/Enter)
+            yes_btn = page.locator("text=Yes").or_(page.locator("text=Enter")).first
+            if yes_btn.is_visible():
+                yes_btn.click()
+                print("✅ Kliknięto Yes/Enter.")
+                time.sleep(3)
+        except: pass
+
+        # Zrzut przed przewijaniem
+        page.screenshot(path="debug_1_start_scroll.png")
+
+        # --- SEKCJA: POWOLNE PRZEWIJANIE (SLOW SCROLL) ---
+        print("📜 Rozpoczynam powolne przewijanie w poszukiwaniu tabeli...")
         
-        print("⏳ Czekam na dane z sieci (max 20s)...")
-        for i in range(20):
+        # Próbujemy znaleźć nagłówek tabeli, żeby wiedzieć gdzie celować
+        # Ninja tables często ma klasę .ninja_table_wrapper
+        try:
+            table_wrapper = page.locator(".ninja_table_wrapper").first
+            if table_wrapper.is_visible():
+                print("👀 Widzę kontener tabeli. Przewijam do niego.")
+                table_wrapper.scroll_into_view_if_needed()
+                time.sleep(2)
+        except:
+            print("⚠️ Nie widzę konkretnego kontenera, jadę na ślepo.")
+
+        # Pętla przewijania "na kółku myszy"
+        # Przewijamy 20 razy po kawałku, sprawdzając czy dane spłynęły
+        for i in range(25):
             if len(captured_data) > 0:
+                print("✅ Mamy już dane! Przerywam przewijanie.")
                 break
-            time.sleep(1)
+            
+            print(f"⬇️ Przewijam w dół... (Krok {i+1}/25)")
+            page.mouse.wheel(0, 500) # Symulacja ruchu kółkiem o 500px
+            time.sleep(1.5) # Czekamy aż skrypty strony "załapią"
+            
+            # Co 5 kroków robimy mały ruch myszką, żeby "obudzić" stronę
+            if i % 5 == 0:
+                page.mouse.move(500, 500)
 
-        # Zdjęcie po wszystkim
-        page.screenshot(path="debug_2_after_click.png")
+        # Na koniec zjazd na sam dół (dobicie)
+        page.keyboard.press("End")
+        time.sleep(3)
+
+        # --- KONIEC PRZEWIJANIA ---
+
+        # Zdjęcie końcowe
+        page.screenshot(path="debug_2_end_scroll.png")
         browser.close()
 
         if not captured_data:
-            print("❌ Brak danych. Sprawdź 'debug_1_before_click.png' w Artifacts.")
+            print("❌ Brak danych. Sprawdź 'debug_2_end_scroll.png' - czy widać tam tabelę?")
             return
 
-        # 4. Obróbka danych
+        # 3. Obróbka i zapis
         print(f"📦 Zapisywanie {len(captured_data)} rekordów...")
         clean_mods = []
         
@@ -146,4 +145,4 @@ def scrape_yes_clicker():
         print("✅ Sukces! Plik zapisany.")
 
 if __name__ == "__main__":
-    scrape_yes_clicker()
+    scrape_slow_scroll()
