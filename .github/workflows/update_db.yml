@@ -1,12 +1,37 @@
-- name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+name: Scarlet Scraper Update
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests beautifulsoup4
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Uruchamia co 6 godzin
+  workflow_dispatch:      # Pozwala na ręczne kliknięcie "Run workflow"
 
-    - name: Run Scraper
-      run: python scrape.py
+permissions:
+  contents: write         # Niezbędne, aby bot mógł zapisać plik JSON w repozytorium
+
+jobs:
+  build:
+    runs_on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Run Scraper
+        run: python scrape.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add scarlet_mods.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Scarlet Mod List" && git push)
