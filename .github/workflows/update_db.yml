@@ -6,11 +6,11 @@ on:
   workflow_dispatch:      # Pozwala na ręczne kliknięcie "Run workflow"
 
 permissions:
-  contents: write         # Niezbędne, aby bot mógł zapisać plik JSON w repozytorium
+  contents: write         # Niezbędne, aby bot mógł zapisać plik
 
 jobs:
   build:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest  # <-- TU BYŁ BŁĄD (teraz jest myślnik)
 
     steps:
       - name: Checkout repository
