@@ -3,126 +3,125 @@ import time
 from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 
-def scrape_with_interaction():
+def scrape_stealth():
     url = "https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/"
     output_file = "scarlet_mods.json"
     
-    print(f"🚀 Uruchamiam bota...")
+    # Udajemy prawdziwą przeglądarkę
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+
+    print(f"🚀 Uruchamiam bota w trybie STEALTH...")
 
     with sync_playwright() as p:
-        # Uruchamiamy przeglądarkę
-        browser = p.chromium.launch(headless=True) # Zmień na False jeśli testujesz lokalnie i chcesz widzieć okno
-        # Ustawiamy duży viewport, żeby przyciski nie były schowane
-        context = browser.new_context(viewport={'width': 1920, 'height': 1080})
-        page = context.new_page()
+        browser = p.chromium.launch(headless=True)
+        
+        # Konfigurujemy kontekst tak, by wyglądał jak zwykły użytkownik
+        context = browser.new_context(
+            viewport={'width': 1920, 'height': 1080},
+            user_agent=user_agent,
+            locale='en-US',
+            timezone_id='America/New_York' # Czasem pomaga udawanie US
+        )
+        
+        # Dodatkowa magia: ukrywamy fakt, że to webdriver
+        context.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+        """)
 
-        # Zmienna na dane
+        page = context.new_page()
         captured_data = []
 
-        # 1. Konfiguracja nasłuchiwania sieci (tak jak wcześniej)
+        # Nasłuchiwanie sieci
         def handle_response(response):
             if "admin-ajax.php" in response.url and response.status == 200:
                 try:
                     json_body = response.json()
-                    # Logika wyciągania danych z JSON
                     data_chunk = []
+                    # Logika wyciągania danych (uniwersalna)
                     if isinstance(json_body, dict) and 'data' in json_body:
                         data_chunk = json_body['data']
                     elif isinstance(json_body, list):
                         data_chunk = json_body
                     
-                    if data_chunk and len(data_chunk) > 0:
-                        print(f"🎯 Przechwycono pakiet danych: {len(data_chunk)} rekordów!")
+                    if data_chunk:
+                        print(f"🎯 Przechwycono {len(data_chunk)} rekordów!")
                         captured_data.extend(data_chunk)
                 except:
                     pass
 
         page.on("response", handle_response)
 
-        # 2. Wejście na stronę
         print(f"🌍 Wchodzę na: {url}")
-        page.goto(url, timeout=60000)
+        page.goto(url, timeout=90000, wait_until="domcontentloaded")
         
-        # --- SEKCJA: HANDLE POPUPS (KLIKANIE OKIENEK) ---
-        print("🛡️ Sprawdzam obecność popupów (Age Gate / Cookies)...")
-        time.sleep(5) # Dajemy chwilę, żeby okienka wyskoczyły
+        # --- INTERAKCJA (Klikanie) ---
+        print("🛡️ Czekam na załadowanie (10s)...")
+        time.sleep(10) 
+        
+        # Zrzut ekranu PRZED klikaniem (zobaczysz co widzi bot)
+        page.screenshot(path="debug_1_entry.png")
 
-        # Próba 1: Bramka wiekowa (Szukamy przycisków typu "Enter", "I am 18+", "Yes")
+        # 1. Cookies
         try:
-            # Szukamy przycisku, który zawiera słowo "Enter" lub "18"
-            # (dostosowane do Scarlet - zazwyczaj jest to przycisk "Enter")
-            age_btn = page.locator("button:has-text('Enter'), a:has-text('Enter'), button:has-text('18'), button:has-text('Yes')").first
-            
-            if age_btn.is_visible():
-                print("Found Age Gate button. Clicking...")
-                age_btn.click()
-                time.sleep(2) # Czekamy na przeładowanie
-            else:
-                print("ℹ️ Nie znaleziono bramki wiekowej (lub już zniknęła).")
-        except Exception as e:
-            print(f"⚠️ Błąd przy klikaniu Age Gate: {e}")
-
-        # Próba 2: Cookies (Szukamy "Accept", "Agree", "Got it")
-        try:
-            cookie_btn = page.locator("button:has-text('Accept'), button:has-text('Agree'), a:has-text('Accept')").first
+            cookie_btn = page.locator("text=Accept").or_(page.locator("text=Agree")).first
             if cookie_btn.is_visible():
-                print("Found Cookie button. Clicking...")
                 cookie_btn.click()
-                time.sleep(1)
-        except:
-            pass
-        
-        # --- KONIEC SEKCJI POPUPÓW ---
+                print("✅ Kliknięto Cookies.")
+                time.sleep(2)
+        except: pass
 
-        # 3. Wymuszenie ładowania tabeli
-        # Czasami tabela ładuje się dopiero jak się trochę zjedzie w dół
-        print("📜 Przewijanie strony, aby wymusić ładowanie danych...")
+        # 2. Age Gate (Enter)
+        try:
+            enter_btn = page.locator("text=Enter").or_(page.locator("text=I am 18")).first
+            if enter_btn.is_visible():
+                enter_btn.click()
+                print("✅ Kliknięto Enter.")
+                time.sleep(5)
+        except: pass
+
+        # 3. Przewijanie (aby wymusić requesty)
+        print("📜 Przewijanie strony...")
         page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-        time.sleep(2)
-        page.evaluate("window.scrollTo(0, 500)") # Powrót trochę wyżej
+        time.sleep(3)
+        page.evaluate("window.scrollTo(0, 1000)")
         
-        # Czekamy chwilę na ruch w sieci (captured_data powinno się napełniać)
-        print("⏳ Czekam na dane (max 15s)...")
-        # Pętla czekająca aktywnie na dane
-        for _ in range(15):
+        # Czekanie na dane
+        print("⏳ Czekam na dane z sieci...")
+        for i in range(20):
             if len(captured_data) > 0:
                 break
             time.sleep(1)
 
-        # DEBUG: Zrób zrzut ekranu, żebyśmy widzieli co widzi bot
-        page.screenshot(path="debug_screenshot.png")
-        print("📸 Zrobiono zrzut ekranu (debug_screenshot.png) - sprawdź Artifacts w GitHub Actions jeśli pusto.")
-
+        # Zrzut ekranu PO wszystkim
+        page.screenshot(path="debug_2_final.png")
+        
         browser.close()
 
         if not captured_data:
-            print("❌ Nadal brak danych. Sprawdź zrzut ekranu debug_screenshot.png")
+            print("❌ Brak danych. Sprawdź pliki PNG w Artifacts na GitHubie.")
             return
 
-        # 4. Obróbka danych (tak jak w poprzednich wersjach)
+        # --- OBRÓBKA DANYCH ---
         print(f"📦 Przetwarzanie {len(captured_data)} rekordów...")
         clean_mods = []
         
         for item in captured_data:
-            # NAME
             raw_name = item.get('name') or item.get('modname') or item.get('title') or ""
             soup_name = BeautifulSoup(raw_name, 'html.parser')
             clean_name = soup_name.get_text(strip=True)
             
-            # LINK
             link_tag = soup_name.find('a', href=True)
             mod_url = link_tag['href'] if link_tag else item.get('modlink', '')
             if mod_url and mod_url.startswith('/'): mod_url = "https://scarletsrealm.com" + mod_url
 
-            # AUTHOR
-            raw_author = item.get('creators') or item.get('author') or item.get('creatorsname') or "Unknown"
+            raw_author = item.get('creators') or item.get('author') or "Unknown"
             clean_author = BeautifulSoup(raw_author, 'html.parser').get_text(strip=True)
 
-            # STATUS
             raw_status = item.get('status') or "Unknown"
             clean_status = BeautifulSoup(raw_status, 'html.parser').get_text(strip=True)
 
-            # UPDATE
             clean_date = item.get('date') or item.get('last_updated') or ""
 
             if clean_name:
@@ -136,8 +135,8 @@ def scrape_with_interaction():
 
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(clean_mods, f, ensure_ascii=False, indent=2)
-
-        print(f"✅ Sukces! Zapisano {len(clean_mods)} modów.")
+            
+        print("✅ Gotowe! Plik zapisany.")
 
 if __name__ == "__main__":
-    scrape_with_interaction()
+    scrape_stealth()
