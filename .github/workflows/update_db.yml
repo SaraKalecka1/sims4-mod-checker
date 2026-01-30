@@ -37,3 +37,18 @@ jobs:
           git add scarlet_mods.json
           # Commituj tylko jeśli są zmiany
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Scarlet Mod List (Playwright)" && git push)
+          # ... poprzednie kroki ...
+
+      - name: Run Scraper
+        run: python scrape.py
+
+      # NOWY KROK: Wysyłanie zrzutu ekranu do Ciebie (tylko w razie błędów lub debugowania)
+      - name: Upload Screenshot (Debug)
+        if: always() # Wykonaj zawsze, nawet jak skrypt padnie
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshot
+          path: debug_screenshot.png
+
+      - name: Commit and Push changes
+        # ... reszta commita ...
