@@ -1,30 +1,30 @@
 import json
-import re
+import time
 from playwright.sync_api import sync_playwright
+from bs4 import BeautifulSoup
 
-def scrape_with_browser():
+def scrape_with_interaction():
     url = "https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/"
     output_file = "scarlet_mods.json"
     
-    print(f"🚀 Uruchamiam przeglądarkę i wchodzę na: {url}")
+    print(f"🚀 Uruchamiam bota...")
 
     with sync_playwright() as p:
-        # Uruchamiamy przeglądarkę (headless = bez okna graficznego)
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        # Uruchamiamy przeglądarkę
+        browser = p.chromium.launch(headless=True) # Zmień na False jeśli testujesz lokalnie i chcesz widzieć okno
+        # Ustawiamy duży viewport, żeby przyciski nie były schowane
+        context = browser.new_context(viewport={'width': 1920, 'height': 1080})
+        page = context.new_page()
 
-        # Zmienna do przechowywania przechwyconych danych
+        # Zmienna na dane
         captured_data = []
 
-        # Funkcja, która "podsluchuje" odpowiedzi serwera
+        # 1. Konfiguracja nasłuchiwania sieci (tak jak wcześniej)
         def handle_response(response):
-            # Szukamy odpowiedzi z admin-ajax.php (tam są dane tabeli)
             if "admin-ajax.php" in response.url and response.status == 200:
                 try:
-                    # Próbujemy odczytać JSON
                     json_body = response.json()
-                    
-                    # Sprawdzamy czy to ten duży JSON z danymi (ma klucz 'data' lub jest listą)
+                    # Logika wyciągania danych z JSON
                     data_chunk = []
                     if isinstance(json_body, dict) and 'data' in json_body:
                         data_chunk = json_body['data']
@@ -35,38 +35,81 @@ def scrape_with_browser():
                         print(f"🎯 Przechwycono pakiet danych: {len(data_chunk)} rekordów!")
                         captured_data.extend(data_chunk)
                 except:
-                    pass # Ignorujemy odpowiedzi, które nie są JSONem
+                    pass
 
-        # Włączamy nasłuchiwanie
         page.on("response", handle_response)
 
-        # Wchodzimy na stronę
-        # waitUntil='networkidle' oznacza "czekaj aż strona przestanie pobierać dane"
-        page.goto(url, wait_until="networkidle", timeout=60000)
+        # 2. Wejście na stronę
+        print(f"🌍 Wchodzę na: {url}")
+        page.goto(url, timeout=60000)
         
-        # Opcjonalnie: Jeśli dane ładują się dopiero po przewinięciu lub kliknięciu, 
-        # Playwright tutaj "czekał" i zbierał pakiety w tle.
+        # --- SEKCJA: HANDLE POPUPS (KLIKANIE OKIENEK) ---
+        print("🛡️ Sprawdzam obecność popupów (Age Gate / Cookies)...")
+        time.sleep(5) # Dajemy chwilę, żeby okienka wyskoczyły
+
+        # Próba 1: Bramka wiekowa (Szukamy przycisków typu "Enter", "I am 18+", "Yes")
+        try:
+            # Szukamy przycisku, który zawiera słowo "Enter" lub "18"
+            # (dostosowane do Scarlet - zazwyczaj jest to przycisk "Enter")
+            age_btn = page.locator("button:has-text('Enter'), a:has-text('Enter'), button:has-text('18'), button:has-text('Yes')").first
+            
+            if age_btn.is_visible():
+                print("Found Age Gate button. Clicking...")
+                age_btn.click()
+                time.sleep(2) # Czekamy na przeładowanie
+            else:
+                print("ℹ️ Nie znaleziono bramki wiekowej (lub już zniknęła).")
+        except Exception as e:
+            print(f"⚠️ Błąd przy klikaniu Age Gate: {e}")
+
+        # Próba 2: Cookies (Szukamy "Accept", "Agree", "Got it")
+        try:
+            cookie_btn = page.locator("button:has-text('Accept'), button:has-text('Agree'), a:has-text('Accept')").first
+            if cookie_btn.is_visible():
+                print("Found Cookie button. Clicking...")
+                cookie_btn.click()
+                time.sleep(1)
+        except:
+            pass
+        
+        # --- KONIEC SEKCJI POPUPÓW ---
+
+        # 3. Wymuszenie ładowania tabeli
+        # Czasami tabela ładuje się dopiero jak się trochę zjedzie w dół
+        print("📜 Przewijanie strony, aby wymusić ładowanie danych...")
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        time.sleep(2)
+        page.evaluate("window.scrollTo(0, 500)") # Powrót trochę wyżej
+        
+        # Czekamy chwilę na ruch w sieci (captured_data powinno się napełniać)
+        print("⏳ Czekam na dane (max 15s)...")
+        # Pętla czekająca aktywnie na dane
+        for _ in range(15):
+            if len(captured_data) > 0:
+                break
+            time.sleep(1)
+
+        # DEBUG: Zrób zrzut ekranu, żebyśmy widzieli co widzi bot
+        page.screenshot(path="debug_screenshot.png")
+        print("📸 Zrobiono zrzut ekranu (debug_screenshot.png) - sprawdź Artifacts w GitHub Actions jeśli pusto.")
 
         browser.close()
 
         if not captured_data:
-            print("❌ Nie udało się przechwycić danych z sieci. Strona mogła zmienić metodę ładowania.")
+            print("❌ Nadal brak danych. Sprawdź zrzut ekranu debug_screenshot.png")
             return
 
-        # --- OBRÓBKA DANYCH (To samo co wcześniej) ---
-        print(f"📦 Łącznie zebrano {len(captured_data)} surowych rekordów. Czyszczenie...")
-        
+        # 4. Obróbka danych (tak jak w poprzednich wersjach)
+        print(f"📦 Przetwarzanie {len(captured_data)} rekordów...")
         clean_mods = []
-        from bs4 import BeautifulSoup # Używamy bs4 do czyszczenia HTML wewnątrz JSONa
-
+        
         for item in captured_data:
-            # Pobieranie pól (zabezpieczone .get)
             # NAME
             raw_name = item.get('name') or item.get('modname') or item.get('title') or ""
             soup_name = BeautifulSoup(raw_name, 'html.parser')
             clean_name = soup_name.get_text(strip=True)
             
-            # LINK (Category)
+            # LINK
             link_tag = soup_name.find('a', href=True)
             mod_url = link_tag['href'] if link_tag else item.get('modlink', '')
             if mod_url and mod_url.startswith('/'): mod_url = "https://scarletsrealm.com" + mod_url
@@ -91,11 +134,10 @@ def scrape_with_browser():
                     "update": clean_date
                 })
 
-        # Zapis do pliku
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(clean_mods, f, ensure_ascii=False, indent=2)
 
-        print(f"✅ Sukces! Zapisano {len(clean_mods)} modów do '{output_file}'.")
+        print(f"✅ Sukces! Zapisano {len(clean_mods)} modów.")
 
 if __name__ == "__main__":
-    scrape_with_browser()
+    scrape_with_interaction()
