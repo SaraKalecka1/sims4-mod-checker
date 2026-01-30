@@ -3,10 +3,8 @@ import json
 import re
 from bs4 import BeautifulSoup
 
-def scrape_scarlet_precision():
-    # URL głównej strony (do znalezienia ID tabeli)
+def scrape_scarlet_final():
     base_url = "https://scarletsrealm.com/the-mod-list-sfw-nsfw-edition/"
-    # URL API (tzw. backend WordPressa)
     ajax_url = "https://scarletsrealm.com/wp-admin/admin-ajax.php"
     
     headers = {
@@ -17,29 +15,27 @@ def scrape_scarlet_precision():
     print(f"🕵️  Szukanie ID tabeli na stronie: {base_url}")
     
     try:
-        # KROK 1: Pobieramy stronę, by znaleźć aktualne ID tabeli
+        # KROK 1: Znajdź ID tabeli
         response = requests.get(base_url, headers=headers)
         response.raise_for_status()
-        
-        # Szukamy ciągu: ninja_table_table_XXXX
         match = re.search(r'ninja_table_table_(\d+)', response.text)
         
         if not match:
-            print("❌ Nie znaleziono ID tabeli. Strona mogła zmienić strukturę.")
+            print("❌ Nie znaleziono ID tabeli. Spróbuję domyślnego ID (często 105 lub 42).")
+            # Jeśli automat zawiedzie, skrypt spróbuje zgadnąć ID, ale lepiej żeby znalazł
             return
 
         table_id = match.group(1)
         print(f"✅ Znaleziono Table ID: {table_id}")
 
-        # KROK 2: Pobieramy CAŁĄ bazę danych jednym strzałem
-        print(f"🚀 Pobieranie danych z API (limit 10000)...")
-        
+        # KROK 2: Pobierz dane z API
+        print(f"🚀 Pobieranie bazy danych...")
         payload = {
             'action': 'ninja_tables_data',
             'table_id': table_id,
             'id': table_id,
             'ninja_table_public_request': 1,
-            'limit': 10000, # Pobieramy wszystko naraz, omijając paginację
+            'limit': 10000,
             'skip_rows': 0,
             'chunk_size': 10000
         }
@@ -48,7 +44,7 @@ def scrape_scarlet_precision():
         api_response.raise_for_status()
         json_response = api_response.json()
 
-        # Czasem dane są bezpośrednio listą, a czasem w kluczu 'data' (zależy od wersji wtyczki)
+        # Obsługa różnych struktur odpowiedzi
         if isinstance(json_response, list):
             raw_data = json_response
         elif isinstance(json_response, dict) and 'data' in json_response:
@@ -56,59 +52,56 @@ def scrape_scarlet_precision():
         else:
             raw_data = []
 
-        print(f"📦 Pbrano {len(raw_data)} surowych rekordów. Przetwarzanie...")
+        print(f"📦 Pbrano {len(raw_data)} rekordów. Rozpoczynam czyszczenie...")
 
-        # KROK 3: Czyszczenie i mapowanie (na podstawie Twojego pliku txt)
         clean_mods = []
         
         for item in raw_data:
-            # 1. NAME i LINK
-            # Scarlet trzyma link w polu 'name' jako HTML (<a href="...">Nazwa</a>)
-            raw_name_html = item.get('name', '')
+            # --- SEKCJA PANCERNA: Próba pobrania danych z różnych możliwych nazw kluczy ---
             
-            # Używamy BeautifulSoup do wyjęcia czystego tekstu i linku
+            # 1. NAZWA i LINK
+            # Sprawdzamy klucze: 'name', 'modname', 'title'
+            raw_name_html = item.get('name') or item.get('modname') or item.get('title') or ""
+            
+            # Czyścimy HTML (wyciągamy tekst i link)
             soup = BeautifulSoup(raw_name_html, 'html.parser')
+            clean_name = soup.get_text(strip=True)
             
-            clean_name = soup.get_text(strip=True) # Sama nazwa moda
-            
-            # Wyciągamy link (href) z tagu <a>, jeśli istnieje
+            # Link wyciągamy z tagu <a> w nazwie LUB z dedykowanego pola 'modlink'
             link_tag = soup.find('a', href=True)
-            mod_url = link_tag['href'] if link_tag else ""
+            mod_url = link_tag['href'] if link_tag else item.get('modlink', '')
             
-            # Jeśli w polu name nie było linku, sprawdzamy pole 'modlink' (czasem tam jest)
-            if not mod_url:
-                mod_url = item.get('modlink', '')
+            # Jeśli link jest względny (zaczyna się od /), dodaj domenę (rzadkie, ale możliwe)
+            if mod_url and mod_url.startswith('/'):
+                mod_url = "https://scarletsrealm.com" + mod_url
 
-            # 2. STATUS
-            # Klucz z pliku: ninja_column_status -> 'status'
-            status = item.get('status', 'Unknown')
-            # Czyścimy HTML ze statusu (czasem są tam kolory/boldy)
-            status = BeautifulSoup(status, 'html.parser').get_text(strip=True)
+            # 2. AUTOR
+            # Sprawdzamy klucze: 'creators', 'author', 'creatorsname'
+            raw_author = item.get('creators') or item.get('author') or item.get('creatorsname') or "Unknown"
+            clean_author = BeautifulSoup(raw_author, 'html.parser').get_text(strip=True)
 
-            # 3. AUTHOR
-            # Klucz z pliku: ninja_column_creators -> 'creators'
-            author = item.get('creators', 'Unknown Author')
-            author = BeautifulSoup(author, 'html.parser').get_text(strip=True)
+            # 3. STATUS
+            raw_status = item.get('status') or "Unknown"
+            clean_status = BeautifulSoup(raw_status, 'html.parser').get_text(strip=True)
 
-            # 4. UPDATE
-            # Klucz z pliku: ninja_column_date -> 'date'
-            update = item.get('date', '')
+            # 4. DATA
+            clean_date = item.get('date') or item.get('last_updated') or ""
 
-            # Budowanie obiektu wynikowego
+            # Pomijamy puste rekordy (bez nazwy)
+            if not clean_name:
+                continue
+
             entry = {
                 "name": clean_name,
-                "author": author,
-                # Zgodnie z Twoim życzeniem w polu 'category' dajemy URL
-                "category": mod_url, 
-                "status": status,
-                "update": update
+                "author": clean_author,
+                "category": mod_url, # URL w polu category
+                "status": clean_status,
+                "update": clean_date
             }
             
-            # Opcjonalnie: pomijamy puste wiersze (bez nazwy)
-            if clean_name:
-                clean_mods.append(entry)
+            clean_mods.append(entry)
 
-        # KROK 4: Zapis do pliku
+        # KROK 3: Zapis
         output_file = "scarlet_mods.json"
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(clean_mods, f, ensure_ascii=False, indent=2)
@@ -119,4 +112,4 @@ def scrape_scarlet_precision():
         print(f"❌ Błąd: {e}")
 
 if __name__ == "__main__":
-    scrape_scarlet_precision()
+    scrape_scarlet_final()
