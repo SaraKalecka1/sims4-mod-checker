@@ -4,8 +4,8 @@ import json
 import io
 from bs4 import BeautifulSoup
 
-def scrape_google_csv_clean():
-    # Twój link do CSV
+def scrape_smart_headers():
+    # Link bezpośredni do CSV
     csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdw9ZyYV2ez4z1WAmH1CnYi_90ISRKAeZQ4fdi6kGgnFe2XjOJDFNErvuYxS87vh2pNstDVUYi7oGf/pub?gid=119778444&single=true&range=A:I&output=csv"
     output_file = "scarlet_mods.json"
 
@@ -14,64 +14,84 @@ def scrape_google_csv_clean():
     try:
         response = requests.get(csv_url)
         response.raise_for_status()
-        csv_content = response.content.decode('utf-8')
         
-        # Czytanie CSV
-        reader = csv.DictReader(io.StringIO(csv_content))
+        # Dekodujemy treść
+        content = response.content.decode('utf-8')
         
-        # --- DIAGNOSTYKA ---
-        # To pokaże w logach GitHuba, jak DOKŁADNIE nazywają się kolumny
-        headers = [h.strip() for h in reader.fieldnames]
-        print(f"📋 WYKRYTE KOLUMNY: {headers}") 
-        # -------------------
+        # Używamy StringIO, żeby traktować string jak plik
+        f = io.StringIO(content)
+        lines = f.readlines()
+        
+        # --- KROK 1: Szukanie wiersza z nagłówkami ---
+        header_row_index = 0
+        found_header = False
+        
+        # Sprawdzamy pierwsze 10 linii, żeby znaleźć, gdzie zaczyna się tabela
+        for i, line in enumerate(lines[:10]):
+            # Szukamy słów kluczowych, które na pewno są w nagłówku
+            if "Status" in line and ("Creator" in line or "Author" in line):
+                header_row_index = i
+                found_header = True
+                print(f"✅ Znaleziono nagłówki w wierszu nr {i+1}: {line.strip()}")
+                break
+        
+        if not found_header:
+            print("⚠️ Nie znaleziono typowych nagłówków. Próbuję czytać od początku.")
+
+        # --- KROK 2: Czytanie danych od właściwego miejsca ---
+        # Przewijamy do linii z nagłówkami
+        f.seek(0)
+        # Pomijamy linie "śmieciowe" na górze
+        for _ in range(header_row_index):
+            next(f)
+            
+        reader = csv.DictReader(f)
+        
+        # Normalizacja nagłówków (usuwamy spacje i robimy małe litery dla łatwiejszego szukania)
+        # Np. " Mod Name " zamieni się na "mod name"
+        normalized_fieldnames = [h.strip().lower() for h in reader.fieldnames] if reader.fieldnames else []
+        
+        # Mapowanie oryginalnych nazw kolumn na nasze znormalizowane klucze
+        # Tworzymy mapę: { 'mod name': 'Mod Name', 'status': 'Status' ... }
+        key_map = {}
+        if reader.fieldnames:
+            for orig in reader.fieldnames:
+                key_map[orig.strip().lower()] = orig
 
         mods_list = []
         
-        # Funkcja pomocnicza: szuka wartości w kilku wariantach nazwy kolumny
-        def get_val(row, candidates):
-            # Normalizujemy klucze wiersza do małych liter
-            row_lower = {k.strip().lower(): v for k, v in row.items() if k}
-            
-            for candidate in candidates:
-                val = row_lower.get(candidate.lower())
-                if val and val.strip(): # Jeśli znaleziono i nie jest puste
-                    return val.strip()
-            return "" # Jak nic nie znajdzie
+        for row in reader:
+            # Funkcja pomocnicza do wyciągania wartości po znormalizowanej nazwie
+            def get_col(candidates):
+                for cand in candidates:
+                    # Szukamy klucza w mapie (np. 'creator(s)'), a potem wartości w wierszu
+                    real_key = key_map.get(cand.lower())
+                    if real_key and row.get(real_key):
+                        return row.get(real_key)
+                return ""
 
-        # Reset readera
-        csv_reader = csv.DictReader(io.StringIO(csv_content))
-        
-        for row in csv_reader:
-            # 1. NAME (Nazwa moda)
-            # Szukamy pod: 'Mod Name', 'Name', 'Mod'
-            raw_name = get_val(row, ['Mod Name', 'Name', 'Mod', 'Title'])
-            
-            if not raw_name: continue # Jeśli nie ma nazwy, pomiń wiersz
+            # 1. NAME
+            raw_name = get_col(['Mod Name', 'Name', 'Mod', 'Title'])
+            if not raw_name: continue # Pomiń puste
 
-            # Czyścimy HTML z nazwy (usuwamy linki <a>)
-            soup = BeautifulSoup(raw_name, 'html.parser')
-            clean_name = soup.get_text(strip=True)
+            # Czyścimy HTML
+            clean_name = BeautifulSoup(raw_name, 'html.parser').get_text(strip=True)
 
             # 2. AUTHOR
-            # Szukamy pod: 'Creator(s)', 'Creators', 'Author', 'Made By'
-            raw_author = get_val(row, ['Creator(s)', 'Creators', 'Author', 'Mod Creator'])
+            raw_author = get_col(['Creator(s)', 'Creators', 'Author', 'Mod Creator'])
             clean_author = BeautifulSoup(raw_author, 'html.parser').get_text(strip=True)
-            if not clean_author: 
-                clean_author = "Unknown"
+            if not clean_author: clean_author = "Unknown"
 
             # 3. STATUS
-            # Szukamy pod: 'Status', 'Mod Status', 'Compatibility'
-            raw_status = get_val(row, ['Status', 'Mod Status', 'State'])
+            raw_status = get_col(['Status', 'Mod Status', 'Compatibility'])
             clean_status = BeautifulSoup(raw_status, 'html.parser').get_text(strip=True)
-            if not clean_status:
-                clean_status = "Unknown"
-            
-            # 4. UPDATE (Ostatnia zmiana)
-            # Szukamy pod: 'Last Updated', 'Updated', 'Date'
-            raw_update = get_val(row, ['Last Updated', 'Updated', 'Date', 'Update Date'])
+            if not clean_status: clean_status = "Unknown"
+
+            # 4. UPDATE
+            raw_update = get_col(['Last Updated', 'Updated', 'Date'])
             clean_update = BeautifulSoup(raw_update, 'html.parser').get_text(strip=True)
 
-            # Budujemy obiekt (bez kategorii, zgodnie z życzeniem)
+            # Tworzymy obiekt (bez kategorii)
             mods_list.append({
                 "name": clean_name,
                 "author": clean_author,
@@ -86,7 +106,7 @@ def scrape_google_csv_clean():
         print(f"✅ Sukces! Zapisano {len(mods_list)} modów.")
 
     except Exception as e:
-        print(f"❌ Błąd: {e}")
+        print(f"❌ Błąd krytyczny: {e}")
 
 if __name__ == "__main__":
-    scrape_google_csv_clean()
+    scrape_smart_headers()
