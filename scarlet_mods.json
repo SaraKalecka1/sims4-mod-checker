@@ -1149,7 +1149,7 @@
     "name": "ALL In-Game Objects Are Upgraded",
     "author": "Lorea",
     "status": "Updated",
-    "update": "Feb 9, 2026"
+    "update": "Feb 14, 2026"
   },
   {
     "name": "All In-Game Traditions Are Updated By Preferences And Traits",
@@ -1730,7 +1730,7 @@
   {
     "name": "Loading Screens",
     "author": "scandisim",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": ""
   },
   {
@@ -2804,7 +2804,7 @@
   {
     "name": "Main Menu Overrides",
     "author": "scandisim",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 22, 2025"
   },
   {
@@ -4238,8 +4238,8 @@
   {
     "name": "Medieval World Sort",
     "author": "scandisim",
-    "status": "Unknown",
-    "update": "Dec 13, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Big Mama Trait",
@@ -5684,8 +5684,8 @@
   {
     "name": "Career Counseling",
     "author": "Simularity",
-    "status": "No Known Issues",
-    "update": "Jul 18, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Career Day Overhaul",
@@ -6896,7 +6896,7 @@
   {
     "name": "Clinical Depression Trait",
     "author": "Simularity",
-    "status": "No Known Issues",
+    "status": "Obsolete",
     "update": "Feb 22, 2024"
   },
   {
@@ -7838,8 +7838,8 @@
   {
     "name": "Crafting - Masterpiece Painting Guaranteed",
     "author": "coolspear",
-    "status": "Unknown",
-    "update": "Sep 15, 2023"
+    "status": "Updated",
+    "update": "Feb 13, 2026"
   },
   {
     "name": "Custom Ingredients",
@@ -13622,8 +13622,8 @@
   {
     "name": "Garden - Seasonal Changes Reworked & Master Gardeners New Options",
     "author": "coolspear",
-    "status": "Unknown",
-    "update": "Sep 6, 2025"
+    "status": "Updated",
+    "update": "Feb 13, 2026"
   },
   {
     "name": "Garden & Crystal Fairy Traits",
@@ -16406,8 +16406,8 @@
   {
     "name": "Immortality & Ageless Reward Traits",
     "author": "Simularity",
-    "status": "No Known Issues",
-    "update": "Feb 22, 2024"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Immortality Potion Tweaks",
@@ -27843,7 +27843,7 @@
     "name": "Plopsy Seller Career",
     "author": "Simularity",
     "status": "Updated",
-    "update": "Feb 5, 2026"
+    "update": "Feb 14, 2026"
   },
   {
     "name": "plopsyshipfix",
@@ -29252,8 +29252,8 @@
   {
     "name": "Realistic Trees No Fade Mod",
     "author": "FrequentlyBasic / MSQSIMS",
-    "status": "No Known Issues",
-    "update": "Oct 2, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Zz-Redacted-zZ",
@@ -29288,8 +29288,8 @@
   {
     "name": "Reaping Skill + Soul Reaper Career",
     "author": "Gauntlet101010",
-    "status": "Unknown",
-    "update": "Oct 11, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Reapply To University Earlier",
@@ -35276,8 +35276,8 @@
   {
     "name": "Social Events - Unlimited Time",
     "author": "FrequentlyBasic / MSQSIMS",
-    "status": "No Known Issues",
-    "update": "Jul 24, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Fix for Purchasing a Wedding Cake from Sim",
@@ -36338,8 +36338,8 @@
   {
     "name": "Ultimate CAS items Unlocker",
     "author": "Loulicorn",
-    "status": "Unknown",
-    "update": "Sep 30, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Ultimate Dancer Career",
@@ -38222,8 +38222,8 @@
   {
     "name": "WickedWhims",
     "author": "TURBODRIVER",
-    "status": "Broken",
-    "update": "Feb 5, 2026"
+    "status": "Updated",
+    "update": "Feb 13, 2026"
   },
   {
     "name": "Wiggler's Long Term Relationship Building",
@@ -42056,8 +42056,8 @@
   {
     "name": "Autonomy & Interaction On/Off Switching - Assorted Objects",
     "author": "coolspear",
-    "status": "Unknown",
-    "update": "Jul 15, 2025"
+    "status": "Updated",
+    "update": "Feb 13, 2026"
   },
   {
     "name": "Fishbowl Error Bandaid",
@@ -44402,25 +44402,25 @@
   {
     "name": "Classic Career - Cybersecurity Hacker",
     "author": "midnitetech",
-    "status": "Updated",
+    "status": "Broken",
     "update": "Feb 4, 2026"
   },
   {
     "name": "Classic Career - Real Estate Agent",
     "author": "midnitetech",
-    "status": "Updated",
+    "status": "Broken",
     "update": "Feb 4, 2026"
   },
   {
     "name": "Classic Career - Workforce Management (HR)",
     "author": "midnitetech",
-    "status": "Updated",
+    "status": "Broken",
     "update": "Feb 4, 2026"
   },
   {
     "name": "Classic Career - Banking",
     "author": "midnitetech",
-    "status": "Updated",
+    "status": "Broken",
     "update": "Feb 4, 2026"
   },
   {
@@ -44636,7 +44636,7 @@
   {
     "name": "Dog Walker - Teen Part Time Career",
     "author": "Pugglesthetrashpanda",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Jun 15, 2025"
   },
   {
@@ -45254,7 +45254,7 @@
   {
     "name": "Classic Career - IT Systems & Support",
     "author": "midnitetech",
-    "status": "Updated",
+    "status": "Broken",
     "update": "Feb 4, 2026"
   },
   {
@@ -45492,15 +45492,15 @@
     "update": "Nov 6, 2025"
   },
   {
-    "name": "Cookbook + New Recipes",
-    "author": "LifeLike-Simz",
-    "status": "N/A",
-    "update": "Jul 4, 2025"
+    "name": "Zz__Removed__zZ",
+    "author": "Unknown",
+    "status": "Unknown",
+    "update": ""
   },
   {
     "name": "Teen Career - Florist Apprentice",
     "author": "Pugglesthetrashpanda",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Aug 31, 2025"
   },
   {
@@ -45600,16 +45600,16 @@
     "update": "Oct 2, 2025"
   },
   {
-    "name": "LLS Condiments Mod Part 1: Hot Sauce!",
-    "author": "LifeLike-Simz",
+    "name": "Zz__Removed__zZ",
+    "author": "Unknown",
     "status": "Unknown",
     "update": ""
   },
   {
-    "name": "Island Fusion : Carribean Cuisine Food Truck",
-    "author": "LifeLike-Simz",
-    "status": "Updated",
-    "update": "Feb 6, 2026"
+    "name": "Zz__Removed__zZ",
+    "author": "Unknown",
+    "status": "Unknown",
+    "update": ""
   },
   {
     "name": "2D Plumbob Override",
@@ -45848,8 +45848,8 @@
   {
     "name": "Social Events - Unlimited Guests",
     "author": "FrequentlyBasic",
-    "status": "No Known Issues",
-    "update": ""
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Pony Club",
@@ -46460,8 +46460,8 @@
   {
     "name": "CC Wrench Overrides",
     "author": "jelli_berri",
-    "status": "Broken",
-    "update": "Sep 27, 2025"
+    "status": "Updated",
+    "update": "Feb 14, 2026"
   },
   {
     "name": "Censor Remover",
