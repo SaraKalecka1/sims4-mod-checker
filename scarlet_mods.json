@@ -1364,7 +1364,7 @@
   {
     "name": "Amellce's Custom Food Enabler",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Oct 1, 2023"
   },
   {
@@ -1742,7 +1742,7 @@
   {
     "name": "Applied Animal Behaviorist Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -1790,7 +1790,7 @@
   {
     "name": "Archaeologist/Palaeontologist Freelancer Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -1820,7 +1820,7 @@
   {
     "name": "Archery Skill",
     "author": "JaneSimsten",
-    "status": "No Known Issues",
+    "status": "Broken",
     "update": "Aug 20, 2025"
   },
   {
@@ -1922,7 +1922,7 @@
   {
     "name": "Artist Photographer Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -2024,14 +2024,14 @@
   {
     "name": "Ask to Brush Teeth",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Jul 12, 2025"
   },
   {
     "name": "Ask to Clean and more",
     "author": "Amellce",
-    "status": "Unknown",
-    "update": "Oct 9, 2025"
+    "status": "Updated",
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Ask to Cook/Bake/Grill/Mix Drink! (including Cupcakes and Experimental Food)",
@@ -2042,8 +2042,8 @@
   {
     "name": "Ask to Eat and more",
     "author": "Amellce",
-    "status": "Unknown",
-    "update": "Dec 7, 2025"
+    "status": "Updated",
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Ask to Go for a Walk & Bath (Dogs)",
@@ -2078,7 +2078,7 @@
   {
     "name": "Ask to Read Book",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 7, 2025"
   },
   {
@@ -2096,7 +2096,7 @@
   {
     "name": "Ask to Take Shower/Bath",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Oct 9, 2025"
   },
   {
@@ -2108,7 +2108,7 @@
   {
     "name": "Ask to Use Toilet",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Oct 9, 2025"
   },
   {
@@ -2192,7 +2192,7 @@
   {
     "name": "The Art of Flower Arranging Aspiration",
     "author": "ilkavelle / Itsmysimmod",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -3080,7 +3080,7 @@
   {
     "name": "Basketball Club (After School Activity)",
     "author": "Rex (konansock)",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Jan 21, 2026"
   },
   {
@@ -3134,7 +3134,7 @@
   {
     "name": "Bathtime Fix For Toddlers",
     "author": "juniormints74",
-    "status": "Unknown",
+    "status": "Obsolete",
     "update": "Jul 20, 2023"
   },
   {
@@ -4472,7 +4472,7 @@
   {
     "name": "Plasma Party Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -4616,7 +4616,7 @@
   {
     "name": "Borrow Books From Library",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Nov 4, 2024"
   },
   {
@@ -4874,7 +4874,7 @@
   {
     "name": "Broomstick Maker Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -4916,7 +4916,7 @@
   {
     "name": "Brush Teeth From Toothbrush Holders",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Jan 13, 2025"
   },
   {
@@ -5678,7 +5678,7 @@
   {
     "name": "Career Aptitude Test",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -5690,7 +5690,7 @@
   {
     "name": "Career Day Overhaul",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -6074,7 +6074,7 @@
   {
     "name": "Certified Breeder Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -6500,7 +6500,7 @@
   {
     "name": "Children Aspirations Bundle",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -6818,8 +6818,8 @@
   {
     "name": "Clean House & Ask to Clean House",
     "author": "Amellce",
-    "status": "Broken",
-    "update": "Dec 7, 2025"
+    "status": "Updated",
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Clean UI",
@@ -7508,7 +7508,7 @@
   {
     "name": "Cooking Club Afterschool Activity",
     "author": "ClaudiaSharon",
-    "status": "No Known Issues",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -7778,7 +7778,7 @@
   {
     "name": "Coworkers Hangout Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 6, 2025"
   },
   {
@@ -8228,7 +8228,7 @@
   {
     "name": "Custom Food Recipes",
     "author": "Amellce",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Oct 26, 2025"
   },
   {
@@ -8558,7 +8558,7 @@
   {
     "name": "Cybersecurity Career Mod",
     "author": "maplebell",
-    "status": "Unknown",
+    "status": "Obsolete",
     "update": ""
   },
   {
@@ -8912,7 +8912,7 @@
   {
     "name": "Debate Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -9524,7 +9524,7 @@
   {
     "name": "Doctor Dolittle Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -9572,7 +9572,7 @@
   {
     "name": "Domestic Service Career",
     "author": "Peebs",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -9662,7 +9662,7 @@
   {
     "name": "Dracula Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -10040,7 +10040,7 @@
   {
     "name": "Eco Lifestyle Careers and NPCs",
     "author": "Gauntlet101010",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "May 13, 2024"
   },
   {
@@ -11210,7 +11210,7 @@
   {
     "name": "Fashion Career",
     "author": "Rex (konansock) / Brittpinkiesims",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Aug 28, 2025"
   },
   {
@@ -11480,7 +11480,7 @@
   {
     "name": "Faster Term Paper & Presentation",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -12056,7 +12056,7 @@
   {
     "name": "Equestrian Expanded - Lot Traits: Horse Hangout & Equestrian Center",
     "author": "dion (simsbydionysus)",
-    "status": "No Known Issues",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -13538,7 +13538,7 @@
   {
     "name": "Fur Trade Career",
     "author": "Peebs",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -13586,7 +13586,7 @@
   {
     "name": "Game Night Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 6, 2025"
   },
   {
@@ -13646,7 +13646,7 @@
   {
     "name": "Gardening Club After School Activity (Children & Teens)",
     "author": "midnitetech",
-    "status": "No Known Issues",
+    "status": "Obsolete",
     "update": ""
   },
   {
@@ -14618,7 +14618,7 @@
   {
     "name": "Halloween Bonus",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -14906,7 +14906,7 @@
   {
     "name": "Hates Outdoors Trait",
     "author": "marlynsims",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -14960,7 +14960,7 @@
   {
     "name": "Healer Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -15596,13 +15596,13 @@
   {
     "name": "Hobby Aspirations",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Nov 4, 2024"
   },
   {
     "name": "Hobby Aspirations Bundle 2",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -16730,7 +16730,7 @@
   {
     "name": "Industrialist Trait",
     "author": "marlynsims",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -18800,7 +18800,7 @@
   {
     "name": "Lighthouse Keeper Career",
     "author": "Peebs",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -19652,7 +19652,7 @@
   {
     "name": "Magic School Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -20018,7 +20018,7 @@
   {
     "name": "Master Duelist Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -20696,8 +20696,8 @@
   {
     "name": "Miscarriage Chance & Abortion",
     "author": "LittleMsSam",
-    "status": "No Known Issues",
-    "update": "Jul 27, 2025"
+    "status": "Updated",
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Miscellaneous No Change Outfit Override",
@@ -20834,7 +20834,7 @@
   {
     "name": "Modder Career",
     "author": "LoryNa",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "May 14, 2025"
   },
   {
@@ -20930,7 +20930,7 @@
   {
     "name": "Beverage Specialist Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -21842,7 +21842,7 @@
   {
     "name": "Movie Evening Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 6, 2025"
   },
   {
@@ -22064,7 +22064,7 @@
   {
     "name": "Music Producer Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -26246,7 +26246,7 @@
   {
     "name": "One Time Jobs for Children and Teens",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 6, 2025"
   },
   {
@@ -26732,7 +26732,7 @@
   {
     "name": "Parent at Home Career",
     "author": "LoryNa",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Mar 24, 2025"
   },
   {
@@ -26984,7 +26984,7 @@
   {
     "name": "Perfectly Balanced Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -28964,7 +28964,7 @@
   {
     "name": "Quidditch Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -29294,7 +29294,7 @@
   {
     "name": "Reapply To University Earlier",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -30188,7 +30188,7 @@
   {
     "name": "Proud Geek Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -30650,7 +30650,7 @@
   {
     "name": "School Dances Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 6, 2025"
   },
   {
@@ -30674,7 +30674,7 @@
   {
     "name": "School Trips Events",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -30728,7 +30728,7 @@
   {
     "name": "Science Fair Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": "Dec 6, 2025"
   },
   {
@@ -30968,7 +30968,7 @@
   {
     "name": "Sell Adult Pet",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -31382,7 +31382,7 @@
   {
     "name": "Shear Brilliance // Active Cosmetology Career",
     "author": "MizoreYukii / ItsKatato",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Jul 6, 2025"
   },
   {
@@ -31442,7 +31442,7 @@
   {
     "name": "Shipbuilding Career",
     "author": "Peebs",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -31580,7 +31580,7 @@
   {
     "name": "Show Sim Info",
     "author": "Frankk / Itasan",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Sep 6, 2025"
   },
   {
@@ -31628,7 +31628,7 @@
   {
     "name": "Shy Trait",
     "author": "marlynsims",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -32042,7 +32042,7 @@
   {
     "name": "SImternet Conqueror Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -32378,7 +32378,7 @@
   {
     "name": "Violin Club Afterschool Activity",
     "author": "ClaudiaSharon",
-    "status": "No Known Issues",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -33374,7 +33374,7 @@
   {
     "name": "Spiritualist Séance Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -33656,8 +33656,8 @@
   {
     "name": "Steady Sit & Seat Any Sim",
     "author": "Amellce",
-    "status": "Unknown",
-    "update": "Dec 7, 2025"
+    "status": "Updated",
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Only Train and Play Fetch with Dogs Outside",
@@ -34322,7 +34322,7 @@
   {
     "name": "The Seamstress Career",
     "author": "dion (simsbydionysus)",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Feb 3, 2026"
   },
   {
@@ -34670,7 +34670,7 @@
   {
     "name": "Teen Aspirations Bundle",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -35726,7 +35726,7 @@
   {
     "name": "TS3 Bot Arena Career",
     "author": "ClaudiaSharon",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Feb 9, 2026"
   },
   {
@@ -36080,7 +36080,7 @@
   {
     "name": "True Philanthropist Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -36134,7 +36134,7 @@
   {
     "name": "Tumbling Tots Co // Active Daycare Career",
     "author": "NeedCoffee4That / ItsKatato",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Sep 2, 2025"
   },
   {
@@ -36272,7 +36272,7 @@
   {
     "name": "Tycoon of the Business World Aspiration",
     "author": "mosichaa",
-    "status": "Broken",
+    "status": "Obsolete",
     "update": ""
   },
   {
@@ -36476,7 +36476,7 @@
   {
     "name": "Ultimate Stan Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -36908,7 +36908,7 @@
   {
     "name": "Fitness Influencer Side Hustle",
     "author": "s y d (playwithsyd)",
-    "status": "No Known Issues",
+    "status": "Broken",
     "update": "Sep 28, 2025"
   },
   {
@@ -37076,7 +37076,7 @@
   {
     "name": "Vampire Initiation Ritual Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -37436,7 +37436,7 @@
   {
     "name": "Video Station Interactions Add Followers",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -37538,7 +37538,7 @@
   {
     "name": "Voice Virtuoso Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -37730,7 +37730,7 @@
   {
     "name": "Wandmaker Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -38312,7 +38312,7 @@
   {
     "name": "Witches' Sabbat Event",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -38930,7 +38930,7 @@
   {
     "name": "Children Aspirations Bundle 2",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -40214,7 +40214,7 @@
   {
     "name": "Holiday Traditions",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": ""
   },
   {
@@ -40394,7 +40394,7 @@
   {
     "name": "Nerdy Birdie Aspiration",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -41073,7 +41073,7 @@
     "name": "Gallery Poses Addon",
     "author": "diemilchschnitte",
     "status": "Updated",
-    "update": "Feb 6, 2026"
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Get Together Custom Club Activities: Laundry and Vacuuming",
@@ -41132,7 +41132,7 @@
   {
     "name": "Part-Time Father Winter Career",
     "author": "ellesimsworld",
-    "status": "Unknown",
+    "status": "Obsolete",
     "update": ""
   },
   {
@@ -41414,7 +41414,7 @@
   {
     "name": "Father Winter's Little Helper",
     "author": "ellesimsworld",
-    "status": "No Known Issues",
+    "status": "Obsolete",
     "update": "Aug 22, 2025"
   },
   {
@@ -41486,7 +41486,7 @@
   {
     "name": "Letter to Father Winter",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "No Known Issues",
     "update": ""
   },
   {
@@ -44204,7 +44204,7 @@
   {
     "name": "Equestrian Magazine Career",
     "author": "dion (simsbydionysus)",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Feb 3, 2026"
   },
   {
@@ -44474,7 +44474,7 @@
   {
     "name": "Book Influencer Side Hustle",
     "author": "s y d (playwithsyd)",
-    "status": "No Known Issues",
+    "status": "Broken",
     "update": "Aug 23, 2025"
   },
   {
@@ -45518,7 +45518,7 @@
   {
     "name": "Events Overhaul - Invite Anyone",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -46754,7 +46754,7 @@
   {
     "name": "UFO Investigator Aspiration",
     "author": "ilkavelle / r3m",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Dec 6, 2025"
   },
   {
@@ -47294,7 +47294,7 @@
   {
     "name": "Magic Governance Career",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   },
   {
@@ -47522,8 +47522,8 @@
   {
     "name": "Club Trait Additions",
     "author": "Amethyst-Lilac",
-    "status": "No Known Issues",
-    "update": "Jan 3, 2026"
+    "status": "Updated",
+    "update": "Feb 18, 2026"
   },
   {
     "name": "Fairy Freshen Up!",
@@ -47577,7 +47577,7 @@
     "name": "More Radio Channels",
     "author": "SashaT1804",
     "status": "Updated",
-    "update": "Feb 13, 2026"
+    "update": "Feb 17, 2026"
   },
   {
     "name": "Purchase Outfits",
@@ -47882,7 +47882,7 @@
   {
     "name": "Stable Hand: An Equestrian Expanded Career",
     "author": "dion (simsbydionysus)",
-    "status": "Unknown",
+    "status": "Broken",
     "update": "Feb 3, 2026"
   },
   {
@@ -47924,7 +47924,7 @@
   {
     "name": "Write Books for Toddlers",
     "author": "ilkavelle",
-    "status": "Unknown",
+    "status": "Broken",
     "update": ""
   }
 ]
